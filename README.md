@@ -71,6 +71,15 @@ GoDaddy → wealthonapp.com → **Forwarding** → forward to `https://forgeapps
 - Store settings → Website `https://forgeapps.in/wealthon/` and contact email
 - Developer account → Developer name → `Forge Apps`
 
+## Admin panel (forgeapps.in/admin/)
+
+Edit apps, Google Play links, YouTube videos, screenshots, icons, colours, About text and updates without touching code.
+1. Create a fine-grained GitHub token: Settings → Developer settings → Fine-grained tokens → only the forgeapps-website repo → Repository permissions → Contents: Read and write.
+2. Open forgeapps.in/admin/, paste the token, Connect.
+3. Make changes, then **Publish to GitHub**. The live site updates about a minute later.
+Images can be uploaded (saved into the repo, resized) or added as a link. New apps get their own pages created automatically.
+The admin page is hidden from search engines and does nothing without your token.
+
 ## Screens, videos and About for an app
 
 In `assets/apps.js`, an app can have `screens` (phone screenshots, about 540×960, each with a short caption), `videos` (9:16 MP4 with a poster image), `about` (a few paragraphs) and `facts` (label/value pairs). Anything you add shows up automatically in the home page spotlight and in the app page's Screenshots / Videos / About sections; leave them out and those sections stay hidden. Put the files in the app's folder, e.g. `wealthon/screens/` and `wealthon/videos/`.

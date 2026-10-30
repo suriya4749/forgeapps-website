@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" data-root="../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Admin | Forge Apps</title>
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+<header class="top">
+<a class="brand" href="../"><img src="../assets/favicon.svg" alt="" width="28" height="28"><span><b>Forge</b> Apps</span><em>Admin</em></a>
+<div class="top-actions">
+<span class="status" id="status" aria-live="polite"></span>
+<button type="button" class="btn ghost" id="btn-download">Download apps.js</button>
+<button type="button" class="btn primary" id="btn-publish" disabled>Publish to GitHub</button>
+</div>
+</header>
+
+<div class="layout">
+<aside class="side">
+<section class="box" id="connect">
+<h2>GitHub</h2>
+<p class="hint" id="conn-hint">Connect to publish changes straight to the site.</p>
+<label>Repository<input id="gh-repo" value="suriya4749/forgeapps-website" autocomplete="off"></label>
+<label>Branch<input id="gh-branch" value="main" autocomplete="off"></label>
+<label>Access token<input id="gh-token" type="password" placeholder="github_pat_…" autocomplete="off"></label>
+<label class="check"><input type="checkbox" id="gh-remember"> Remember on this browser</label>
+<div class="row"><button type="button" class="btn" id="btn-connect">Connect</button><button type="button" class="btn ghost small" id="btn-disconnect" hidden>Disconnect</button></div>
+<details class="help"><summary>How to get a token</summary>
+<ol>
+<li>GitHub → Settings → Developer settings → <b>Fine-grained tokens</b> → Generate new token.</li>
+<li>Repository access: <b>Only select repositories</b> → forgeapps-website.</li>
+<li>Permissions → Repository → <b>Contents: Read and write</b>.</li>
+<li>Generate, copy and paste it here. It only works for this one repo.</li>
+</ol>
+</details>
+</section>
+
+<nav class="box list" aria-label="Sections">
+<button type="button" class="item" data-view="site">Site settings</button>
+<button type="button" class="item" data-view="updates">Latest updates</button>
+<p class="list-label">Apps <span>(first 4 show on the home page)</span></p>
+<div id="app-list"></div>
+<button type="button" class="btn ghost full" id="btn-new-app">+ New app</button>
+</nav>
+</aside>
+
+<main class="main" id="editor"><p class="empty">Loading…</p></main>
+</div>
+
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script src="../assets/apps.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>
