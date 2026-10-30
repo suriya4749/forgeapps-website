@@ -503,3 +503,83 @@ html.no-scroll,html.no-scroll body{overflow:hidden}
 }
 @media (max-width:360px){.nav-cta i{display:none}}
 @media (prefers-reduced-motion:reduce){.m-menu{animation:none}.burger i{transition:none}}
+
+/* ===== NAV v3: logo + menu button everywhere; full-screen menu ===== */
+.site-header .nav,.nav-cta{display:none!important}
+.site-header .nav-toggle{display:inline-flex!important;width:46px;height:46px;margin-left:auto}
+.site-header .wrap.nav-bar{padding:0 7px 0 18px}
+.site-header{z-index:40}
+.site-header .wrap.nav-bar{position:relative;z-index:2}
+.fs-menu{position:fixed;inset:0;z-index:1;display:flex;align-items:center;justify-content:center;padding:96px 24px 40px;overflow:auto;
+  background:radial-gradient(60% 50% at 50% 40%,rgba(255,106,43,.16),transparent 70%),rgba(12,13,17,.96);
+  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);animation:fsIn .35s cubic-bezier(.2,.8,.2,1)}
+.fs-menu[hidden]{display:none}
+@keyframes fsIn{from{opacity:0}to{opacity:1}}
+.fs-inner{display:flex;flex-direction:column;align-items:center;gap:30px;width:100%;max-width:560px;text-align:center}
+.fs-links{display:flex;flex-direction:column;align-items:center;gap:4px}
+.fs-links a,.fs-apps,.fs-mail{opacity:0;transform:translateY(14px);animation:fsItem .5s cubic-bezier(.2,.8,.2,1) forwards;animation-delay:calc(var(--i,0) * 45ms + 60ms)}
+@keyframes fsItem{to{opacity:1;transform:none}}
+.fs-links a{position:relative;font-size:clamp(30px,5.4vw,52px);font-weight:700;letter-spacing:-.03em;line-height:1.15;color:var(--light);text-decoration:none;padding:4px 14px;border-radius:14px;transition:color .2s}
+.fs-links a::after{content:"";position:absolute;left:14px;right:14px;bottom:4px;height:3px;border-radius:3px;background:var(--accent);transform:scaleX(0);transition:transform .35s cubic-bezier(.2,.8,.2,1)}
+.fs-links a:hover{color:#fff}
+.fs-links a:hover::after,.fs-links a[aria-current="page"]::after{transform:scaleX(1)}
+.fs-links a[aria-current="page"]{color:var(--accent)}
+.fs-apps{display:flex;justify-content:center;flex-wrap:wrap;gap:10px;padding-top:22px;border-top:1px solid var(--line);width:100%}
+.fs-app{display:flex;flex-direction:column;align-items:center;gap:8px;width:92px;padding:10px 4px;border-radius:16px;color:var(--text);text-decoration:none;font-size:13px;font-weight:500;transition:background .2s}
+.fs-app:hover{background:rgba(255,255,255,.06);color:var(--light)}
+.fs-app img{width:52px;height:52px;border-radius:23%;box-shadow:0 0 26px -6px color-mix(in srgb,var(--acc) 75%,transparent)}
+.fs-mail{color:var(--accent-2);font-weight:700;text-decoration:none;font-size:16px}
+.menu-open::after{display:none}
+@media (max-width:560px){.fs-links a{font-size:34px}.fs-inner{gap:24px}}
+@media (prefers-reduced-motion:reduce){.fs-menu,.fs-links a,.fs-apps,.fs-mail{animation:none;opacity:1;transform:none}}
+
+/* ===== PHONE: latest apps as a swipe row of tiles + compact spotlight ===== */
+@media (max-width:720px){
+  .apps-grid.four{display:flex!important;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;margin:0 calc(-1 * clamp(20px,4vw,56px));padding:4px clamp(20px,4vw,56px) 10px;scrollbar-width:none}
+  .apps-grid.four::-webkit-scrollbar{display:none}
+  .apps-grid.four .mini{flex:0 0 auto;width:132px;flex-direction:column;align-items:center;text-align:center;gap:10px;padding:16px 10px 14px;border-radius:20px;scroll-snap-align:start;
+    background:linear-gradient(180deg,color-mix(in srgb,var(--bg) 60%,#17191F),#17191F 75%)}
+  .apps-grid.four .mini::before{left:50%;top:6px;width:120px;height:120px;transform:translateX(-50%)}
+  .apps-grid.four .mini:hover::before{transform:translateX(-50%) scale(1.1)}
+  .apps-grid.four .mini-icon,.apps-grid.four .mini-icon img{width:60px;height:60px}
+  .apps-grid.four .mini-main{align-items:center;gap:6px;width:100%}
+  .apps-grid.four .mini-name{font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+  .apps-grid.four .mini-tag,.apps-grid.four .mini-go{display:none}
+  .apps-grid.four .mini-meta{flex-direction:column;gap:5px;margin:0}
+  .apps-grid.four .mini-stage{font-size:11.5px;font-weight:500;color:var(--text)}
+  .apps-grid.four .mini.on{background:linear-gradient(180deg,color-mix(in srgb,var(--bg) 85%,#17191F),#17191F 85%)}
+  .apps-grid.four + .spotlight{margin-top:10px}
+  .spotlight{padding:16px;border-radius:20px;gap:14px}
+  .spotlight .eyebrow{display:none}
+  .spot-copy{gap:10px}
+  .spot-id{gap:12px}
+  .spot-id img{width:46px;height:46px}
+  .spot-id h2{font-size:22px}
+  .spot-id p{font-size:11px}
+  .spot-tag{font-size:15px}
+  .spot-points{display:none}
+  .spotlight .stage li{font-size:10px}
+  .spotlight .stage-note{font-size:12.5px;margin-top:8px}
+  .spot-actions{margin-top:2px}
+  .spot-actions .btn{width:100%;justify-content:center}
+  .spot-strip img{width:118px;border-radius:12px}
+  .spot-strip-wrap{order:-1}
+  .spot-visual{height:180px}
+  .spot-visual img{width:84px;height:84px}
+  .sv-ring.r1{width:170px;height:170px}.sv-ring.r2{width:126px;height:126px}.sv-ring.r3{width:92px;height:92px}
+  .sv-bit{display:none}
+  .sv-note{bottom:0;font-size:12px}
+  .link-more.below{margin-top:10px}
+}
+
+/* ===== YouTube videos ===== */
+.vids{grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
+.vid.wide{grid-column:span 2}
+.yt-play,.vid iframe{position:relative;display:block;width:100%;padding:0;border:0;border-radius:18px;overflow:hidden;background:#0B0C0F;cursor:pointer;box-shadow:0 18px 40px -20px rgba(0,0,0,.8),0 0 0 1px rgba(255,255,255,.08)}
+.vid.tall .yt-play,.vid.tall iframe{aspect-ratio:9/16}
+.vid.wide .yt-play,.vid.wide iframe{aspect-ratio:16/9}
+.yt-play img{width:100%;height:100%;object-fit:cover;transition:transform .5s cubic-bezier(.2,.8,.2,1),filter .3s}
+.yt-play:hover img{transform:scale(1.04);filter:brightness(.85)}
+.yt-btn{position:absolute;left:50%;top:50%;width:62px;height:62px;margin:-31px 0 0 -31px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--btnbg,#FF6A2B);color:var(--btntx,#111318);box-shadow:0 12px 30px -8px rgba(0,0,0,.7);transition:transform .25s}
+.yt-play:hover .yt-btn{transform:scale(1.08)}
+@media (max-width:560px){.vid.wide{grid-column:1 / -1}}

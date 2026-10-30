@@ -8,6 +8,7 @@
   var url = function (p) { return /^(data:|https?:)/.test(p) ? p : root + p; };
   var shotSrc = function (x) { return typeof x === 'string' ? x : x.src; };
   var shotCap = function (x) { return typeof x === 'string' ? '' : (x.caption || ''); };
+  var ytId = function (u) { var m = String(u).match(/(?:youtube(?:-nocookie)?\.com\/(?:watch\?(?:.*&)?v=|embed\/|shorts\/|live\/)|youtu\.be\/)([A-Za-z0-9_-]{11})/); return m ? m[1] : ''; };
   var esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
 
   function tracker(app, compact) {
@@ -64,61 +65,55 @@
     }, true);
   }
 
-  // ---------- Navigation: desktop pill + mobile menu panel ----------
+  // ---------- Navigation: logo + menu button; the menu opens full screen ----------
   var header = document.querySelector('.site-header');
   var nav = document.querySelector('.nav');
   var toggle = document.querySelector('.nav-toggle');
-  if (header && nav) {
+  if (header && nav && toggle) {
     var bar = header.querySelector('.wrap');
     bar.classList.add('nav-bar');
-    var onApps = /\/apps\/(index\.html)?$/.test(location.pathname);
-    // the "All apps" link becomes the orange button on the right (unless we're on that page)
-    var appsLink = Array.prototype.filter.call(nav.querySelectorAll('a'), function (a) { return /(^|\/)apps\/$/.test(a.getAttribute('href')) && !a.hasAttribute('aria-current'); })[0];
-    var cta = document.createElement('a');
-    cta.className = 'nav-cta';
-    if (appsLink && !onApps) { cta.href = appsLink.getAttribute('href'); cta.innerHTML = '<span>All apps</span><i aria-hidden="true">→</i>'; appsLink.remove(); }
-    else { cta.href = 'mailto:' + F.email; cta.innerHTML = '<span>Contact</span><i aria-hidden="true">→</i>'; }
-    bar.appendChild(cta); if (toggle) bar.appendChild(toggle);
-
-    // mark the current page / section
-    nav.querySelectorAll('a[aria-current="page"]').forEach(function (a) { a.classList.add('active'); });
-    var sections = Array.prototype.map.call(nav.querySelectorAll('a[href^="#"]'), function (a) { return [a, document.querySelector(a.getAttribute('href'))]; }).filter(function (x) { return x[1]; });
-    if (sections.length && 'IntersectionObserver' in window) {
-      var io = new IntersectionObserver(function (en) {
-        en.forEach(function (e) { if (e.isIntersecting) sections.forEach(function (x) { x[0].classList.toggle('active', x[1] === e.target); }); });
-      }, { rootMargin: '-45% 0px -50% 0px' });
-      sections.forEach(function (x) { io.observe(x[1]); });
-    }
-    // stronger bar once you scroll
+    toggle.innerHTML = '<span class="burger" aria-hidden="true"><i></i><i></i><i></i></span>';
+    bar.appendChild(toggle);
     var onScroll = function () { header.classList.toggle('scrolled', window.scrollY > 10); };
     window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
 
-    // mobile menu panel
-    if (toggle) {
-      toggle.innerHTML = '<span class="burger" aria-hidden="true"><i></i><i></i><i></i></span>';
-      var panel = document.createElement('div');
-      panel.className = 'm-menu'; panel.id = 'm-menu'; panel.hidden = true;
-      var links = Array.prototype.map.call(nav.querySelectorAll('a'), function (a) {
-        return '<a href="' + a.getAttribute('href') + '"' + (a.hasAttribute('aria-current') ? ' aria-current="page"' : '') + '><span>' + esc(a.textContent) + '</span><i aria-hidden="true">→</i></a>';
-      }).join('') + (cta.getAttribute('href').indexOf('mailto:') ? '<a href="' + cta.getAttribute('href') + '"><span>All apps</span><i aria-hidden="true">→</i></a>' : '');
-      var appsRow = F.apps.slice(0, 4).map(function (a) {
-        return '<a class="m-app" href="' + root + a.slug + '/" style="' + vars(a.colors) + '"><img src="' + url(a.icon) + '" alt="" width="44" height="44"><span>' + esc(a.name) + '</span></a>';
-      }).join('');
-      panel.innerHTML = '<nav class="m-links" aria-label="Menu">' + links + '</nav>' +
-        (appsRow ? '<p class="m-label">Apps</p><div class="m-apps">' + appsRow + '</div>' : '') +
-        '<a class="m-mail" href="mailto:' + esc(F.email) + '">' + esc(F.email) + '</a>';
-      header.appendChild(panel);
-      toggle.setAttribute('aria-controls', 'm-menu');
-      var setOpen = function (open) {
-        panel.hidden = !open; header.classList.toggle('menu-open', open);
-        document.documentElement.classList.toggle('no-scroll', open);
-        toggle.setAttribute('aria-expanded', String(open)); toggle.setAttribute('aria-label', open ? 'Close menu' : 'Menu');
-      };
-      toggle.addEventListener('click', function () { setOpen(panel.hidden); });
-      panel.addEventListener('click', function (e) { if (e.target.closest('a')) setOpen(false); });
-      panel.addEventListener('keydown', function (e) { if (e.key === 'Escape') { setOpen(false); toggle.focus(); } });
-      window.addEventListener('resize', function () { if (innerWidth > 720 && !panel.hidden) setOpen(false); });
-    }
+    var panel = document.createElement('div');
+    panel.className = 'fs-menu'; panel.id = 'fs-menu'; panel.hidden = true;
+    panel.setAttribute('role', 'dialog'); panel.setAttribute('aria-modal', 'true'); panel.setAttribute('aria-label', 'Menu');
+    header.appendChild(panel);
+    toggle.setAttribute('aria-controls', 'fs-menu');
+
+    var here = location.pathname.replace(/index\.html$/, '');
+    var build = function () {
+      var items = [], seen = {};
+      var add = function (href, label, current) { if (seen[label]) return; seen[label] = 1; items.push({ href: href, label: label, current: current }); };
+      add(root || './', 'Home', !document.documentElement.getAttribute('data-app') && root === '');
+      add(root + 'apps/', 'All apps', /\/apps\/$/.test(here));
+      Array.prototype.forEach.call(nav.querySelectorAll('a'), function (a) {
+        if (a.hidden) return;
+        var h = a.getAttribute('href'), t = a.textContent.trim();
+        if (/(^|\/)apps\/$/.test(h) || t === 'Home' || t === 'All apps') return;
+        add(h, t, false);
+      });
+      panel.innerHTML =
+        '<div class="fs-inner">' +
+          '<nav class="fs-links" aria-label="Pages">' + items.map(function (it, i) {
+            return '<a href="' + it.href + '" style="--i:' + i + '"' + (it.current ? ' aria-current="page"' : '') + '>' + esc(it.label) + '</a>';
+          }).join('') + '</nav>' +
+          '<a class="fs-mail" style="--i:' + (items.length + 1) + '" href="mailto:' + esc(F.email) + '">' + esc(F.email) + '</a>' +
+        '</div>';
+    };
+    var setOpen = function (open) {
+      if (open) build();
+      panel.hidden = !open; header.classList.toggle('menu-open', open);
+      document.documentElement.classList.toggle('no-scroll', open);
+      toggle.setAttribute('aria-expanded', String(open)); toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+      if (open) { var f = panel.querySelector('a'); if (f) f.focus({ preventScroll: true }); }
+    };
+    toggle.setAttribute('aria-label', 'Open menu');
+    toggle.addEventListener('click', function () { setOpen(panel.hidden); });
+    panel.addEventListener('click', function (e) { if (e.target.closest('a') || e.target === panel) setOpen(false); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !panel.hidden) { setOpen(false); toggle.focus(); } });
   }
 
   // Year, email, socials
@@ -248,9 +243,23 @@
     var vd = document.getElementById('app-videos');
     if (vd && need.videos) {
       vd.innerHTML = app.videos.map(function (v) {
+        var id = ytId(v.youtube || v.src || '');
+        if (id) {
+          var tall = v.vertical || /\/shorts\//.test(v.youtube || v.src || '');
+          return '<figure class="vid yt' + (tall ? ' tall' : ' wide') + '"><button type="button" class="yt-play" data-yt="' + id + '" aria-label="Play video: ' + esc(v.title || '') + '">' +
+            '<img src="https://i.ytimg.com/vi/' + id + '/' + (tall ? 'oar2' : 'hqdefault') + '.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src=\'https://i.ytimg.com/vi/' + id + '/hqdefault.jpg\'">' +
+            '<span class="yt-btn" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24"><path fill="currentColor" d="M8 5v14l11-7z"/></svg></span></button>' +
+            '<figcaption>' + esc(v.title || '') + '</figcaption></figure>';
+        }
         return '<figure class="vid"><video controls playsinline preload="none" poster="' + url(v.poster || '') + '" src="' + url(v.src) + '"></video><figcaption>' + esc(v.title || '') + '</figcaption></figure>';
       }).join('');
-      // only one video plays at a time
+      vd.addEventListener('click', function (e) {
+        var b = e.target.closest('.yt-play'); if (!b) return;
+        var f = document.createElement('iframe');
+        f.src = 'https://www.youtube-nocookie.com/embed/' + b.getAttribute('data-yt') + '?autoplay=1&rel=0&playsinline=1';
+        f.title = b.getAttribute('aria-label'); f.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen'; f.allowFullscreen = true;
+        b.replaceWith(f);
+      });
       vd.addEventListener('play', function (e) { vd.querySelectorAll('video').forEach(function (x) { if (x !== e.target) x.pause(); }); }, true);
     }
     var ab = document.getElementById('app-about');
