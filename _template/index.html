@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en" data-root="../" data-app="{{SLUG}}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{{NAME}} | Forge Apps</title>
+<meta name="description" content="{{TAGLINE}}">
+<meta property="og:title" content="{{NAME}}">
+<meta property="og:image" content="https://forgeapps.in/assets/og-image.png">
+<meta property="og:url" content="https://forgeapps.in/{{SLUG}}/">
+<meta name="theme-color" content="#111318">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="stylesheet" href="../assets/motion.css">
+<link rel="stylesheet" href="../assets/ui.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-header">
+<div class="wrap">
+<a class="brand" href="../" aria-label="Forge Apps home"><img src="../assets/favicon.svg" alt="" width="36" height="36"><span><b>Forge</b> Apps</span></a>
+<button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+<nav class="nav" id="site-nav" aria-label="Main">
+<a href="../apps/">All apps</a>
+<a href="#screens" data-needs="screens" hidden>Screens</a>
+<a href="#videos" data-needs="videos" hidden>Videos</a>
+<a href="#about-app" data-needs="about" hidden>About</a>
+<a href="#features">Features</a>
+<a href="#get">Get the app</a>
+<a href="#support">Support</a>
+</nav>
+</div>
+</header>
+
+<main id="main">
+
+<section class="app-hero" aria-labelledby="app-title">
+<div class="wrap">
+<img class="icon" src="icon.svg" alt="{{NAME}} app icon" width="128" height="128">
+<div>
+<h1 id="app-title">{{NAME}}</h1>
+<p class="tagline">{{TAGLINE}}</p>
+<div class="meta"><span class="badge" data-status>In the forge</span><span class="badge">Android</span></div>
+<div class="actions">
+<a class="btn btn-primary" data-play aria-disabled="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 3.5v17l15-8.5z"/></svg><span>Coming soon</span></a>
+<a class="btn btn-ghost" data-social="instagram" href="#" hidden><span>Follow the build</span></a>
+</div>
+<p class="play-note" data-play-note hidden></p>
+</div>
+</div>
+</section>
+
+<section id="screens" data-needs="screens" hidden aria-labelledby="screens-title" style="padding-top:24px">
+<div class="wrap">
+<div class="section-head">
+<p class="eyebrow">Screenshots</p>
+<h2 id="screens-title">A look inside</h2>
+<p>Tap any screen to see it bigger.</p>
+</div>
+<div class="shots" id="app-screens"></div>
+</div>
+</section>
+
+<section id="videos" data-needs="videos" hidden aria-labelledby="videos-title" style="padding-top:24px">
+<div class="wrap">
+<div class="section-head">
+<p class="eyebrow">Videos</p>
+<h2 id="videos-title">See it in action</h2>
+</div>
+<div class="vids" id="app-videos"></div>
+</div>
+</section>
+
+<section id="about-app" data-needs="about" hidden aria-labelledby="about-app-title" style="padding-top:24px">
+<div class="wrap">
+<div class="section-head">
+<p class="eyebrow">About the app</p>
+<h2 id="about-app-title">About {{NAME}}</h2>
+</div>
+<div class="about-app" id="app-about"></div>
+</div>
+</section>
+
+<section id="features" aria-labelledby="features-title" style="padding-top:40px">
+<div class="wrap">
+<div class="section-head">
+<p class="eyebrow">What's coming</p>
+<h2 id="features-title">[Feature headline]</h2>
+<p>[One line about who the app is for]</p>
+</div>
+<div class="features">
+<div class="feature"><div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="2"/><rect x="13" y="4" width="7" height="7" rx="2"/><rect x="4" y="13" width="7" height="7" rx="2"/><rect x="13" y="13" width="7" height="7" rx="2"/></svg></div><h3>[Feature 1]</h3><p>[What it does]</p></div>
+<div class="feature"><div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div><h3>[Feature 2]</h3><p>[What it does]</p></div>
+<div class="feature"><div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/></svg></div><h3>[Feature 3]</h3><p>[What it does]</p></div>
+</div>
+</div>
+</section>
+
+<section id="get" aria-labelledby="get-title" style="padding-top:24px">
+<div class="wrap">
+<div class="get-band">
+<img class="get-icon" src="icon.svg" alt="" width="72" height="72">
+<div class="get-copy">
+<h2 id="get-title">Get {{NAME}}</h2>
+<p class="play-note" data-play-note hidden></p>
+</div>
+<a class="btn play-btn" data-play aria-disabled="true"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4 3.5v17l15-8.5z"/></svg><span>Coming soon to Google Play</span></a>
+</div>
+</div>
+</section>
+
+<section id="support" aria-labelledby="support-title">
+<div class="wrap">
+<div class="section-head">
+<p class="eyebrow">Stay in the loop</p>
+<h2 id="support-title">Questions?</h2>
+<p>Email <a data-email href="mailto:support@forgeapps.in">support@forgeapps.in</a> and mention {{NAME}}.</p>
+</div>
+<div class="app-links">
+<a class="btn btn-ghost" href="privacy/"><span>Privacy policy</span></a>
+<a class="btn btn-ghost" href="terms/"><span>Terms of use</span></a>
+<a class="btn btn-ghost" href="delete-account/"><span>Delete your data</span></a>
+</div>
+<div>
+<p></p>
+</div>
+</div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+<div class="wrap">
+<span>© <span data-year>2026</span> Forge Apps</span>
+<nav aria-label="Footer"><a href="../">Forge Apps</a><a href="privacy/">Privacy</a><a href="terms/">Terms</a></nav>
+</div>
+</footer>
+
+<script src="../assets/apps.js"></script>
+<script src="../assets/site.js"></script>
+<script src="../assets/motion.js"></script>
+</body>
+</html>
