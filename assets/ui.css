@@ -583,3 +583,90 @@ html.no-scroll,html.no-scroll body{overflow:hidden}
 .yt-btn{position:absolute;left:50%;top:50%;width:62px;height:62px;margin:-31px 0 0 -31px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--btnbg,#FF6A2B);color:var(--btntx,#111318);box-shadow:0 12px 30px -8px rgba(0,0,0,.7);transition:transform .25s}
 .yt-play:hover .yt-btn{transform:scale(1.08)}
 @media (max-width:560px){.vid.wide{grid-column:1 / -1}}
+
+/* ===== POLISH (design-engineering pass) =====
+   Strong custom curves, faster UI timings, press feedback on everything pressable,
+   hover effects only on real pointers, and the small mobile fixes. */
+:root{
+  --ease-out:cubic-bezier(.23,1,.32,1);
+  --ease-in-out:cubic-bezier(.77,0,.175,1);
+  --ease-drawer:cubic-bezier(.32,.72,0,1);
+}
+
+/* -- mobile baseline -- */
+html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+a,button,summary,[role="button"]{touch-action:manipulation}
+.btn,.nav-cta,.nav-toggle,.chip,.mini,.app-card,.spot-btn,.spot-ghost,.play-btn,.sn-btn,.yt-play,.fs-links a,.faq summary{-webkit-user-select:none;user-select:none}
+.search input,input,select,textarea{font-size:16px}           /* < 16px makes iOS zoom the page */
+.viewer{height:100dvh}                                          /* full-screen viewer: dynamic viewport */
+.apps-grid.four,.spot-strip,.shots{overscroll-behavior-x:contain} /* swipe rows don't trigger back-swipe */
+.fs-menu{overscroll-behavior:contain;padding-bottom:env(safe-area-inset-bottom)}
+
+/* -- keyboard focus that is visible but only for keyboards -- */
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+:focus:not(:focus-visible){outline:none}
+
+/* -- timings: UI under 300ms, strong ease-out -- */
+.btn{transition:background-color 200ms ease,box-shadow 200ms ease,transform 160ms var(--ease-out)}
+.nav-cta{transition:background-color 200ms ease,box-shadow 200ms ease,transform 160ms var(--ease-out)}
+.nav-cta i,.link-more i{transition:transform 200ms var(--ease-out)}
+.chip{transition:background-color 200ms ease,border-color 200ms ease,color 200ms ease,transform 160ms var(--ease-out)}
+.sn-btn,.spot-ghost{transition:background-color 200ms ease,transform 160ms var(--ease-out)}
+.spot-btn,.play-btn{transition:filter 200ms ease,transform 160ms var(--ease-out)}
+.mini{transition:transform 200ms var(--ease-out),border-color 200ms ease,box-shadow 200ms ease,background-color 200ms ease}
+.mini::before{transition:opacity 250ms ease,transform 250ms var(--ease-out)}
+.mini-icon::after{transition:transform 300ms var(--ease-out),opacity 200ms ease}
+.mini-icon img{transition:transform 250ms var(--ease-out)}
+.mini-go{transition:background-color 200ms ease,color 200ms ease,transform 200ms var(--ease-out)}
+.app-card{transition:transform 200ms var(--ease-out),border-color 200ms ease,background-color 200ms ease}
+.shot img,.spot-strip img{transition:transform 250ms var(--ease-out)}
+.t-dot{transition:transform 250ms var(--ease-out),background-color 200ms ease}
+.site-header .brand img{transition:transform 300ms var(--ease-out)}
+.site-header .wrap{transition:background-color 250ms ease,border-color 250ms ease,box-shadow 250ms ease}
+.burger i{transition:transform 250ms var(--ease-out),opacity 150ms ease,top 250ms var(--ease-out)}
+.yt-play img{transition:transform 300ms var(--ease-out),filter 200ms ease}
+.yt-btn{transition:transform 200ms var(--ease-out)}
+.faq summary::after{transition:transform 200ms var(--ease-out)}
+.fs-links a::after{transition:transform 250ms var(--ease-out)}
+.stage li.now .bar::after{animation-timing-function:linear}     /* constant motion = linear */
+
+/* spotlight swap: quick crossfade, blur hides the content change */
+.spotlight.swap{animation:spotIn2 260ms var(--ease-out)}
+@keyframes spotIn2{from{opacity:.4;transform:translateY(6px);filter:blur(2px)}to{opacity:1;transform:none;filter:none}}
+
+/* full-screen menu: quicker in, even quicker out */
+.fs-menu{animation:fsIn 220ms var(--ease-out)}
+.fs-links a,.fs-mail{opacity:1;transform:none;animation:fsItem2 300ms var(--ease-out) backwards;animation-delay:calc(var(--i,0) * 35ms + 40ms)}
+@keyframes fsItem2{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.fs-menu.closing{animation:fsOut 150ms ease-out forwards}
+@keyframes fsOut{to{opacity:0}}
+.fs-menu.instant,.fs-menu.instant *{animation:none!important;opacity:1;transform:none}
+
+/* image viewer opens from slightly smaller, never from nothing */
+.viewer[open]{animation:vIn 220ms var(--ease-out)}
+@keyframes vIn{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:none}}
+
+/* -- hover only on devices that really hover (no sticky hover after a tap) -- */
+@media (hover:none),(pointer:coarse){
+  .btn:hover,.nav-cta:hover,.app-card:hover,.mini:hover,.shot:hover img,.spot-strip img:hover,
+  .timeline li:hover .t-dot,.site-header .brand:hover img,.yt-play:hover img,.yt-play:hover .yt-btn,
+  .mini:hover .mini-icon img,.mini:hover .mini-go,.mini:hover .mini-icon::after,.nav-cta:hover i,.link-more:hover i{transform:none}
+  .mini:hover::before{transform:translateY(-50%)}
+  .apps-grid.four .mini:hover::before{transform:translateX(-50%)}
+  .mini:hover{box-shadow:none}
+  .yt-play:hover img{filter:none}
+  .fs-links a:hover::after{transform:scaleX(0)}
+  .fs-links a[aria-current="page"]::after{transform:scaleX(1)}
+}
+
+/* -- press feedback: everything pressable answers the finger immediately -- */
+.btn:active,.nav-cta:active,.spot-btn:active,.play-btn:active,.spot-ghost:active,.chip:active,.sn-btn:active,.nav-toggle:active{transform:scale(.97)}
+.mini:active,.app-card:active{transform:scale(.98)}
+.yt-play:active .yt-btn{transform:scale(.94)}
+.fs-links a:active{transform:scale(.97)}
+.fs-links a{transition:color 200ms ease,transform 160ms var(--ease-out)}
+
+@media (prefers-reduced-motion:reduce){
+  .spotlight.swap,.viewer[open],.fs-menu,.fs-menu.closing,.fs-links a,.fs-mail{animation:none!important}
+  .btn:active,.nav-cta:active,.mini:active,.app-card:active,.chip:active{transform:none}
+}

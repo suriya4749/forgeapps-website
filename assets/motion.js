@@ -39,10 +39,10 @@
   }
   // stagger children of grids
   $$('[data-stagger]').forEach(function (grp) {
-    Array.prototype.forEach.call(grp.children, function (c, i) { c.setAttribute('data-reveal', ''); c.style.setProperty('--d', (i * 0.07) + 's'); });
+    Array.prototype.forEach.call(grp.children, function (c, i) { c.setAttribute('data-reveal', ''); c.style.setProperty('--d', (Math.min(i, 8) * 0.05) + 's'); });
   });
   window.ForgeMotion = { refresh: function () {
-    $$('[data-stagger]').forEach(function (grp) { Array.prototype.forEach.call(grp.children, function (c, i) { if (!c.hasAttribute('data-reveal')) { c.setAttribute('data-reveal', ''); c.style.setProperty('--d', (i * 0.07) + 's'); } }); });
+    $$('[data-stagger]').forEach(function (grp) { Array.prototype.forEach.call(grp.children, function (c, i) { if (!c.hasAttribute('data-reveal')) { c.setAttribute('data-reveal', ''); c.style.setProperty('--d', (Math.min(i, 8) * 0.05) + 's'); } }); });
     reveals();
   } };
 

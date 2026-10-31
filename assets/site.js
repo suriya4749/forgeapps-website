@@ -103,9 +103,14 @@
           '<a class="fs-mail" style="--i:' + (items.length + 1) + '" href="mailto:' + esc(F.email) + '">' + esc(F.email) + '</a>' +
         '</div>';
     };
-    var setOpen = function (open) {
-      if (open) build();
-      panel.hidden = !open; header.classList.toggle('menu-open', open);
+    var closeT;
+    var setOpen = function (open, instant) {
+      clearTimeout(closeT); panel.classList.remove('closing');
+      panel.classList.toggle('instant', !!instant);
+      if (open) { build(); panel.hidden = false; }
+      else if (instant || panel.hidden) { panel.hidden = true; }
+      else { panel.classList.add('closing'); closeT = setTimeout(function () { panel.hidden = true; panel.classList.remove('closing'); }, 150); }
+      header.classList.toggle('menu-open', open);
       document.documentElement.classList.toggle('no-scroll', open);
       toggle.setAttribute('aria-expanded', String(open)); toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
       if (open) { var f = panel.querySelector('a'); if (f) f.focus({ preventScroll: true }); }
@@ -113,7 +118,7 @@
     toggle.setAttribute('aria-label', 'Open menu');
     toggle.addEventListener('click', function () { setOpen(panel.hidden); });
     panel.addEventListener('click', function (e) { if (e.target.closest('a') || e.target === panel) setOpen(false); });
-    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !panel.hidden) { setOpen(false); toggle.focus(); } });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !panel.hidden) { setOpen(false, true); toggle.focus(); } });
   }
 
   // Year, email, socials
