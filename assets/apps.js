@@ -21,7 +21,7 @@ window.FORGE = {
   // Contact form (forgeapps.in/contact/). Messages are emailed to the address this key was made for.
   // Get a free key at https://web3forms.com (enter support@forgeapps.in, the key arrives by email) and paste it here.
   // While it's empty, the form opens the visitor's email app with the message filled in instead.
-  formKey: "",
+  formKey: "00da2d2a-9e79-4964-aa47-da2aa6d50dac",
 
   // Website analytics. No cookies, no personal data.
   // umami:      the Website ID from https://cloud.umami.is (Settings → Websites → Add website → forgeapps.in)
