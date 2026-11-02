@@ -852,3 +852,18 @@ a.cs-line:hover{color:#fff}
   .site-header .wrap.nav-bar{padding:0 8px 0 18px}
 }
 @media (max-width:520px){.tb-badge{font-size:10.5px;letter-spacing:.1em;white-space:nowrap;padding:6px 10px}.tb-id img{width:52px;height:52px}.tb-points li{font-size:12.5px}}
+
+/* early access: title, tabs for several apps */
+.early-sec .row-sub{margin:4px 0 0;color:var(--muted);max-width:560px}
+.tband .tb-title{margin:0;color:#fff;font-size:clamp(26px,3.2vw,38px);line-height:1.12;max-width:620px}
+.tb-more{align-self:flex-start;font-size:14px;font-weight:700;color:var(--tx);opacity:.85;text-decoration:none}
+.tb-tabs{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin:0 0 14px;padding:2px;overscroll-behavior-x:contain}
+.tb-tabs::-webkit-scrollbar{display:none}
+.tb-tab{flex:none;display:inline-flex;align-items:center;gap:10px;min-height:48px;padding:0 16px 0 8px;border-radius:999px;border:1px solid var(--line);background:var(--ink-2);
+  color:var(--text);font:inherit;font-size:15px;font-weight:700;cursor:pointer;-webkit-user-select:none;user-select:none;
+  transition:background-color 200ms ease,border-color 200ms ease,color 200ms ease,transform 160ms var(--ease-out)}
+.tb-tab img{width:30px;height:30px;border-radius:23%}
+.tb-tab[aria-selected="true"]{color:#fff;border-color:color-mix(in srgb,var(--acc) 70%,transparent);background:color-mix(in srgb,var(--acc) 18%,var(--ink-2))}
+.tb-tab:active{transform:scale(.97)}
+.tband.swap{animation:spotIn2 260ms var(--ease-out)}
+@media (hover:hover) and (pointer:fine){.tb-tab:hover{border-color:#4A4E58}.tb-more:hover{opacity:1}}

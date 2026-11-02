@@ -373,60 +373,86 @@
     }
   }
 
-  // ---------- Home: tester sign-up band for an app in closed testing ----------
+  // ---------- Home: early access — every app in closed testing, one band at a time ----------
   var tb = document.getElementById('tester-band');
-  var ta = F.apps.filter(function (a) { return a.stage === 'test' && a.testUrl; })[0];
-  if (tb && ta) {
-    tb.parentNode.parentNode.hidden = false;
-    tb.className = 'tband'; tb.setAttribute('style', vars(ta.colors)); tb.setAttribute('data-slug', ta.slug);
-    tb.innerHTML =
-      '<div class="tb-copy">' +
-        '<div class="tb-id"><img src="' + url(ta.icon) + '" alt="" width="64" height="64"><span class="tb-badge"><i></i>Early access · Closed test</span></div>' +
-        '<h2>Want early access? Join the ' + esc(ta.name) + ' closed test</h2>' +
-        '<p>' + esc(ta.tagline) + ' Try it before anyone else, tell us what to fix, and help it launch on Google Play.</p>' +
-        '<ul class="tb-points"><li>Free</li><li>Android</li><li>Takes 2 minutes</li><li>Your feedback shapes the app</li></ul>' +
-      '</div>' +
-      '<div class="tb-box">' +
-        '<form class="tb-form" novalidate>' +
-          '<label for="tb-email">Your Google Play email</label>' +
-          '<div class="tb-row"><input id="tb-email" type="email" inputmode="email" autocomplete="email" placeholder="you@gmail.com" required>' +
-          '<button class="btn tb-btn" type="submit"><span>Request access</span></button></div>' +
-          '<input type="checkbox" name="botcheck" class="cf-hp" tabindex="-1" autocomplete="off" aria-hidden="true">' +
-          '<p class="tb-err" hidden>Please enter the email you use on Google Play.</p>' +
-          '<p class="tb-small">Use the Google account on your Android phone. We add it to the tester list and reply within a day.</p>' +
-        '</form>' +
-        '<div class="tb-done" hidden tabindex="-1">' +
-          '<div class="tb-tick" aria-hidden="true"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5" pathLength="1"/></svg></div>' +
-          '<h3>You’re in the queue</h3>' +
-          '<ol><li>We add <b class="tb-mail"></b> to the tester list and email you, usually within a day.</li><li>Then open the test link on your phone and tap <b>Become a tester</b>.</li><li>Install it from Google Play and keep it for 14 days.</li></ol>' +
+  var testing = F.apps.filter(function (a) { return a.stage === 'test' && a.testUrl; });
+  if (tb && testing.length) {
+    document.getElementById('early').hidden = false;
+    var cnt = document.getElementById('early-count');
+    if (cnt) cnt.textContent = testing.length === 1 ? '1 app in testing' : testing.length + ' apps in testing';
+    var tabs = document.getElementById('tester-tabs');
+    var sent = {};   // remembers who already asked, per app, while on the page
+    var showBand = function (ta) {
+      tb.className = 'tband'; tb.setAttribute('style', vars(ta.colors)); tb.setAttribute('data-slug', ta.slug);
+      tb.innerHTML =
+        '<div class="tb-copy">' +
+          '<div class="tb-id"><img src="' + url(ta.icon) + '" alt="" width="64" height="64"><span class="tb-badge"><i></i>Closed test · Open to join</span></div>' +
+          '<h3 class="tb-title">Join the ' + esc(ta.name) + ' closed test</h3>' +
+          '<p>' + esc(ta.tagline) + ' Try it before anyone else, tell us what to fix, and help it launch on Google Play.</p>' +
+          '<ul class="tb-points"><li>Free</li><li>' + esc(ta.platform || 'Android') + '</li><li>Takes 2 minutes</li><li>Your feedback shapes the app</li></ul>' +
+          '<a class="tb-more" href="' + root + ta.slug + '/">See ' + esc(ta.name) + ' →</a>' +
         '</div>' +
-        '<a class="tb-link" href="' + esc(ta.testUrl) + '" target="_blank" rel="noopener">Already added? Open the test link →</a>' +
-      '</div>';
-    var tf = tb.querySelector('.tb-form'), ti = tb.querySelector('#tb-email'), te = tb.querySelector('.tb-err'), tbtn = tb.querySelector('.tb-btn');
-    ti.addEventListener('input', function () { te.hidden = true; ti.classList.remove('bad'); });
-    tf.addEventListener('submit', function (e) {
-      e.preventDefault();
-      var em = ti.value.trim();
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(em)) { te.hidden = false; ti.classList.add('bad'); ti.focus(); return; }
-      if (tf.botcheck && tf.botcheck.checked) return;
-      var finish = function () {
+        '<div class="tb-box">' +
+          '<form class="tb-form" novalidate>' +
+            '<label for="tb-email">Your Google Play email</label>' +
+            '<div class="tb-row"><input id="tb-email" type="email" inputmode="email" autocomplete="email" placeholder="you@gmail.com" required>' +
+            '<button class="btn tb-btn" type="submit"><span>Request access</span></button></div>' +
+            '<input type="checkbox" name="botcheck" class="cf-hp" tabindex="-1" autocomplete="off" aria-hidden="true">' +
+            '<p class="tb-err" hidden>Please enter the email you use on Google Play.</p>' +
+            '<p class="tb-small">Use the Google account on your Android phone. We add it to the tester list and reply within a day.</p>' +
+          '</form>' +
+          '<div class="tb-done" hidden tabindex="-1">' +
+            '<div class="tb-tick" aria-hidden="true"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5" pathLength="1"/></svg></div>' +
+            '<h3>You’re in the queue</h3>' +
+            '<ol><li>We add <b class="tb-mail"></b> to the ' + esc(ta.name) + ' tester list and email you, usually within a day.</li><li>Then open the test link on your phone and tap <b>Become a tester</b>.</li><li>Install it from Google Play and keep it for 14 days.</li></ol>' +
+          '</div>' +
+          '<a class="tb-link" href="' + esc(ta.testUrl) + '" target="_blank" rel="noopener">Already added? Open the test link →</a>' +
+        '</div>';
+      var tf = tb.querySelector('.tb-form'), ti = tb.querySelector('#tb-email'), te = tb.querySelector('.tb-err'), tbtn = tb.querySelector('.tb-btn');
+      var finish = function (em) {
+        sent[ta.slug] = em;
         tb.querySelector('.tb-mail').textContent = em;
-        tf.hidden = true; var d = tb.querySelector('.tb-done'); d.hidden = false; d.focus({ preventScroll: true });
-        window.forgeTrack('tester-request', { app: ta.slug });
+        tf.hidden = true; var d = tb.querySelector('.tb-done'); d.hidden = false;
       };
-      var subject = '[Forge Apps] Tester request · ' + ta.name;
-      if (!F.formKey) {
-        location.href = 'mailto:' + F.email + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent('Please add me to the ' + ta.name + ' closed test.\n\nGoogle Play email: ' + em);
-        finish(); return;
-      }
-      tbtn.disabled = true; tbtn.querySelector('span').textContent = 'Sending…';
-      fetch('https://api.web3forms.com/submit', { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({ access_key: F.formKey, subject: subject, from_name: 'Forge Apps website', email: em, replyto: em,
-          topic: 'Tester request', app: ta.name, message: 'Please add this Google account to the ' + ta.name + ' closed test: ' + em + '\n\nPlay Console → Testing → Closed testing → Testers.', page: location.href, botcheck: false }) })
-        .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { if (!r.ok || j.success === false) throw 0; }); })
-        .then(finish)
-        .catch(function () { tbtn.disabled = false; tbtn.querySelector('span').textContent = 'Request access'; te.hidden = false; te.innerHTML = 'Couldn’t send just now. Try again, or email <a href="mailto:' + esc(F.email) + '">' + esc(F.email) + '</a>.'; });
-    });
+      if (sent[ta.slug]) finish(sent[ta.slug]);
+      ti.addEventListener('input', function () { te.hidden = true; ti.classList.remove('bad'); });
+      tf.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var em = ti.value.trim();
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(em)) { te.hidden = false; te.textContent = 'Please enter the email you use on Google Play.'; ti.classList.add('bad'); ti.focus(); return; }
+        if (tf.botcheck && tf.botcheck.checked) return;
+        var done = function () { finish(em); tb.querySelector('.tb-done').focus({ preventScroll: true }); window.forgeTrack('tester-request', { app: ta.slug }); };
+        var subject = '[Forge Apps] Tester request · ' + ta.name;
+        if (!F.formKey) {
+          location.href = 'mailto:' + F.email + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent('Please add me to the ' + ta.name + ' closed test.\n\nGoogle Play email: ' + em);
+          done(); return;
+        }
+        tbtn.disabled = true; tbtn.querySelector('span').textContent = 'Sending…';
+        fetch('https://api.web3forms.com/submit', { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify({ access_key: F.formKey, subject: subject, from_name: 'Forge Apps website', email: em, replyto: em,
+            topic: 'Tester request', app: ta.name, message: 'Please add this Google account to the ' + ta.name + ' closed test: ' + em + '\n\nPlay Console → ' + ta.name + ' → Testing → Closed testing → Testers.', page: location.href, botcheck: false }) })
+          .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { if (!r.ok || j.success === false) throw 0; }); })
+          .then(done)
+          .catch(function () { tbtn.disabled = false; tbtn.querySelector('span').textContent = 'Request access'; te.hidden = false; te.innerHTML = 'Couldn’t send just now. Try again, or email <a href="mailto:' + esc(F.email) + '">' + esc(F.email) + '</a>.'; });
+      });
+    };
+    // more than one app in testing: a row of app tabs above the band
+    if (tabs && testing.length > 1) {
+      tabs.hidden = false;
+      tabs.innerHTML = testing.map(function (a, i) {
+        return '<button type="button" role="tab" class="tb-tab" data-slug="' + esc(a.slug) + '" aria-selected="' + (i === 0) + '" style="' + vars(a.colors) + '">' +
+          '<img src="' + url(a.icon) + '" alt="" width="28" height="28"><span>' + esc(a.name) + '</span></button>';
+      }).join('');
+      tabs.addEventListener('click', function (e) {
+        var t = e.target.closest('.tb-tab'); if (!t || t.getAttribute('aria-selected') === 'true') return;
+        tabs.querySelectorAll('.tb-tab').forEach(function (x) { x.setAttribute('aria-selected', String(x === t)); });
+        var a = testing.filter(function (x) { return x.slug === t.getAttribute('data-slug'); })[0];
+        showBand(a);
+        tb.classList.remove('swap'); void tb.offsetWidth; tb.classList.add('swap');
+        window.forgeTrack('early-access-tab', { app: a.slug });
+      });
+    }
+    showBand(testing[0]);
   }
 
   // ---------- App pages: details for search engines ----------
