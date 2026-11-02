@@ -185,7 +185,8 @@
     $('#editor').innerHTML = '<div class="card"><h3>Site settings</h3><p class="hint">Shown across the whole site. Leave a social link empty to hide its button.</p>' +
       field('Support email', 'email', state.email) +
       field('YouTube channel link', 'youtube', state.youtube, { placeholder: 'https://www.youtube.com/@forgeapps', type: 'url' }) +
-      field('Instagram link', 'instagram', state.instagram, { placeholder: 'https://www.instagram.com/forgeapps', type: 'url' }) + '</div>' +
+      field('Instagram link', 'instagram', state.instagram, { placeholder: 'https://www.instagram.com/forgeapps', type: 'url' }) +
+      field('Facebook Page link', 'facebook', state.facebook || '', { placeholder: 'https://www.facebook.com/…', type: 'url' }) + '</div>' +
       '<div class="card"><h3>Contact form &amp; analytics</h3><p class="hint">Leave empty to switch off. Messages from forgeapps.in/contact go to the email the Web3Forms key was made for.</p>' +
       field('Web3Forms access key', 'formKey', state.formKey || '', { placeholder: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx', note: 'Free at web3forms.com: enter support@forgeapps.in and the key arrives by email.' }) +
       field('Umami website ID', 'analytics.umami', (state.analytics || {}).umami || '', { placeholder: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx', note: 'From cloud.umami.is → Websites → forgeapps.in → Edit.' }) +

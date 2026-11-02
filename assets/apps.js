@@ -15,8 +15,9 @@
 */
 window.FORGE = {
   email: "support@forgeapps.in",
-  youtube: "",    // e.g. "https://www.youtube.com/@forgeapps"
-  instagram: "",  // e.g. "https://www.instagram.com/forgeapps"
+  youtube: "https://www.youtube.com/@ForgeApps-sk",
+  instagram: "https://www.instagram.com/forgeapps.in/",
+  facebook: "https://www.facebook.com/profile.php?id=61595949729625",
 
   // Contact form (forgeapps.in/contact/). Messages are emailed to the address this key was made for.
   // Get a free key at https://web3forms.com (enter support@forgeapps.in, the key arrives by email) and paste it here.

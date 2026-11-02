@@ -127,7 +127,7 @@
     if (!el.hasAttribute('data-keep')) el.textContent = F.email;
     if (el.tagName === 'A') el.href = 'mailto:' + F.email;
   });
-  ['youtube', 'instagram'].forEach(function (k) {
+  ['youtube', 'instagram', 'facebook'].forEach(function (k) {
     document.querySelectorAll('[data-social="' + k + '"]').forEach(function (el) {
       if (F[k]) { el.href = F[k]; el.hidden = false; } else { el.hidden = true; }
     });
@@ -331,12 +331,20 @@
     else if (/^mailto:/.test(h)) window.forgeTrack('email-click', { app: appOf(), page: location.pathname });
     else if (/youtube\.com|youtu\.be/.test(h)) window.forgeTrack('social-click', { network: 'youtube' });
     else if (/instagram\.com/.test(h)) window.forgeTrack('social-click', { network: 'instagram' });
+    else if (/facebook\.com/.test(h)) window.forgeTrack('social-click', { network: 'facebook' });
     else if (el.classList.contains('spot-btn')) window.forgeTrack('explore-app', { app: appOf() });
     else if (el.classList.contains('mini') && el.tagName === 'BUTTON') window.forgeTrack('spotlight-app', { app: el.getAttribute('data-slug') || '' });
     else if (el.classList.contains('yt-play')) window.forgeTrack('video-play', { app: pageApp });
     else if (el.classList.contains('nav-toggle')) { if (el.getAttribute('aria-expanded') !== 'true') window.forgeTrack('menu-open'); }
   }, true);
   document.addEventListener('play', function (e) { if (e.target && e.target.tagName === 'VIDEO') window.forgeTrack('video-play', { app: pageApp, video: (e.target.getAttribute('src') || '').split('/').pop() }); }, true);
+
+  // close the full-screen menu if the window grows to desktop width
+  if (window.matchMedia) {
+    var mq = window.matchMedia('(min-width: 1024px)');
+    var onMq = function () { var t = document.querySelector('.nav-toggle'); if (mq.matches && t && t.getAttribute('aria-expanded') === 'true') t.click(); };
+    if (mq.addEventListener) mq.addEventListener('change', onMq); else if (mq.addListener) mq.addListener(onMq);
+  }
 
   // ---------- Contact links go to the contact page ----------
   var contactUrl = root + 'contact/';
@@ -365,6 +373,62 @@
     }
   }
 
+  // ---------- Home: tester sign-up band for an app in closed testing ----------
+  var tb = document.getElementById('tester-band');
+  var ta = F.apps.filter(function (a) { return a.stage === 'test' && a.testUrl; })[0];
+  if (tb && ta) {
+    tb.parentNode.parentNode.hidden = false;
+    tb.className = 'tband'; tb.setAttribute('style', vars(ta.colors)); tb.setAttribute('data-slug', ta.slug);
+    tb.innerHTML =
+      '<div class="tb-copy">' +
+        '<div class="tb-id"><img src="' + url(ta.icon) + '" alt="" width="64" height="64"><span class="tb-badge"><i></i>Early access · Closed test</span></div>' +
+        '<h2>Want early access? Join the ' + esc(ta.name) + ' closed test</h2>' +
+        '<p>' + esc(ta.tagline) + ' Try it before anyone else, tell us what to fix, and help it launch on Google Play.</p>' +
+        '<ul class="tb-points"><li>Free</li><li>Android</li><li>Takes 2 minutes</li><li>Your feedback shapes the app</li></ul>' +
+      '</div>' +
+      '<div class="tb-box">' +
+        '<form class="tb-form" novalidate>' +
+          '<label for="tb-email">Your Google Play email</label>' +
+          '<div class="tb-row"><input id="tb-email" type="email" inputmode="email" autocomplete="email" placeholder="you@gmail.com" required>' +
+          '<button class="btn tb-btn" type="submit"><span>Request access</span></button></div>' +
+          '<input type="checkbox" name="botcheck" class="cf-hp" tabindex="-1" autocomplete="off" aria-hidden="true">' +
+          '<p class="tb-err" hidden>Please enter the email you use on Google Play.</p>' +
+          '<p class="tb-small">Use the Google account on your Android phone. We add it to the tester list and reply within a day.</p>' +
+        '</form>' +
+        '<div class="tb-done" hidden tabindex="-1">' +
+          '<div class="tb-tick" aria-hidden="true"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5" pathLength="1"/></svg></div>' +
+          '<h3>You’re in the queue</h3>' +
+          '<ol><li>We add <b class="tb-mail"></b> to the tester list and email you, usually within a day.</li><li>Then open the test link on your phone and tap <b>Become a tester</b>.</li><li>Install it from Google Play and keep it for 14 days.</li></ol>' +
+        '</div>' +
+        '<a class="tb-link" href="' + esc(ta.testUrl) + '" target="_blank" rel="noopener">Already added? Open the test link →</a>' +
+      '</div>';
+    var tf = tb.querySelector('.tb-form'), ti = tb.querySelector('#tb-email'), te = tb.querySelector('.tb-err'), tbtn = tb.querySelector('.tb-btn');
+    ti.addEventListener('input', function () { te.hidden = true; ti.classList.remove('bad'); });
+    tf.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var em = ti.value.trim();
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(em)) { te.hidden = false; ti.classList.add('bad'); ti.focus(); return; }
+      if (tf.botcheck && tf.botcheck.checked) return;
+      var finish = function () {
+        tb.querySelector('.tb-mail').textContent = em;
+        tf.hidden = true; var d = tb.querySelector('.tb-done'); d.hidden = false; d.focus({ preventScroll: true });
+        window.forgeTrack('tester-request', { app: ta.slug });
+      };
+      var subject = '[Forge Apps] Tester request · ' + ta.name;
+      if (!F.formKey) {
+        location.href = 'mailto:' + F.email + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent('Please add me to the ' + ta.name + ' closed test.\n\nGoogle Play email: ' + em);
+        finish(); return;
+      }
+      tbtn.disabled = true; tbtn.querySelector('span').textContent = 'Sending…';
+      fetch('https://api.web3forms.com/submit', { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({ access_key: F.formKey, subject: subject, from_name: 'Forge Apps website', email: em, replyto: em,
+          topic: 'Tester request', app: ta.name, message: 'Please add this Google account to the ' + ta.name + ' closed test: ' + em + '\n\nPlay Console → Testing → Closed testing → Testers.', page: location.href, botcheck: false }) })
+        .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { if (!r.ok || j.success === false) throw 0; }); })
+        .then(finish)
+        .catch(function () { tbtn.disabled = false; tbtn.querySelector('span').textContent = 'Request access'; te.hidden = false; te.innerHTML = 'Couldn’t send just now. Try again, or email <a href="mailto:' + esc(F.email) + '">' + esc(F.email) + '</a>.'; });
+    });
+  }
+
   // ---------- App pages: details for search engines ----------
   if (pageApp) {
     var sa = F.apps.filter(function (a) { return a.slug === pageApp; })[0];
@@ -388,10 +452,17 @@
         return '<li><a href="' + esc(i[1]) + '"' + (i[2] ? ' target="_blank" rel="noopener"' : '') + '>' + i[0] + '</a></li>';
       }).join('') + '</ul></div>';
     };
-    var socials = [];
-    if (F.youtube) socials.push('<a class="f-soc" href="' + esc(F.youtube) + '" target="_blank" rel="noopener" aria-label="YouTube"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2 31 31 0 0 0 .5 12 31 31 0 0 0 1 16.8a3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1c.4-1.6.5-3.2.5-4.8s-.1-3.2-.5-4.8zM9.8 15.1V8.9l5.7 3.1z"/></svg></a>');
-    if (F.instagram) socials.push('<a class="f-soc" href="' + esc(F.instagram) + '" target="_blank" rel="noopener" aria-label="Instagram"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>');
-    socials.push('<a class="f-soc" href="mailto:' + esc(F.email) + '" aria-label="Email"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg></a>');
+    var IC = {
+      instagram: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>',
+      youtube: '<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2 31 31 0 0 0 .5 12 31 31 0 0 0 1 16.8a3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1c.4-1.6.5-3.2.5-4.8s-.1-3.2-.5-4.8zM9.8 15.1V8.9l5.7 3.1z"/></svg>',
+      facebook: '<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M13.5 21v-7.5h2.6l.4-3.1h-3V8.5c0-.9.3-1.5 1.6-1.5h1.6V4.2c-.3 0-1.2-.1-2.3-.1-2.3 0-3.9 1.4-3.9 4v2.3H7.9v3.1h2.6V21z"/></svg>',
+      email: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg>'
+    };
+    var NAMES = { instagram: 'Instagram', youtube: 'YouTube', facebook: 'Facebook' };
+    var socials = ['instagram', 'youtube', 'facebook'].filter(function (k) { return F[k]; }).map(function (k) {
+      return '<a class="f-soc" href="' + esc(F[k]) + '" target="_blank" rel="noopener" aria-label="Forge Apps on ' + NAMES[k] + '" title="' + NAMES[k] + '">' + IC[k] + '</a>';
+    });
+    socials.push('<a class="f-soc" href="mailto:' + esc(F.email) + '" aria-label="Email ' + esc(F.email) + '" title="Email">' + IC.email + '</a>');
     var legal = [['Website privacy', root + 'privacy/']];
     if (appNow) {
       var ab = root + appNow.slug + '/';
