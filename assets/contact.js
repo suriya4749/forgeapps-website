@@ -16,10 +16,12 @@
   var apps = [{ slug: 'general', name: 'Forge Apps', icon: 'assets/favicon.svg', note: 'In general' }].concat(F.apps.map(function (a) {
     return { slug: a.slug, name: a.name, icon: a.icon, note: a.stage === 'live' ? 'On Google Play' : a.stage === 'test' ? 'In testing' : a.stage === 'build' ? 'Being built' : 'Idea', stage: a.stage };
   }));
-  $('#cf-apps').innerHTML = apps.map(function (a, i) {
-    return '<label class="cf-app"><input type="radio" name="app" value="' + esc(a.slug) + '"' + (i === 0 ? ' checked' : '') + '>' +
-      '<span><img src="' + esc(root + a.icon) + '" alt="" width="36" height="36"><b>' + esc(a.name) + '</b><small>' + esc(a.note) + '</small></span></label>';
+  var sel = $('#cf-app'), ico = $('#cf-app-icon');
+  sel.innerHTML = apps.map(function (a) {
+    return '<option value="' + esc(a.slug) + '">' + esc(a.slug === 'general' ? 'Forge Apps (general)' : a.name + ' \u00b7 ' + a.note) + '</option>';
   }).join('');
+  var syncIcon = function () { var a = apps.filter(function (x) { return x.slug === sel.value; })[0] || apps[0]; ico.src = root + a.icon; };
+  sel.addEventListener('change', syncIcon);
   var side = $('#cs-apps');
   if (side) side.innerHTML = F.apps.map(function (a) {
     var b = root + a.slug + '/';
@@ -28,7 +30,10 @@
 
   // ---- preselect from the link (?app=wealthon&topic=bug) ----
   var q = new URLSearchParams(location.search);
-  var pick = function (name, val) { var el = form.querySelector('input[name="' + name + '"][value="' + val + '"]'); if (el) el.checked = true; };
+  var pick = function (name, val) {
+    if (name === 'app') { if (apps.some(function (a) { return a.slug === val; })) { sel.value = val; syncIcon(); } return; }
+    var el = form.querySelector('input[name="' + name + '"][value="' + val + '"]'); if (el) el.checked = true;
+  };
   if (q.get('app')) pick('app', q.get('app'));
   if (q.get('topic')) pick('topic', q.get('topic'));
 
@@ -128,7 +133,7 @@
   $('#cf-again').addEventListener('click', function () {
     doneBox.hidden = true; form.hidden = false; form.getAnimations().forEach(function (a) { a.cancel(); });
     form.reset(); onTopic(); count.textContent = '0'; form.parentNode.style.minHeight = '';
-    var a = q.get('app'); if (a) pick('app', a);
+    var a = q.get('app'); if (a) pick('app', a); syncIcon();
     form.elements.email.focus();
   });
 

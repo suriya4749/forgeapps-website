@@ -726,6 +726,17 @@ a,button,summary,[role="button"]{touch-action:manipulation}
 .cf-status{margin:0;padding:12px 14px;border-radius:12px;background:rgba(255,107,90,.1);border:1px solid rgba(255,107,90,.35);color:#FFD2C8;font-size:14.5px}
 .cf-status a{color:#fff}
 
+/* app dropdown */
+.cf-app-field{max-width:420px}
+.cf-field > .cf-select{position:relative;display:block;margin:0;padding:0;font-size:16px;font-weight:500;letter-spacing:0;text-transform:none;color:var(--light)}
+.cf-select img{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:28px;height:28px;border-radius:23%;pointer-events:none;box-shadow:0 4px 10px -6px #000}
+.cf-select select{width:100%;appearance:none;-webkit-appearance:none;font:inherit;font-size:16px;color:var(--light);background:#111318;border:1px solid var(--line);border-radius:14px;
+  min-height:52px;padding:0 44px 0 52px;cursor:pointer;transition:border-color 200ms ease,box-shadow 200ms ease}
+.cf-select select:focus{outline:none;border-color:rgba(255,106,43,.7);box-shadow:0 0 0 4px rgba(255,106,43,.14)}
+.cf-select select option{background:#1C1F26;color:var(--light)}
+.cf-chev{position:absolute;right:14px;top:50%;transform:translateY(-50%);color:var(--muted);pointer-events:none}
+@media (hover:hover) and (pointer:fine){.cf-select select:hover{border-color:#4A4E58}}
+
 /* success: the forge */
 .cf-done{display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px;padding:28px 0 8px;outline:none}
 .cf-scene{position:relative;width:min(260px,70vw);aspect-ratio:1;margin-bottom:2px}
