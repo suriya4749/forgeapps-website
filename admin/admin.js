@@ -34,6 +34,7 @@
   function appsJs() {
     var data = clone(state);
     data.apps.forEach(function (a) {
+      if (Array.isArray(a.videos)) a.videos = a.videos.filter(function (v) { return v && (v.youtube || v.src); }).map(function (v) { if (v.youtube) { delete v.src; delete v.poster; } return v; });
       ['points', 'about', 'screens', 'videos', 'facts'].forEach(function (k) { if (Array.isArray(a[k]) && !a[k].length) delete a[k]; });
       ['testUrl', 'stageNote', 'playUrl'].forEach(function (k) { if (a[k] === '' && k === 'testUrl') delete a[k]; });
     });
@@ -215,12 +216,12 @@
         '<div class="row"><span><button type="button" class="icon-btn" data-act="up" data-list="' + P + 'screens" data-i="' + k + '" aria-label="Move left">←</button> <button type="button" class="icon-btn" data-act="down" data-list="' + P + 'screens" data-i="' + k + '" aria-label="Move right">→</button></span><button type="button" class="icon-btn x" data-act="del" data-list="' + P + 'screens" data-i="' + k + '" aria-label="Remove">×</button></div></div>';
     }).join('');
     var videos = a.videos.map(function (v, k) {
-      var link = v.youtube || v.src || '', id = ytId(link);
-      var thumb = id ? 'https://i.ytimg.com/vi/' + id + '/hqdefault.jpg' : imgSrc(v.poster || '');
-      return '<div class="m-item v"><div class="thumb">' + (thumb ? '<img src="' + esc(thumb) + '" alt="">' : '') + '<span class="tag">' + (id ? 'YouTube' : 'File') + '</span></div>' +
+      var link = v.youtube || '', id = ytId(link), old = !v.youtube && v.src;
+      var thumb = id ? 'https://i.ytimg.com/vi/' + id + '/hqdefault.jpg' : '';
+      return '<div class="m-item v"><div class="thumb">' + (thumb ? '<img src="' + esc(thumb) + '" alt="">' : '') + '<span class="tag">' + (id ? (v.vertical || /\/shorts\//.test(link) ? 'Short' : 'YouTube') : old ? 'Old file' : 'No link') + '</span></div>' +
         '<input data-bind="' + P + 'videos.' + k + '.title" value="' + esc(v.title || '') + '" placeholder="Title">' +
-        '<input data-bind="' + P + 'videos.' + k + '.' + (v.youtube != null || !v.src ? 'youtube' : 'src') + '" value="' + esc(link) + '" placeholder="YouTube link">' +
-        (id ? '<label class="check" style="margin:0"><input type="checkbox" data-bind="' + P + 'videos.' + k + '.vertical"' + (v.vertical || /\/shorts\//.test(link) ? ' checked' : '') + '> Vertical (Shorts)</label>' : '') +
+        '<input type="url" data-bind="' + P + 'videos.' + k + '.youtube" value="' + esc(link) + '" placeholder="' + (old ? 'Paste the YouTube link for this video' : 'YouTube link') + '">' +
+        '<label class="check" style="margin:0"><input type="checkbox" data-bind="' + P + 'videos.' + k + '.vertical"' + (v.vertical || /\/shorts\//.test(link) ? ' checked' : '') + '> Vertical (Short)</label>' +
         '<div class="row"><span><button type="button" class="icon-btn" data-act="up" data-list="' + P + 'videos" data-i="' + k + '" aria-label="Move left">←</button> <button type="button" class="icon-btn" data-act="down" data-list="' + P + 'videos" data-i="' + k + '" aria-label="Move right">→</button></span><button type="button" class="icon-btn x" data-act="del" data-list="' + P + 'videos" data-i="' + k + '" aria-label="Remove">×</button></div></div>';
     }).join('');
     var listRows = function (key, ph) {
@@ -255,7 +256,7 @@
         '<div class="media">' + (screens || '<p class="empty">No screenshots yet.</p>') + '</div>' +
         '<div class="add-media"><span class="btn file-btn">Upload images<input type="file" accept="image/*" multiple data-upload="screens"></span><input type="url" id="add-shot-url" placeholder="…or paste an image link (https://…)"><button type="button" class="btn" data-act="add-shot-url">Add link</button></div></div>' +
 
-      '<div class="card"><h3>Videos</h3><p class="hint">Paste a YouTube link: a normal video, a Short (youtube.com/shorts/…) or youtu.be/… It plays right on the app page.</p>' +
+      '<div class="card"><h3>Videos</h3><p class="hint">YouTube only, no file uploads. Upload the video to your YouTube channel, then paste its link here: a normal video, a Short (youtube.com/shorts/…) or youtu.be/…. It plays on the app page, and on phones the videos swipe sideways like the screenshots. Shorts are shown tall, normal videos wide.</p>' +
         '<div class="media">' + (videos || '<p class="empty">No videos yet.</p>') + '</div>' +
         '<div class="add-media"><input type="url" id="add-yt" placeholder="https://www.youtube.com/watch?v=… or /shorts/…"><input type="text" id="add-yt-title" placeholder="Title"><button type="button" class="btn" data-act="add-yt">Add video</button><span id="yt-check"></span></div></div>' +
 

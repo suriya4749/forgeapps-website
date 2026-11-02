@@ -59,13 +59,9 @@ window.FORGE = {
         { src: "wealthon/screens/7.jpg", caption: "Add a spend in two taps" },
         { src: "wealthon/screens/8.jpg", caption: "Your money stays on your phone" }
       ],
-      // Videos (9:16) shown on the app page
-      videos: [
-        { src: "wealthon/videos/ad.mp4", poster: "wealthon/videos/ad.jpg", title: "WealthOn in 60 seconds" },
-        { src: "wealthon/videos/safe-to-spend.mp4", poster: "wealthon/videos/safe-to-spend.jpg", title: "Safe to spend" },
-        { src: "wealthon/videos/debt-free.mp4", poster: "wealthon/videos/debt-free.jpg", title: "Count down to debt-free" },
-        { src: "wealthon/videos/warns-you.mp4", poster: "wealthon/videos/warns-you.jpg", title: "Warns you before it happens" }
-      ],
+      // Videos shown on the app page: YouTube links only (add them in the admin panel)
+      // e.g. { youtube: "https://www.youtube.com/shorts/XXXXXXXXXXX", title: "WealthOn in 30 seconds", vertical: true }
+      videos: [],
       // About the app — shown on the app page
       about: [
         "WealthOn is a personal finance app for people juggling a salary, bills and EMIs. Instead of charts you have to study, it gives you one clear number: what's safe to spend today, after your loans, bills and savings are set aside.",

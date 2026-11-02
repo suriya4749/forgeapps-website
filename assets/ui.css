@@ -867,3 +867,14 @@ a.cs-line:hover{color:#fff}
 .tb-tab:active{transform:scale(.97)}
 .tband.swap{animation:spotIn2 260ms var(--ease-out)}
 @media (hover:hover) and (pointer:fine){.tb-tab:hover{border-color:#4A4E58}.tb-more:hover{opacity:1}}
+
+/* ===== VIDEOS: swipe row on phones, like the screenshots ===== */
+@media (max-width:720px){
+  .vids{display:flex!important;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;scrollbar-width:none;
+    margin:0 calc(-1 * clamp(20px,4vw,56px));padding:4px clamp(20px,4vw,56px) 10px;scroll-padding:0 clamp(20px,4vw,56px)}
+  .vids::-webkit-scrollbar{display:none}
+  .vids .vid{flex:none;scroll-snap-align:start;grid-column:auto!important}
+  .vids .vid.tall{width:58vw}
+  .vids .vid.wide{width:84vw}
+  .vids .vid figcaption{font-size:13.5px}
+}
