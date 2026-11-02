@@ -18,6 +18,16 @@ window.FORGE = {
   youtube: "",    // e.g. "https://www.youtube.com/@forgeapps"
   instagram: "",  // e.g. "https://www.instagram.com/forgeapps"
 
+  // Contact form (forgeapps.in/contact/). Messages are emailed to the address this key was made for.
+  // Get a free key at https://web3forms.com (enter support@forgeapps.in, the key arrives by email) and paste it here.
+  // While it's empty, the form opens the visitor's email app with the message filled in instead.
+  formKey: "",
+
+  // Website analytics. No cookies, no personal data.
+  // umami:      the Website ID from https://cloud.umami.is (Settings → Websites → Add website → forgeapps.in)
+  // cloudflare: optional extra, the token from Cloudflare → Web Analytics → Add a site (page views + speed)
+  analytics: { umami: "", cloudflare: "" },
+
   // Short news shown on the home page under "Latest updates" (newest first)
   updates: [
     { date: "Oct 2026", app: "wealthon", text: "WealthOn is in closed testing on Google Play." },

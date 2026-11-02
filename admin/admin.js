@@ -13,6 +13,7 @@
 
   var state = clone(window.FORGE || { email: '', youtube: '', instagram: '', updates: [], apps: [] });
   if (!state.updates) state.updates = [];
+  if (!state.analytics) state.analytics = { umami: '', cloudflare: '' };
   var existingSlugs = state.apps.map(function (a) { return a.slug; });
   var pending = {};          // path -> { b64, url } images waiting to be uploaded
   var view = state.apps.length ? 'app:0' : 'site';
@@ -184,7 +185,11 @@
     $('#editor').innerHTML = '<div class="card"><h3>Site settings</h3><p class="hint">Shown across the whole site. Leave a social link empty to hide its button.</p>' +
       field('Support email', 'email', state.email) +
       field('YouTube channel link', 'youtube', state.youtube, { placeholder: 'https://www.youtube.com/@forgeapps', type: 'url' }) +
-      field('Instagram link', 'instagram', state.instagram, { placeholder: 'https://www.instagram.com/forgeapps', type: 'url' }) + '</div>';
+      field('Instagram link', 'instagram', state.instagram, { placeholder: 'https://www.instagram.com/forgeapps', type: 'url' }) + '</div>' +
+      '<div class="card"><h3>Contact form &amp; analytics</h3><p class="hint">Leave empty to switch off. Messages from forgeapps.in/contact go to the email the Web3Forms key was made for.</p>' +
+      field('Web3Forms access key', 'formKey', state.formKey || '', { placeholder: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx', note: 'Free at web3forms.com: enter support@forgeapps.in and the key arrives by email.' }) +
+      field('Umami website ID', 'analytics.umami', (state.analytics || {}).umami || '', { placeholder: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx', note: 'From cloud.umami.is → Websites → forgeapps.in → Edit.' }) +
+      field('Cloudflare Web Analytics token (optional)', 'analytics.cloudflare', (state.analytics || {}).cloudflare || '', { placeholder: 'token' }) + '</div>';
   }
   function renderUpdates() {
     var opts = function (v) { return '<option value="">(no app)</option>' + state.apps.map(function (a) { return '<option value="' + esc(a.slug) + '"' + (a.slug === v ? ' selected' : '') + '>' + esc(a.name) + '</option>'; }).join(''); };

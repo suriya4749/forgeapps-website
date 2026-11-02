@@ -299,4 +299,116 @@
       });
     }
   }
+  // ---------- Analytics (cookie-free). Turned on by the IDs in apps.js; does nothing until they're filled. ----------
+  var A = F.analytics || {};
+  var live = /(^|\.)forgeapps\.in$/.test(location.hostname);
+  if (live && A.umami && !document.querySelector('script[data-website-id]')) {
+    var us = document.createElement('script');
+    us.defer = true; us.src = 'https://cloud.umami.is/script.js';
+    us.setAttribute('data-website-id', A.umami);
+    us.setAttribute('data-domains', 'forgeapps.in,www.forgeapps.in');
+    document.head.appendChild(us);
+  }
+  if (live && A.cloudflare && !document.querySelector('script[data-cf-beacon]')) {
+    var cs = document.createElement('script');
+    cs.defer = true; cs.src = 'https://static.cloudflareinsights.com/beacon.min.js';
+    cs.setAttribute('data-cf-beacon', JSON.stringify({ token: A.cloudflare }));
+    document.head.appendChild(cs);
+  }
+  // window.forgeTrack('event-name', { any: 'details' }) — safe to call any time
+  window.forgeTrack = function (name, data) {
+    try { if (window.umami && typeof window.umami.track === 'function') window.umami.track(name, data || {}); } catch (e) {}
+  };
+  var pageApp = document.documentElement.getAttribute('data-app') || '';
+  document.addEventListener('click', function (e) {
+    var el = e.target.closest && e.target.closest('a,button');
+    if (!el) return;
+    var h = el.getAttribute('href') || '';
+    var appOf = function () { var s = el.closest('[data-slug]'); return (s && s.getAttribute('data-slug')) || pageApp || (document.getElementById('spotlight') && document.getElementById('spotlight').getAttribute('data-slug')) || ''; };
+    if (el.hasAttribute('data-track')) window.forgeTrack(el.getAttribute('data-track'), { app: appOf() });
+    else if (/play\.google\.com\/apps\/testing/.test(h)) window.forgeTrack('join-test', { app: appOf() });
+    else if (/play\.google\.com\/store/.test(h)) window.forgeTrack('play-store-click', { app: appOf() });
+    else if (/^mailto:/.test(h)) window.forgeTrack('email-click', { app: appOf(), page: location.pathname });
+    else if (/youtube\.com|youtu\.be/.test(h)) window.forgeTrack('social-click', { network: 'youtube' });
+    else if (/instagram\.com/.test(h)) window.forgeTrack('social-click', { network: 'instagram' });
+    else if (el.classList.contains('spot-btn')) window.forgeTrack('explore-app', { app: appOf() });
+    else if (el.classList.contains('mini') && el.tagName === 'BUTTON') window.forgeTrack('spotlight-app', { app: el.getAttribute('data-slug') || '' });
+    else if (el.classList.contains('yt-play')) window.forgeTrack('video-play', { app: pageApp });
+    else if (el.classList.contains('nav-toggle')) { if (el.getAttribute('aria-expanded') !== 'true') window.forgeTrack('menu-open'); }
+  }, true);
+  document.addEventListener('play', function (e) { if (e.target && e.target.tagName === 'VIDEO') window.forgeTrack('video-play', { app: pageApp, video: (e.target.getAttribute('src') || '').split('/').pop() }); }, true);
+
+  // ---------- Contact links go to the contact page ----------
+  var contactUrl = root + 'contact/';
+  document.querySelectorAll('.nav a').forEach(function (a) {
+    if (/#contact$/.test(a.getAttribute('href') || '')) a.setAttribute('href', contactUrl);
+  });
+
+  // ---------- App pages: feedback and launch-alert buttons ----------
+  if (pageApp) {
+    var pa = F.apps.filter(function (a) { return a.slug === pageApp; })[0];
+    var links = document.querySelector('.app-links');
+    if (pa && links && !links.querySelector('[data-feedback]')) {
+      var fb = document.createElement('a');
+      fb.className = 'btn btn-primary'; fb.setAttribute('data-feedback', '');
+      fb.href = contactUrl + '?app=' + encodeURIComponent(pa.slug);
+      fb.innerHTML = '<span>Send feedback</span>';
+      links.insertBefore(fb, links.firstChild);
+    }
+    var band = document.querySelector('.get-band');
+    if (pa && band && pa.stage !== 'live' && !band.querySelector('[data-notify]')) {
+      var nb = document.createElement('a');
+      nb.className = 'btn btn-ghost notify-btn'; nb.setAttribute('data-notify', ''); nb.setAttribute('data-track', 'launch-alert-click');
+      nb.href = contactUrl + '?app=' + encodeURIComponent(pa.slug) + '&topic=launch';
+      nb.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 8 3 8H3s3-1 3-8"/><path d="M10.3 21a1.9 1.9 0 0 0 3.4 0"/></svg><span>Tell me at launch</span>';
+      band.appendChild(nb);
+    }
+  }
+
+  // ---------- App pages: details for search engines ----------
+  if (pageApp) {
+    var sa = F.apps.filter(function (a) { return a.slug === pageApp; })[0];
+    if (sa && !document.getElementById('app-ld')) {
+      var ld = { '@context': 'https://schema.org', '@type': 'MobileApplication', name: sa.name, operatingSystem: sa.platform || 'Android',
+        applicationCategory: /financ/i.test(sa.kind || '') ? 'FinanceApplication' : 'UtilitiesApplication', description: sa.tagline,
+        url: 'https://forgeapps.in/' + sa.slug + '/', image: 'https://forgeapps.in/' + sa.icon,
+        author: { '@type': 'Organization', name: 'Forge Apps', url: 'https://forgeapps.in/' }, offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' } };
+      if (sa.playUrl) ld.installUrl = sa.playUrl;
+      var sc = document.createElement('script'); sc.type = 'application/ld+json'; sc.id = 'app-ld'; sc.textContent = JSON.stringify(ld);
+      document.head.appendChild(sc);
+    }
+  }
+
+  // ---------- Footer: built from apps.js, so every new app shows up by itself ----------
+  var foot = document.querySelector('.site-footer');
+  if (foot && !foot.hasAttribute('data-static')) {
+    var appNow = pageApp && F.apps.filter(function (a) { return a.slug === pageApp; })[0];
+    var col = function (title, items) {
+      return '<div class="f-col"><h3>' + esc(title) + '</h3><ul>' + items.map(function (i) {
+        return '<li><a href="' + esc(i[1]) + '"' + (i[2] ? ' target="_blank" rel="noopener"' : '') + '>' + i[0] + '</a></li>';
+      }).join('') + '</ul></div>';
+    };
+    var socials = [];
+    if (F.youtube) socials.push('<a class="f-soc" href="' + esc(F.youtube) + '" target="_blank" rel="noopener" aria-label="YouTube"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2 31 31 0 0 0 .5 12 31 31 0 0 0 1 16.8a3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1c.4-1.6.5-3.2.5-4.8s-.1-3.2-.5-4.8zM9.8 15.1V8.9l5.7 3.1z"/></svg></a>');
+    if (F.instagram) socials.push('<a class="f-soc" href="' + esc(F.instagram) + '" target="_blank" rel="noopener" aria-label="Instagram"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>');
+    socials.push('<a class="f-soc" href="mailto:' + esc(F.email) + '" aria-label="Email"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg></a>');
+    var legal = [['Website privacy', root + 'privacy/']];
+    if (appNow) {
+      var ab = root + appNow.slug + '/';
+      legal.push([esc(appNow.name) + ' privacy', ab + 'privacy/'], [esc(appNow.name) + ' terms', ab + 'terms/'], ['Delete your data', ab + 'delete-account/']);
+    }
+    foot.innerHTML =
+      '<div class="wrap f-grid">' +
+        '<div class="f-brand">' +
+          '<a class="brand" href="' + (root || './') + '" aria-label="Forge Apps home"><img src="' + root + 'assets/favicon.svg" alt="" width="30" height="30"><span><b>Forge</b> Apps</span></a>' +
+          '<p>Useful apps, designed and built from scratch, and hammered into shape until they feel right.</p>' +
+          '<div class="f-socials">' + socials.join('') + '</div>' +
+        '</div>' +
+        col('Apps', F.apps.map(function (a) { return [esc(a.name) + (a.stage !== 'live' ? ' <em>' + esc(STAGE_WORD[a.stage] || a.stage) + '</em>' : ''), root + a.slug + '/']; }).concat([['All apps →', root + 'apps/']])) +
+        col('Studio', [['About', root + '#about'], ['How it’s made', root + '#how'], ['Contact', contactUrl]]) +
+        col('Help', [['Send feedback', contactUrl], ['Report a bug', contactUrl + '?topic=bug'], ['Suggest an idea', contactUrl + '?topic=idea'], [esc(F.email), 'mailto:' + F.email]]) +
+        col('Legal', legal) +
+      '</div>' +
+      '<div class="wrap f-bottom"><span>© ' + new Date().getFullYear() + ' Forge Apps. All rights reserved.</span><span>Made in India · Hammered into shape</span></div>';
+  }
 })();
