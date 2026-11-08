@@ -2,84 +2,59 @@
 <html lang="en" data-root="../" data-page="contact">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Contact | Forge Apps</title>
 <meta name="description" content="Send feedback, report a bug, suggest an idea or ask a question about any Forge Apps app. Every message is read and answered.">
-<meta property="og:title" content="Contact Forge Apps">
-<meta property="og:description" content="Feedback, bugs, ideas or questions about any of the apps.">
+<meta property="og:title" content="Contact | Forge Apps">
+<meta property="og:description" content="Send feedback, report a bug, suggest an idea or ask a question about any Forge Apps app. Every message is read and answered.">
 <meta property="og:image" content="https://forgeapps.in/assets/og-image.png">
 <meta property="og:url" content="https://forgeapps.in/contact/">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#111318">
+<meta name="theme-color" content="#F4F2EE">
 <link rel="canonical" href="https://forgeapps.in/contact/">
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="../assets/favicon-32.png" sizes="32x32">
 <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/style.css">
-<link rel="stylesheet" href="../assets/motion.css">
-<link rel="stylesheet" href="../assets/ui.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/frost.css">
+<script>document.documentElement.classList.add('js')</script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
+<div class="orbs" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+<div class="topbar"><div class="wrap"><header class="bar card">
+<a class="brand" href="../" aria-label="Forge Apps home"><svg width="32" height="32" viewBox="10 22 80 72" aria-hidden="true"><g transform="translate(0,3)"><path transform="translate(0,14)" d="M16 42 H80 a4 4 0 0 1 4 4 V50 a4 4 0 0 1 -4 4 H66 L60 64 H68 V74 H32 V64 H40 L34 54 H30 C22 54 16 49 16 42 Z" fill="#111318"/><rect x="40" y="36" width="20" height="20" rx="5" fill="#FF6A2B"/><g fill="#FFFFFF"><rect x="43.5" y="39.5" width="5.5" height="5.5" rx="1.4"/><rect x="51" y="39.5" width="5.5" height="5.5" rx="1.4"/><rect x="43.5" y="47" width="5.5" height="5.5" rx="1.4"/><rect x="51" y="49" width="5.5" height="1.6" rx=".8"/><rect x="52.95" y="47.05" width="1.6" height="5.5" rx=".8"/></g><g transform="translate(50,29.5) rotate(-25 0 6)" fill="#111318"><rect x="5" y="-6" width="31" height="5" rx="2.5"/><rect x="-6" y="-12" width="12" height="18" rx="2"/></g></g></svg><span><b>Forge</b> Apps</span></a>
+<nav class="navlinks" aria-label="Main"><a href="../apps/">Apps</a><a href="../wealthon/" data-nav-app>WealthOn</a><a href="../#approach">Approach</a><a href="../contact/" aria-current="page">Contact</a><a class="btn btn-dark cta-nav" href="../#early" data-track="nav-early-access">Early access</a></nav>
+<button class="menubtn" type="button" aria-label="Open menu" aria-expanded="false"></button>
+</header></div></div>
+<main id="main"><div class="wrap">
+<section class="page-head" aria-labelledby="contact-title">
+<nav class="crumbs in d1" aria-label="Breadcrumb"><a href="../">Home</a><span>/</span><span aria-current="page">Contact</span></nav>
+<p class="eyebrow in d1">Contact</p>
+<h1 id="contact-title" class="in d2">Talk to the <span class="accent">forge.</span></h1>
+<p class="lead in d3">Feedback, a bug, an idea for an app, or just a question. Every message is read and answered by the person who builds the apps.</p>
+</section>
 
-<header class="site-header">
-<div class="wrap">
-<a class="brand" href="../" aria-label="Forge Apps home"><img src="../assets/favicon.svg" alt="" width="30" height="30"><span><b>Forge</b> Apps</span></a>
-<button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
-<nav class="nav" id="site-nav" aria-label="Main">
-<a href="../">Home</a>
-<a href="../apps/">All apps</a>
-<a href="./" aria-current="page">Contact</a>
-</nav>
-</div>
-</header>
-
-<main id="main">
-<div class="wrap">
-<div class="page-head">
-<p class="crumbs" style="margin-bottom:14px"><a href="../">Forge Apps</a> / Contact</p>
-<p class="eyebrow" data-reveal>Contact</p>
-<h1 data-reveal style="--d:.03s">Talk to the <span class="forge-text">forge</span></h1>
-<p data-reveal style="--d:.06s">Feedback, a bug, an idea for the next app, or a question. Every message is read and answered by the person who builds the apps.</p>
-</div>
-
-<div class="contact-layout">
-<section class="cform-card" aria-labelledby="form-title" data-reveal style="--d:.08s">
+<div class="contact-grid">
+<section class="cform-card card in d3" aria-labelledby="form-title">
 <form id="cform" novalidate>
 <h2 id="form-title" class="sr">Send a message</h2>
-
-<fieldset class="cf-group">
-<legend>What's it about?</legend>
-<div class="cf-topics" id="cf-topics" role="radiogroup">
-<label class="cf-chip"><input type="radio" name="topic" value="feedback" checked><span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg>Feedback</span></label>
-<label class="cf-chip"><input type="radio" name="topic" value="bug"><span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="7" width="10" height="13" rx="5"/><path d="M12 7V4M9 4.5 10 7M15 4.5 14 7M3 12h4M17 12h4M4 18l3-2M20 18l-3-2M4 6l3 2M20 6l-3 2"/></svg>Bug</span></label>
-<label class="cf-chip"><input type="radio" name="topic" value="idea"><span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/></svg>Idea</span></label>
-<label class="cf-chip"><input type="radio" name="topic" value="question"><span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.3 2.4c-.5.2-.8.6-.8 1.1V14M12 17.5h.01"/></svg>Question</span></label>
-<label class="cf-chip"><input type="radio" name="topic" value="launch"><span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 8 3 8H3s3-1 3-8"/><path d="M10.3 21a1.9 1.9 0 0 0 3.4 0"/></svg>Launch alert</span></label>
-</div>
-</fieldset>
-
-<label class="cf-field cf-app-field"><span>Which app?</span>
+<fieldset class="cf-group"><legend>What's it about?</legend><div class="cf-topics" role="radiogroup"><label class="cf-chip"><input type="radio" name="topic" value="feedback" checked><span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg>Feedback</span></label><label class="cf-chip"><input type="radio" name="topic" value="bug"><span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M6 18l2.5-2.5M15.5 8.5 18 6"/></svg>Bug report</span></label><label class="cf-chip"><input type="radio" name="topic" value="idea"><span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/></svg>App idea</span></label><label class="cf-chip"><input type="radio" name="topic" value="question"><span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Question</span></label><label class="cf-chip"><input type="radio" name="topic" value="launch"><span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 8 3 8H3s3-1 3-8"/><path d="M10.3 21a1.9 1.9 0 0 0 3.4 0"/></svg>Launch alert</span></label></div></fieldset>
+<label class="cf-field"><span>Which app?</span>
 <span class="cf-select"><img id="cf-app-icon" src="../assets/favicon.svg" alt="" width="28" height="28"><select name="app" id="cf-app"></select><svg class="cf-chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></span>
 </label>
-
 <div class="cf-row">
-<label class="cf-field"><span>Your name <i>optional</i></span><input name="name" type="text" autocomplete="name" maxlength="80" placeholder="Suriya"></label>
-<label class="cf-field"><span>Email</span><input name="email" type="email" autocomplete="email" inputmode="email" required maxlength="120" placeholder="you@example.com"><em class="cf-err" data-for="email">Please enter an email we can reply to.</em></label>
+<label class="cf-field"><span>Your name <i>optional</i></span><input name="name" type="text" autocomplete="name" maxlength="80" placeholder="Your name"></label>
+<label class="cf-field"><span>Email</span><input name="email" type="email" autocomplete="email" inputmode="email" required maxlength="120" placeholder="you@gmail.com"><em class="cf-err" data-for="email">Please enter an email we can reply to.</em></label>
 </div>
-
 <label class="cf-field"><span id="msg-label">Message</span><textarea name="message" rows="6" maxlength="2000" required placeholder="What's on your mind?"></textarea><em class="cf-err" data-for="message">Please write a short message.</em><small class="cf-count" aria-live="polite"><b>0</b> / 2000</small></label>
-
 <input type="checkbox" name="botcheck" class="cf-hp" tabindex="-1" autocomplete="off" aria-hidden="true">
-
-<div class="cf-foot">
-<p class="cf-note">Your email is only used to reply. <a href="../privacy/">Website privacy</a></p>
-<button class="btn btn-primary cf-send" type="submit"><svg class="cf-hammer" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><g fill="currentColor"><rect x="3" y="4" width="8" height="6" rx="1.4" transform="rotate(-35 7 7)"/><rect x="9" y="9.2" width="12" height="2.6" rx="1.3" transform="rotate(45 15 10.5)"/></g></svg><span>Send to the forge</span></button>
-</div>
+<div class="cf-foot"><p class="cf-note"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Replies usually within 1–2 days</p>
+<button class="btn btn-accent cf-send" type="submit"><span>Send to the forge</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div>
 <p class="cf-status" id="cf-status" role="alert" hidden></p>
+<p class="cf-note" style="font-size:13px">Your email is only used to reply. <a href="../privacy/">Website privacy</a></p>
 </form>
 
 <div class="cf-done" id="cf-done" hidden tabindex="-1" aria-live="polite">
@@ -100,51 +75,34 @@
 <p class="eyebrow cf-kicker" id="cf-kicker">Hammered into shape</p>
 <h2 id="cf-title">Message forged and sent</h2>
 <p id="cf-text">It's on its way to the forge. You'll get a reply soon.</p>
-<div class="cf-again">
-<button class="btn btn-ghost" type="button" id="cf-again">Send another</button>
-<a class="btn btn-primary" href="../apps/"><span>See all apps</span></a>
-</div>
+<div class="cf-again"><a class="btn btn-dark" href="../">Back to home</a><button class="btn btn-glass card" type="button" id="cf-again">Send another</button></div>
 </div>
 </section>
 
-<aside class="contact-side" data-reveal style="--d:.12s">
-<div class="cs-card">
-<h3>Other ways to reach us</h3>
-<a class="cs-line" data-email href="mailto:support@forgeapps.in"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg><span data-email>support@forgeapps.in</span></a>
-<p class="cs-line"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span>Replies usually within 1–2 days</span></p>
-<p class="cs-line"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-5.6-7-11a7 7 0 0 1 14 0c0 5.4-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg><span>Made in India, for users everywhere</span></p>
-<div class="socials" style="margin-top:6px">
-<a class="btn btn-ghost" data-social="youtube" href="#" hidden><span>YouTube</span></a>
-<a class="btn btn-ghost" data-social="instagram" href="#" hidden><span>Instagram</span></a>
-<a class="btn btn-ghost" data-social="facebook" href="#" hidden><span>Facebook</span></a>
-</div>
-</div>
-<div class="cs-card">
-<h3>Before you write</h3>
-<ul class="cs-tips">
-<li><b>Reporting a bug?</b> Say what you tapped and what you expected. A screenshot helps; reply to our email with it.</li>
-<li><b>Deleting your data?</b> Each app has a "Delete your data" page with the steps.</li>
-<li><b>Privacy questions?</b> Every app has its own privacy policy.</li>
-</ul>
-<div class="cs-apps" id="cs-apps"></div>
-</div>
+<aside class="side in d4">
+<div class="side-card card"><span class="accent"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg></span><p class="k" style="margin-top:4px">Email us directly</p><a class="big" data-email href="mailto:support@forgeapps.in">support@forgeapps.in</a><p>Mention the app name so it reaches the right inbox faster.</p></div>
+<div class="side-card card"><p class="k">Follow the forge</p><p>Sneak peeks and launch news on YouTube, Instagram and Facebook.</p><div class="socials" data-socials style="margin-top:4px"></div></div>
+<div class="side-card darkc"><img src="../wealthon/icon.png" alt="" width="44" height="44"><p class="t">Want to test apps first?</p><p>Join a closed test, free on Google Play, and help shape the app before launch.</p><a class="u" href="../#early">Become a tester →</a></div>
 </aside>
 </div>
-</div>
-<div style="height:72px"></div>
-</main>
 
-<footer class="site-footer">
-<div class="wrap">
-<a class="brand" href="../" aria-label="Forge Apps home"><img src="../assets/favicon.svg" alt="" width="26" height="26"><span><b>Forge</b> Apps</span></a>
-<nav aria-label="Footer"><a href="../">Home</a><a data-email href="mailto:support@forgeapps.in">support@forgeapps.in</a></nav>
-<span>© <span data-year>2026</span> Forge Apps</span>
+<section class="sec two-col" aria-labelledby="before-title">
+<div data-reveal><p class="eyebrow">Before you write</p><h2 class="h2 sm" id="before-title">Quick answers.</h2></div>
+<div class="faq sm" data-stagger><details><summary>How fast will I hear back?</summary><p>Usually within 1–2 days. Bug reports with a screenshot get fixed fastest: reply to our email with it.</p></details><details><summary>Where do I report a bug?</summary><p>Choose “Bug report” and the app above, and tell us what you tapped just before it happened.</p></details><details><summary>How do I delete my data?</summary><p>Each app has a “Delete your data” page with the steps. For anything else, write to us.</p></details></div>
+</section>
+</div></main>
+<div class="wrap"><footer class="foot">
+<div class="foot-top">
+<div class="foot-brand"><a class="brand" href="../" aria-label="Forge Apps home"><svg width="38" height="38" viewBox="10 22 80 72" aria-hidden="true"><g transform="translate(0,3)"><path transform="translate(0,14)" d="M16 42 H80 a4 4 0 0 1 4 4 V50 a4 4 0 0 1 -4 4 H66 L60 64 H68 V74 H32 V64 H40 L34 54 H30 C22 54 16 49 16 42 Z" fill="#111318"/><rect x="40" y="36" width="20" height="20" rx="5" fill="#FF6A2B"/><g fill="#FFFFFF"><rect x="43.5" y="39.5" width="5.5" height="5.5" rx="1.4"/><rect x="51" y="39.5" width="5.5" height="5.5" rx="1.4"/><rect x="43.5" y="47" width="5.5" height="5.5" rx="1.4"/><rect x="51" y="49" width="5.5" height="1.6" rx=".8"/><rect x="52.95" y="47.05" width="1.6" height="5.5" rx=".8"/></g><g transform="translate(50,29.5) rotate(-25 0 6)" fill="#111318"><rect x="5" y="-6" width="31" height="5" rx="2.5"/><rect x="-6" y="-12" width="12" height="18" rx="2"/></g></g></svg><span><b>Forge</b> Apps</span></a><p>Useful apps, designed and built from scratch, and hammered into shape until they feel just right.</p><div class="socials" data-socials></div></div>
+<div class="foot-col"><h3>Apps</h3><div class="foot-col" data-foot-apps><a href="../wealthon/">WealthOn</a><a href="../apps/">All apps</a></div></div>
+<div class="foot-col"><h3>Studio</h3><a href="../#approach">Approach</a><a href="../#process">Process</a><a href="../#faq">FAQ</a><a href="../contact/">Contact</a></div>
+<div class="foot-col"><h3>Help</h3><a href="../contact/">Send feedback</a><a href="../contact/?topic=bug">Report a bug</a><a href="../contact/?topic=idea">Suggest an idea</a></div>
+<div class="foot-col"><h3>Legal</h3><div class="foot-col" data-foot-legal><a href="../privacy/">Website privacy</a></div></div>
 </div>
-</footer>
-
+<div class="foot-bottom"><span>© <span data-year>2026</span> Forge Apps · Made in India, for users everywhere</span><a data-email href="mailto:support@forgeapps.in">support@forgeapps.in</a></div>
+</footer></div>
 <script src="../assets/apps.js"></script>
 <script src="../assets/site.js"></script>
-<script src="../assets/motion.js"></script>
 <script src="../assets/contact.js"></script>
 </body>
 </html>

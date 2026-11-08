@@ -1,7 +1,8 @@
 /*
   Forge Apps — site settings and the list of apps.
   Edit this with the admin panel (/admin/) or by hand.
-  The first 4 apps show on the home page. stage: idea | build | test | live.
+  The first app shows big on the home page. stage: idea | build | test | live.
+  "hidden": true keeps an app off the website (its page still exists) until you're ready.
 */
 window.FORGE = {
   "email": "support@forgeapps.in",
@@ -14,6 +15,11 @@ window.FORGE = {
     "cloudflare": ""
   },
   "updates": [
+    {
+      "date": "Nov 2026",
+      "app": "",
+      "text": "The new forgeapps.in is live: a fresh design, every app in one place, and early access for testers."
+    },
     {
       "date": "Oct 2026",
       "app": "wealthon",
@@ -124,6 +130,7 @@ window.FORGE = {
     {
       "slug": "noctyl",
       "name": "Noctyl",
+      "hidden": true,
       "kind": "Icons & widgets",
       "tagline": "Dark, minimal icons and useful home-screen widgets.",
       "points": [

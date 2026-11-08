@@ -4,6 +4,7 @@
    After sending, the message is "forged": it drops on the anvil, the hammer strikes twice and it turns into a tick. */
 (function () {
   var F = window.FORGE || { apps: [] };
+  var VIS = (F.apps || []).filter(function (a) { return !a.hidden; });
   var root = document.documentElement.getAttribute('data-root') || '';
   var $ = function (s, r) { return (r || document).querySelector(s); };
   var esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
@@ -13,7 +14,7 @@
   var TOPIC = { feedback: 'Feedback', bug: 'Bug report', idea: 'Idea', question: 'Question', launch: 'Launch alert' };
 
   // ---- app picker: "Forge Apps" + every app from apps.js ----
-  var apps = [{ slug: 'general', name: 'Forge Apps', icon: 'assets/favicon.svg', note: 'In general' }].concat(F.apps.map(function (a) {
+  var apps = [{ slug: 'general', name: 'Forge Apps', icon: 'assets/favicon.svg', note: 'In general' }].concat(VIS.map(function (a) {
     return { slug: a.slug, name: a.name, icon: a.icon, note: a.stage === 'live' ? 'On Google Play' : a.stage === 'test' ? 'In testing' : a.stage === 'build' ? 'Being built' : 'Idea', stage: a.stage };
   }));
   var sel = $('#cf-app'), ico = $('#cf-app-icon');
@@ -23,7 +24,7 @@
   var syncIcon = function () { var a = apps.filter(function (x) { return x.slug === sel.value; })[0] || apps[0]; ico.src = root + a.icon; };
   sel.addEventListener('change', syncIcon);
   var side = $('#cs-apps');
-  if (side) side.innerHTML = F.apps.map(function (a) {
+  if (side) side.innerHTML = VIS.map(function (a) {
     var b = root + a.slug + '/';
     return '<div class="cs-app"><img src="' + esc(root + a.icon) + '" alt="" width="28" height="28"><b>' + esc(a.name) + '</b><a href="' + b + 'privacy/">Privacy</a><a href="' + b + 'delete-account/">Delete data</a></div>';
   }).join('');

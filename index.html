@@ -1,200 +1,112 @@
 <!DOCTYPE html>
-<html lang="en" data-root="">
+<html lang="en" data-root="" data-page="home">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Forge Apps — Apps, hammered into shape</title>
-<meta name="description" content="Forge Apps: useful apps, designed and built from scratch. See every app and its details.">
-<meta property="og:title" content="Forge Apps">
-<meta property="og:description" content="Useful apps, designed and built from scratch.">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Forge Apps — Useful apps, hammered into shape</title>
+<meta name="description" content="Forge Apps is an independent studio that designs and builds focused apps from scratch, then keeps refining them until every detail feels right.">
+<meta property="og:title" content="Forge Apps — Useful apps, hammered into shape">
+<meta property="og:description" content="Forge Apps is an independent studio that designs and builds focused apps from scratch, then keeps refining them until every detail feels right.">
 <meta property="og:image" content="https://forgeapps.in/assets/og-image.png">
 <meta property="og:url" content="https://forgeapps.in/">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#111318">
+<meta name="theme-color" content="#F4F2EE">
+<link rel="canonical" href="https://forgeapps.in/">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="assets/favicon-32.png" sizes="32x32">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css">
-<link rel="stylesheet" href="assets/motion.css">
-<link rel="stylesheet" href="assets/ui.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/frost.css">
+<script>document.documentElement.classList.add('js')</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"Forge Apps","url":"https://forgeapps.in/","logo":"https://forgeapps.in/assets/apple-touch-icon.png","email":"support@forgeapps.in","slogan":"Hammered into shape","contactPoint":{"@type":"ContactPoint","contactType":"customer support","email":"support@forgeapps.in","url":"https://forgeapps.in/contact/"}}</script>
-<link rel="canonical" href="https://forgeapps.in/">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
-
-<header class="site-header">
-<div class="wrap">
-<a class="brand" href="./" aria-label="Forge Apps home"><img src="assets/favicon.svg" alt="" width="30" height="30"><span><b>Forge</b> Apps</span></a>
-<button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
-<nav class="nav" id="site-nav" aria-label="Main">
-<a href="apps/">All apps</a>
-<a href="#about">About</a>
-<a href="#how">How it's made</a>
-<a href="#contact">Contact</a>
-</nav>
-</div>
-</header>
-
+<div class="orbs" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+<div class="topbar"><div class="wrap"><header class="bar card">
+<a class="brand" href="./" aria-label="Forge Apps home"><svg width="32" height="32" viewBox="10 22 80 72" aria-hidden="true"><g transform="translate(0,3)"><path transform="translate(0,14)" d="M16 42 H80 a4 4 0 0 1 4 4 V50 a4 4 0 0 1 -4 4 H66 L60 64 H68 V74 H32 V64 H40 L34 54 H30 C22 54 16 49 16 42 Z" fill="#111318"/><rect x="40" y="36" width="20" height="20" rx="5" fill="#FF6A2B"/><g fill="#FFFFFF"><rect x="43.5" y="39.5" width="5.5" height="5.5" rx="1.4"/><rect x="51" y="39.5" width="5.5" height="5.5" rx="1.4"/><rect x="43.5" y="47" width="5.5" height="5.5" rx="1.4"/><rect x="51" y="49" width="5.5" height="1.6" rx=".8"/><rect x="52.95" y="47.05" width="1.6" height="5.5" rx=".8"/></g><g transform="translate(50,29.5) rotate(-25 0 6)" fill="#111318"><rect x="5" y="-6" width="31" height="5" rx="2.5"/><rect x="-6" y="-12" width="12" height="18" rx="2"/></g></g></svg><span><b>Forge</b> Apps</span></a>
+<nav class="navlinks" aria-label="Main"><a href="apps/">Apps</a><a href="wealthon/" data-nav-app>WealthOn</a><a href="#approach">Approach</a><a href="contact/">Contact</a><a class="btn btn-dark cta-nav" href="#early" data-track="nav-early-access">Early access</a></nav>
+<button class="menubtn" type="button" aria-label="Open menu" aria-expanded="false"></button>
+</header></div></div>
 <main id="main">
-
+<div class="wrap">
 <section class="hero" aria-labelledby="hero-title">
-<div class="wrap">
-<svg id="heroMark" class="hero-mark" viewBox="0 0 100 100" role="img" aria-label="Forge Apps logo: a hammer forging an app on an anvil">
-<g id="hAnvil" opacity="0">
-<g transform="translate(0,14)"><path d="M16 42 H80 a4 4 0 0 1 4 4 V50 a4 4 0 0 1 -4 4 H66 L60 64 H68 V74 H32 V64 H40 L34 54 H30 C22 54 16 49 16 42 Z" fill="#F5F3EF"/></g>
-<path id="hEdge" d="M19 56.5 H82" stroke="#FF6A2B" stroke-width="2.4" stroke-linecap="round" opacity="0"/>
-</g>
-<circle id="hRing" cx="50" cy="40" r="6" fill="none" stroke="#FF6A2B" stroke-width="1.4" opacity="0"/>
-<ellipse id="hBlob" cx="50" cy="50" rx="11" ry="6" fill="#FFB547" opacity="0"/>
-<g id="hTile" opacity="0">
-<rect x="40" y="36" width="20" height="20" rx="5" fill="#FF6A2B"/>
-<g id="hCells" fill="#111318"><rect x="43.5" y="39.5" width="5.5" height="5.5" rx="1.4" opacity="0"/><rect x="51" y="39.5" width="5.5" height="5.5" rx="1.4" opacity="0"/><rect x="43.5" y="47" width="5.5" height="5.5" rx="1.4" opacity="0"/><g opacity="0"><rect x="51" y="49" width="5.5" height="1.6" rx="0.8"/><rect x="52.95" y="47.05" width="1.6" height="5.5" rx="0.8"/></g></g>
-</g>
-<g id="hHammer" opacity="0"><g transform="translate(50,29.5) rotate(-25 0 6)"><rect x="5" y="-6" width="31" height="5" rx="2.5" fill="#F5F3EF"/><rect x="-6" y="-12" width="12" height="18" rx="2" fill="#F5F3EF"/></g></g>
-<path id="hSparks" d="M35 44 L27 40 M34 52 L25 52 M65 46 L73 43 M66 53 L75 53" stroke="#FF6A2B" stroke-width="3" stroke-linecap="round" fill="none" opacity="0"/>
-</svg>
-<p class="eyebrow">Hammered into shape</p>
-<h1 id="hero-title" class="wm" aria-label="Forge Apps"><span class="ch forge-heat" aria-hidden="true">F</span><span class="ch forge-heat" aria-hidden="true">o</span><span class="ch forge-heat" aria-hidden="true">r</span><span class="ch forge-heat" aria-hidden="true">g</span><span class="ch forge-heat" aria-hidden="true">e</span><span class="ch gapc" aria-hidden="true"></span><span class="ch" aria-hidden="true">A</span><span class="ch" aria-hidden="true">p</span><span class="ch" aria-hidden="true">p</span><span class="ch" aria-hidden="true">s</span></h1>
-<p class="lead">Useful apps, designed and built from scratch, and shaped until they feel just right.</p>
-<div class="hero-actions">
-<a class="btn btn-primary" href="apps/"><span>See all apps</span></a>
-</div>
-
-</div>
+<p class="pill card in d1"><span class="live-dot"></span>Independent app studio · Made in India</p>
+<h1 id="hero-title" class="in d2">Useful apps,<br>hammered into <span class="shine">shape.</span></h1>
+<p class="lead in d3">Forge Apps is an independent studio that designs and builds focused apps from scratch, then keeps refining them until every detail feels right.</p>
+<div class="btns in d4"><a class="btn btn-accent" href="#work" data-track="hero-explore">Explore our work <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><a class="btn btn-glass card" href="#approach">Our approach</a></div>
 </section>
 
-<section id="apps" aria-labelledby="apps-title" style="padding-top:32px">
-<div class="wrap">
-<div class="row-head">
-<div>
-<p class="eyebrow" data-reveal>From the forge</p>
-<h2 id="apps-title" data-reveal>Latest apps</h2>
-</div>
-<a class="link-more top" href="apps/" data-reveal>View all apps <i aria-hidden="true">→</i></a>
-</div>
-<div class="apps-grid four" id="apps-featured" data-limit="4" data-stagger></div>
-<div class="spotlight" id="spotlight" aria-live="polite"></div>
-<a class="link-more below" href="apps/">View all apps <i aria-hidden="true">→</i></a>
-<noscript><p><a href="wealthon/">WealthOn</a> · <a href="noctyl/">Noctyl</a></p></noscript>
-</div>
+<section class="statement" id="approach" aria-label="Our approach">
+<p data-reveal>Most apps try to do everything. <span>We build apps with one clear job, make them fast and private, and keep shaping them with real feedback until they feel</span> just right.</p>
 </section>
+<section style="padding:20px 0 30px" aria-label="Principles"><div class="grid4" data-stagger><div class="pcard card lift"><span class="ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/></svg></span><h3>Clarity first</h3><p>Every app solves one real problem, with nothing in the way.</p></div><div class="pcard card lift"><span class="ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2.5"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span><h3>Private by design</h3><p>Your data stays on your phone wherever possible. No selling, ever.</p></div><div class="pcard card lift"><span class="ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M6 18l2.5-2.5M15.5 8.5 18 6"/></svg></span><h3>Crafted details</h3><p>Motion, layout and words, polished until they feel effortless.</p></div><div class="pcard card lift"><span class="ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg></span><h3>Shaped by you</h3><p>Real testers before launch, and every message gets a reply.</p></div></div></section>
+</div>
 
-<section id="early" class="early-sec" aria-labelledby="early-title" hidden>
-<div class="wrap">
-<div class="row-head">
-<div>
-<p class="eyebrow" data-reveal>Early access</p>
-<h2 id="early-title" data-reveal>Try apps before they launch</h2>
-<p class="row-sub" data-reveal>Join a closed test, use the app first and help shape it before it reaches Google Play.</p>
+<section class="sec" id="work" aria-labelledby="work-title"><div class="wrap">
+<div class="head-row" data-reveal><div><p class="eyebrow">Our work</p><h2 class="h2" id="work-title">Apps from the forge</h2></div><a class="ul-link" href="apps/">See all apps →</a></div>
+<div class="work">
+<a class="feat lift" id="featured" data-zoom href="wealthon/"><div class="feat-copy"><h3>WealthOn</h3><p>Know what's safe to spend. Get out of EMIs sooner.</p></div></a>
+<div class="next card" id="next-card" data-zoom><span class="dash"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M6 18l2.5-2.5M15.5 8.5 18 6"/></svg></span><div><h3>Next app</h3><p>Being shaped in the forge right now. Testers hear about it first.</p></div><a class="ul-link" style="align-self:flex-start" href="contact/?topic=launch" data-track="next-app-notify">Get notified</a></div>
 </div>
-<span class="row-note" id="early-count" data-reveal></span>
-</div>
+</div></section>
+
+<section class="sec" aria-labelledby="make-title"><div class="wrap">
+<div class="head-row" data-reveal><div><p class="eyebrow">What we make</p><h2 class="h2" id="make-title">Apps for the everyday.</h2></div><p class="lead" style="max-width:400px;font-size:17px">We focus on problems people meet every day, where a clear, well-made app makes a real difference.</p></div>
+<div class="make-grid" data-stagger><div><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h12v4"/><rect x="3" y="7" width="18" height="13" rx="2.5"/><path d="M16 13.5h2"/></svg><h3>Money & everyday finance</h3><p>Tools that make budgets, bills and loans simple to understand.</p></div><div><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="2"/><rect x="13" y="4" width="7" height="7" rx="2"/><rect x="4" y="13" width="7" height="7" rx="2"/><rect x="13" y="13" width="7" height="7" rx="2"/></svg><h3>Home screen & personalisation</h3><p>Clean icons and widgets that make your phone feel like yours.</p></div><div><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 3 5 14h6l-1 7 8-11h-6z"/></svg><h3>Focus & productivity</h3><p>Small, fast tools that help you get things done and get out of the way.</p></div><div><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L4 17v3h3l5.3-5.3a4 4 0 0 0 5.4-5.4l-2.6 2.6-2.4-.6-.6-2.4z"/></svg><h3>Everyday utilities</h3><p>Simple apps for the little jobs you do every day.</p></div></div>
+</div></section>
+
+<section class="sec" aria-labelledby="promise-title"><div class="wrap"><div class="dark" data-zoom>
+<div style="margin-bottom:30px"><p class="eyebrow">Our promises</p><h2 class="h2" id="promise-title">Six promises in every app.</h2></div>
+<ul class="promises"><li><span class="check"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><div><b>No dark patterns</b><span>No tricks to keep you scrolling or paying.</span></div></li><li><span class="check"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><div><b>Honest pricing</b><span>Free to start. Upgrades are clear, and one-time where we can.</span></div></li><li><span class="check"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><div><b>Your data, your phone</b><span>Data stays on your device wherever possible, and is never sold.</span></div></li><li><span class="check"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><div><b>Light and fast</b><span>Small downloads, quick to open, kind to your battery.</span></div></li><li><span class="check"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><div><b>Built for everyone</b><span>Readable text, clear contrast and simple language.</span></div></li><li><span class="check"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><div><b>Real support</b><span>Every message is answered by the person who built the app.</span></div></li></ul>
+</div></div></section>
+
+<section class="sec" id="process" aria-labelledby="process-title"><div class="wrap">
+<div class="head-row" data-reveal><div><p class="eyebrow">Process</p><h2 class="h2" id="process-title">From idea to your phone</h2></div></div>
+<div class="grid4" data-stagger><div class="pcard card lift"><p class="num">01</p><h3>Spot a real problem</h3><p>Start from something people struggle with every day.</p></div><div class="pcard card lift"><p class="num">02</p><h3>Design it simply</h3><p>One clear job, nothing in the way.</p></div><div class="pcard card lift"><p class="num">03</p><h3>Build and test</h3><p>Real testers use it first and shape what ships.</p></div><div class="pcard card lift"><p class="num on">04</p><h3>Ship and keep shaping</h3><p>Launch on Google Play, then improve every month.</p></div></div>
+</div></section>
+
+<section class="sec" id="early" data-early hidden><div class="wrap">
+<div class="head-row" data-reveal><div><p class="eyebrow">Early access</p><h2 class="h2">Try apps before they launch</h2><p class="lead" style="margin-top:16px">Join a closed test, use the app first and help shape it before it reaches Google Play.</p></div><span class="badge soft" id="early-count"></span></div>
 <div class="tb-tabs" id="tester-tabs" role="tablist" aria-label="Apps in testing" hidden></div>
-<div id="tester-band"></div>
-</div>
-</section>
+<div class="dark" data-zoom><div id="tester-band"></div></div>
+</div></section>
 
-<section id="about" aria-labelledby="about-title" style="padding-top:24px">
-<div class="wrap">
-<div class="about-panel" data-reveal>
-<div class="ap-top">
-<div class="ap-intro">
-<p class="eyebrow">About</p>
-<h2 id="about-title">Small apps. Sharp focus.</h2>
-<p>Forge Apps makes focused Android apps. Each one sets out to do one job really well, with a clean design and a setup that takes moments, not minutes.</p>
-</div>
-<dl class="ap-stats">
-<div class="main"><dt>Apps in the forge</dt><dd data-count="all">2</dd></div>
-<div><dt>On Google Play</dt><dd data-count="live">0</dd></div>
-<div><dt>In testing</dt><dd data-count="test">1</dd></div>
-<div><dt>Being built</dt><dd data-count="build">1</dd></div>
-</dl>
-</div>
-<ul class="ap-principles">
-<li><span class="pi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/></svg></span><div><b>One job, done well</b><span>No bloat. Every screen has a reason to be there.</span></div></li>
-<li><span class="pi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 4v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V7z"/></svg></span><div><b>Clear about your data</b><span>Every app has a plain-language privacy policy.</span></div></li>
-<li><span class="pi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg></span><div><b>Always improving</b><span>Tested with real users, then updated after launch.</span></div></li>
-</ul>
-<div class="ap-news">
-<span class="news-label"><span class="live-dot"></span>Latest</span>
-<ul class="updates news" id="updates"></ul>
-</div>
-</div>
-</div>
-</section>
+<section class="sec" aria-labelledby="open-title"><div class="wrap">
+<div style="margin-bottom:28px" data-reveal><p class="eyebrow">Built in the open</p><h2 class="h2" id="open-title">Follow every app as it’s forged.</h2><p class="lead" style="margin-top:16px">From the first sketch to launch day, the whole process is shared as short videos and posts.</p></div>
+<div class="grid4" data-stagger><a class="soc-card card lift" data-social="youtube" href="#" target="_blank" rel="noopener" hidden><span class="dot" style="background:#FF0033"></span><h3>YouTube</h3><p>Shorts and walkthroughs of each app being built.</p><span class="more">Watch on YouTube →</span></a><a class="soc-card card lift" data-social="instagram" href="#" target="_blank" rel="noopener" hidden><span class="dot" style="background:#D62976"></span><h3>Instagram</h3><p>Reels, sneak peeks and design details.</p><span class="more">Follow on Instagram →</span></a><a class="soc-card card lift" data-social="facebook" href="#" target="_blank" rel="noopener" hidden><span class="dot" style="background:#1877F2"></span><h3>Facebook</h3><p>Launch news and updates in one place.</p><span class="more">Follow on Facebook →</span></a></div>
+</div></section>
 
-<section id="how" aria-labelledby="how-title" style="padding-top:24px">
-<div class="wrap">
-<div class="row-head">
-<div>
-<p class="eyebrow" data-reveal>How it's made</p>
-<h2 id="how-title" data-reveal>From idea to your phone</h2>
-</div>
-</div>
-<ol class="timeline" data-stagger>
-<li><span class="t-dot"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2V17h5v-1.1c0-.8.4-1.5 1-2A6 6 0 0 0 12 3z"/></svg></span><span class="t-n">01</span><h3>Idea</h3><p>A real problem worth solving, kept simple.</p></li>
-<li><span class="t-dot"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 9-4 3 4 3M16 9l4 3-4 3M13.5 6l-3 12"/></svg></span><span class="t-n">02</span><h3>Build</h3><p>Designed and coded from scratch.</p></li>
-<li><span class="t-dot"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 1.7 3h10.6a2 2 0 0 0 1.7-3l-5-9V3"/></svg></span><span class="t-n">03</span><h3>Test</h3><p>Tried by real testers before launch.</p></li>
-<li><span class="t-dot"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 15c-1.5 1.5-2 5-2 5s3.5-.5 5-2M9 15l-3-3a12 12 0 0 1 11-9 1 1 0 0 1 1 1 12 12 0 0 1-9 11z"/><circle cx="14.5" cy="9.5" r="1.5"/></svg></span><span class="t-n">04</span><h3>Launch</h3><p>Released on Google Play, then improved.</p></li>
-</ol>
-</div>
-</section>
+<section class="sec" aria-labelledby="news-title"><div class="wrap two-col">
+<div data-reveal><p class="eyebrow">Latest news</p><h2 class="h2 sm" id="news-title">From the forge.</h2></div>
+<ul class="updates" id="updates"></ul>
+</div></section>
 
-<section id="contact" aria-labelledby="faq-title" style="padding-top:24px">
-<div class="wrap">
-<div class="row-head">
-<div>
-<p class="eyebrow" data-reveal>FAQ</p>
-<h2 id="faq-title" data-reveal>Common questions</h2>
-</div>
-</div>
-<div class="faq-contact">
-<div>
-<div class="faq" data-stagger>
-<details><summary>How do I get help with an app?</summary><p>Use the <a href="contact/">contact form</a> and pick the app, or email <a data-email href="mailto:support@forgeapps.in">support@forgeapps.in</a>. Each app's page also has a support section.</p></details>
-<details><summary>Where is the privacy policy?</summary><p>Every app has its own privacy policy. Open the app's page and you'll find it in the Support section.</p></details>
-<details><summary>How do I delete my data?</summary><p>Each app's page has a "Delete your data" link that explains how to do it in the app or by email.</p></details>
-<details><summary>When will an app in testing launch?</summary><p>Apps in testing are being tried by real users first. Each app's page shows its stage, and the Google Play button appears as soon as it is live.</p></details>
-<details><summary>Can I suggest an idea or a feature?</summary><p>Yes, please do. <a href="contact/?topic=idea">Send an idea</a>; every suggestion is read.</p></details>
-</div>
-</div>
-<div class="contact-box tall" data-reveal style="--d:.1s">
-<img src="assets/favicon.svg" alt="" width="56" height="56">
-<h2>Questions or feedback?</h2>
-<p>Feedback, a bug or an idea for the next app. Every message is read and answered.</p>
-<a class="btn btn-primary" href="contact/" data-track="contact-cta"><span>Send a message</span></a>
-<a class="cs-line" data-email href="mailto:support@forgeapps.in"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg><span data-email>support@forgeapps.in</span></a>
-<div class="socials">
-<a class="btn btn-ghost" data-social="youtube" href="#" hidden><span>YouTube</span></a>
-<a class="btn btn-ghost" data-social="instagram" href="#" hidden><span>Instagram</span></a>
-<a class="btn btn-ghost" data-social="facebook" href="#" hidden><span>Facebook</span></a>
-</div>
-</div>
-</div>
-</div>
-</section>
+<section class="sec" id="faq" aria-labelledby="faq-title"><div class="wrap two-col">
+<div data-reveal><p class="eyebrow">FAQ</p><h2 class="h2 sm" id="faq-title">Questions, answered.</h2></div>
+<div class="faq" data-stagger><details open><summary>Who is behind Forge Apps?</summary><p>An independent studio in India that designs, builds and supports every app itself, from the first sketch to the replies in your inbox.</p></details><details><summary>Are your apps free?</summary><p>Every app is free to start. Where there is an upgrade, it is clearly priced and one-time wherever possible. WealthOn Pro, for example, is a one-time ₹199.</p></details><details><summary>Do your apps collect my data?</summary><p>We keep data on your phone wherever possible and never sell it. Each app has its own privacy policy on its page.</p></details><details><summary>How do I become a tester?</summary><p>Enter your Google Play email in the <a href="#early">early access</a> section. We add you to the test and email you the link, usually within a day.</p></details><details><summary>How do I delete my data?</summary><p>Each app’s page has a “Delete your data” link that explains how to do it in the app or by email.</p></details><details><summary>Can I suggest an app idea?</summary><p>Yes, please. <a href="contact/?topic=idea">Send it here</a>. Every idea is read, and the best ones end up in the forge.</p></details></div>
+</div></section>
 
+<section class="cta-end" id="contact" aria-labelledby="cta-title"><div class="wrap" style="display:flex;flex-direction:column;align-items:center;gap:22px">
+<div data-reveal><svg class="mark" width="84" height="84" viewBox="10 22 80 72" aria-hidden="true"><g transform="translate(0,3)"><path transform="translate(0,14)" d="M16 42 H80 a4 4 0 0 1 4 4 V50 a4 4 0 0 1 -4 4 H66 L60 64 H68 V74 H32 V64 H40 L34 54 H30 C22 54 16 49 16 42 Z" fill="#111318"/><rect x="40" y="36" width="20" height="20" rx="5" fill="#FF6A2B"/><g fill="#FFFFFF"><rect x="43.5" y="39.5" width="5.5" height="5.5" rx="1.4"/><rect x="51" y="39.5" width="5.5" height="5.5" rx="1.4"/><rect x="43.5" y="47" width="5.5" height="5.5" rx="1.4"/><rect x="51" y="49" width="5.5" height="1.6" rx=".8"/><rect x="52.95" y="47.05" width="1.6" height="5.5" rx=".8"/></g><g transform="translate(50,29.5) rotate(-25 0 6)" fill="#111318"><rect x="5" y="-6" width="31" height="5" rx="2.5"/><rect x="-6" y="-12" width="12" height="18" rx="2"/></g><path d="M35 44 L27 40 M34 52 L25 52 M65 46 L73 43 M66 53 L75 53 M38 37 L33 30 M62 38 L67 31" stroke="#FF6A2B" stroke-width="3" stroke-linecap="round" fill="none"/></g></svg></div>
+<h2 id="cta-title" data-reveal>Have an idea or feedback?<br><span class="accent">Let's talk.</span></h2>
+<p data-reveal>Every message is read and answered by the person who builds the apps.</p>
+<div class="btns" data-reveal><a class="btn btn-dark" href="contact/" data-track="contact-cta">Send a message</a><a class="btn btn-glass card" data-email href="mailto:support@forgeapps.in">support@forgeapps.in</a></div>
+</div></section>
 </main>
-
-<footer class="site-footer">
-<div class="wrap">
-<a class="brand" href="./" aria-label="Forge Apps home"><img src="assets/favicon.svg" alt="" width="26" height="26"><span><b>Forge</b> Apps</span></a>
-<nav aria-label="Footer">
-<a href="apps/">All apps</a>
-<a href="wealthon/">WealthOn</a>
-<a href="noctyl/">Noctyl</a>
-<a data-email href="mailto:support@forgeapps.in">support@forgeapps.in</a>
-</nav>
-<span>© <span data-year>2026</span> Forge Apps</span>
+<div class="wrap"><footer class="foot">
+<div class="foot-top">
+<div class="foot-brand"><a class="brand" href="./" aria-label="Forge Apps home"><svg width="38" height="38" viewBox="10 22 80 72" aria-hidden="true"><g transform="translate(0,3)"><path transform="translate(0,14)" d="M16 42 H80 a4 4 0 0 1 4 4 V50 a4 4 0 0 1 -4 4 H66 L60 64 H68 V74 H32 V64 H40 L34 54 H30 C22 54 16 49 16 42 Z" fill="#111318"/><rect x="40" y="36" width="20" height="20" rx="5" fill="#FF6A2B"/><g fill="#FFFFFF"><rect x="43.5" y="39.5" width="5.5" height="5.5" rx="1.4"/><rect x="51" y="39.5" width="5.5" height="5.5" rx="1.4"/><rect x="43.5" y="47" width="5.5" height="5.5" rx="1.4"/><rect x="51" y="49" width="5.5" height="1.6" rx=".8"/><rect x="52.95" y="47.05" width="1.6" height="5.5" rx=".8"/></g><g transform="translate(50,29.5) rotate(-25 0 6)" fill="#111318"><rect x="5" y="-6" width="31" height="5" rx="2.5"/><rect x="-6" y="-12" width="12" height="18" rx="2"/></g></g></svg><span><b>Forge</b> Apps</span></a><p>Useful apps, designed and built from scratch, and hammered into shape until they feel just right.</p><div class="socials" data-socials></div></div>
+<div class="foot-col"><h3>Apps</h3><div class="foot-col" data-foot-apps><a href="wealthon/">WealthOn</a><a href="apps/">All apps</a></div></div>
+<div class="foot-col"><h3>Studio</h3><a href="#approach">Approach</a><a href="#process">Process</a><a href="#faq">FAQ</a><a href="contact/">Contact</a></div>
+<div class="foot-col"><h3>Help</h3><a href="contact/">Send feedback</a><a href="contact/?topic=bug">Report a bug</a><a href="contact/?topic=idea">Suggest an idea</a></div>
+<div class="foot-col"><h3>Legal</h3><div class="foot-col" data-foot-legal><a href="privacy/">Website privacy</a></div></div>
 </div>
-</footer>
-
+<div class="foot-bottom"><span>© <span data-year>2026</span> Forge Apps · Made in India, for users everywhere</span><a data-email href="mailto:support@forgeapps.in">support@forgeapps.in</a></div>
+</footer></div>
 <script src="assets/apps.js"></script>
 <script src="assets/site.js"></script>
-<script src="assets/motion.js"></script>
 </body>
 </html>

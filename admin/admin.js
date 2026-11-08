@@ -171,7 +171,7 @@
   /* ---------------- rendering ---------------- */
   function renderList() {
     $('#app-list').innerHTML = state.apps.map(function (a, i) {
-      return '<button type="button" class="item' + (view === 'app:' + i ? ' on' : '') + '" data-view="app:' + i + '"><img src="' + esc(imgSrc(a.icon)) + '" alt=""><span class="nm">' + esc(a.name || 'Untitled') + '</span>' + (i < 4 ? '<span class="pos">Home</span>' : '') + '</button>';
+      return '<button type="button" class="item' + (view === 'app:' + i ? ' on' : '') + '" data-view="app:' + i + '"><img src="' + esc(imgSrc(a.icon)) + '" alt=""><span class="nm">' + esc(a.name || 'Untitled') + '</span>' + (a.hidden ? '<span class="pos">Hidden</span>' : i === 0 ? '<span class="pos">Home</span>' : '') + '</button>';
     }).join('');
     $$('.list > .item').forEach(function (b) { b.classList.toggle('on', b.getAttribute('data-view') === view); });
   }
@@ -244,7 +244,8 @@
         field('Kind', P + 'kind', a.kind, { placeholder: 'Personal finance' }) +
         field('Platform', P + 'platform', a.platform, { placeholder: 'Android' }) +
       '</div>' + field('One-line description', P + 'tagline', a.tagline) +
-      '<div class="grid2"><label>Stage<select data-bind="' + P + 'stage">' + stageOpts + '</select></label>' + field('Stage note', P + 'stageNote', a.stageNote, { placeholder: 'In closed testing on Google Play' }) + '</div></div>' +
+      '<div class="grid2"><label>Stage<select data-bind="' + P + 'stage">' + stageOpts + '</select></label>' + field('Stage note', P + 'stageNote', a.stageNote, { placeholder: 'In closed testing on Google Play' }) + '</div>' +
+      '<label class="check" style="margin-top:6px"><input type="checkbox" data-bind="' + P + 'hidden"' + (a.hidden ? ' checked' : '') + '> Hide from the website for now (its page stays, but it isn\'t listed anywhere)</label></div>' +
 
       '<div class="card"><h3>Google Play</h3><p class="hint">The store link shows as the "Google Play" button. While testing, the opt-in link shows as "Join the test".</p>' +
         field('Google Play link', P + 'playUrl', a.playUrl, { type: 'url', placeholder: 'https://play.google.com/store/apps/details?id=com.example.app' }) +

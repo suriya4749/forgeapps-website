@@ -1,220 +1,205 @@
-/* Forge Apps — builds the app cards and fills shared bits on every page. No libraries needed. */
+/* Forge Apps — fills every page from assets/apps.js. No libraries needed.
+   Apps with "hidden": true in apps.js stay off the website until you untick it in the admin panel. */
 (function () {
   var F = window.FORGE || { apps: [] };
+  var V = (F.apps || []).filter(function (a) { return !a.hidden; });          // apps shown on the site
   var root = document.documentElement.getAttribute('data-root') || '';
   var STAGES = ['idea', 'build', 'test', 'live'];
   var STAGE_LABEL = { idea: 'Idea', build: 'Build', test: 'Test', live: 'Live' };
+  var STAGE_WORD = { idea: 'Idea', build: 'Being built', test: 'In testing', live: 'On Google Play' };
   var FILTER_LABEL = { live: 'On Google Play', test: 'In testing', build: 'Being built', idea: 'Ideas' };
-  var url = function (p) { return /^(data:|https?:)/.test(p) ? p : root + p; };
+  var $ = function (s, r) { return (r || document).querySelector(s); };
+  var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+  var url = function (p) { return !p ? '' : /^(data:|https?:|\/)/.test(p) ? p : root + p; };
   var shotSrc = function (x) { return typeof x === 'string' ? x : x.src; };
   var shotCap = function (x) { return typeof x === 'string' ? '' : (x.caption || ''); };
   var ytId = function (u) { var m = String(u).match(/(?:youtube(?:-nocookie)?\.com\/(?:watch\?(?:.*&)?v=|embed\/|shorts\/|live\/)|youtu\.be\/)([A-Za-z0-9_-]{11})/); return m ? m[1] : ''; };
-  var esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
+  var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
+  var bySlug = function (s) { return (F.apps || []).filter(function (a) { return a.slug === s; })[0]; };
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var IC = {
+    arrow: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>',
+    check: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
+    play: '<svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>'
+  };
 
-  function tracker(app, compact) {
-    var cur = STAGES.indexOf(app.stage);
-    return '<div class="stage' + (compact ? ' compact' : '') + '" role="img" aria-label="Stage: ' + esc(STAGE_LABEL[app.stage] || app.stage) + '. ' + esc(app.stageNote || '') + '">' +
-      '<ol aria-hidden="true">' + STAGES.map(function (s, i) {
-        return '<li class="' + (i < cur ? 'done' : i === cur ? 'now' : '') + '"><span class="bar"></span>' + STAGE_LABEL[s] + '</li>';
-      }).join('') + '</ol>' +
-      (app.stageNote ? '<p class="stage-note">' + esc(app.stageNote) + '</p>' : '') + '</div>';
-  }
   function vars(c) {
     c = c || {};
-    return '--bg:' + (c.bg || '#1C1F26') + ';--bg2:' + (c.bg2 || '#111318') + ';--acc:' + (c.accent || '#FF6A2B') + ';--acc2:' + (c.accent2 || '#FFB547') +
-      ';--soft:' + (c.soft || '#2A2E37') + ';--tx:' + (c.text || '#F5F3EF') + ';--btnbg:' + (c.btnBg || '#FF6A2B') + ';--btntx:' + (c.btnText || '#111318');
+    return '--app-bg:' + (c.bg || '#1C1F26') + ';--app-bg2:' + (c.bg2 || '#111318') + ';--app-acc:' + (c.accent || '#FF6A2B') +
+      ';--app-soft:' + (c.soft || '#C9CCD3') + ';--app-tx:' + (c.text || '#FFFFFF') + ';--app-btnbg:' + (c.btnBg || '#FFFFFF') + ';--app-btntx:' + (c.btnText || '#111318');
   }
-  var STAGE_WORD = { idea: 'Idea', build: 'Being built', test: 'In testing', live: 'On Google Play' };
-  function card(a, select) {
-    var el = document.createElement(select ? 'button' : 'a');
-    var cur = STAGES.indexOf(a.stage);
-    el.className = 'mini';
-    if (select) { el.type = 'button'; el.setAttribute('aria-pressed', 'false'); el.setAttribute('aria-controls', 'spotlight'); el.setAttribute('data-slug', a.slug); }
-    else el.href = root + a.slug + '/';
-    el.setAttribute('style', vars(a.colors));
-    el.setAttribute('data-stage', a.stage);
-    el.setAttribute('data-search', (a.name + ' ' + (a.kind || '') + ' ' + a.tagline).toLowerCase());
-    el.innerHTML =
-      '<span class="mini-icon"><img src="' + url(a.icon) + '" alt="" width="56" height="56"></span>' +
-      '<span class="mini-main">' +
-        '<span class="mini-name">' + esc(a.name) + '</span>' +
-        '<span class="mini-tag">' + esc(a.tagline) + '</span>' +
-        '<span class="mini-meta"><span class="mini-bar" aria-hidden="true">' + STAGES.map(function (s, k) { return '<i class="' + (k < cur ? 'd' : k === cur ? 'n' : '') + '"></i>'; }).join('') + '</span>' +
-          '<span class="mini-stage">' + esc(STAGE_WORD[a.stage] || a.stage) + '</span></span>' +
-      '</span>' +
-      '<span class="mini-go" aria-hidden="true">' + (select ? '↓' : '→') + '</span>';
-    return el;
+  function tracker(app) {
+    var cur = STAGES.indexOf(app.stage);
+    return '<div class="stage" role="img" aria-label="Stage: ' + esc(STAGE_LABEL[app.stage] || app.stage) + '. ' + esc(app.stageNote || '') + '"><ol aria-hidden="true">' +
+      STAGES.map(function (s, i) {
+        return '<li class="' + (i < cur ? 'done' : i === cur ? 'now' : '') + '"><span class="track"><span class="dotx"></span>' + (i < 3 ? '<span class="line"></span>' : '') + '</span>' + STAGE_LABEL[s] + '</li>';
+      }).join('') + '</ol>' + (app.stageNote ? '<p class="stage-note">' + esc(app.stageNote) + '</p>' : '') + '</div>';
   }
 
-  // Opening the site straight from the computer (file://) doesn't load a folder's index.html by itself,
-  // so links like "wealthon/" would show a folder. Point them at index.html when viewed locally.
-  // On the live site (https://forgeapps.in) this does nothing.
+  // Opening the files straight from the computer (file://): make folder links open their index.html.
   if (location.protocol === 'file:') {
     document.addEventListener('click', function (e) {
-      var a = e.target.closest && e.target.closest('a[href]');
-      if (!a) return;
+      var a = e.target.closest && e.target.closest('a[href]'); if (!a) return;
       var h = a.getAttribute('href');
       if (/^(https?:|mailto:|tel:|#|data:)/.test(h)) return;
-      var m = h.match(/^([^#?]*)([?#].*)?$/);
-      var path = m[1], rest = m[2] || '';
+      var m = h.match(/^([^#?]*)([?#].*)?$/), path = m[1], rest = m[2] || '';
       if (path === '' || path.slice(-1) === '/' || path === '.' || path === '..') {
         if (path === '.' || path === '..') path += '/';
-        e.preventDefault();
-        location.href = (path || './') + 'index.html' + rest;
+        e.preventDefault(); location.href = (path || './') + 'index.html' + rest;
       }
     }, true);
   }
 
-  // ---------- Navigation: logo + menu button; the menu opens full screen ----------
-  var header = document.querySelector('.site-header');
-  var nav = document.querySelector('.nav');
-  var toggle = document.querySelector('.nav-toggle');
-  if (header && nav && toggle) {
-    var bar = header.querySelector('.wrap');
-    bar.classList.add('nav-bar');
-    toggle.innerHTML = '<span class="burger" aria-hidden="true"><i></i><i></i><i></i></span>';
-    bar.appendChild(toggle);
-    var onScroll = function () { header.classList.toggle('scrolled', window.scrollY > 10); };
-    window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
-
+  // ---------- top bar: the app link, and the full-screen menu on phones ----------
+  var navApp = V[0];
+  $$('[data-nav-app]').forEach(function (a) {
+    if (!navApp) { a.hidden = true; return; }
+    a.textContent = navApp.name; a.href = root + navApp.slug + '/';
+    if (document.documentElement.getAttribute('data-app') === navApp.slug) a.setAttribute('aria-current', 'page');
+  });
+  var header = $('.topbar'), toggle = $('.menubtn');
+  if (header && toggle) {
+    toggle.innerHTML = '<span class="burger" aria-hidden="true"><i></i><i></i></span>';
     var panel = document.createElement('div');
     panel.className = 'fs-menu'; panel.id = 'fs-menu'; panel.hidden = true;
     panel.setAttribute('role', 'dialog'); panel.setAttribute('aria-modal', 'true'); panel.setAttribute('aria-label', 'Menu');
-    header.appendChild(panel);
+    document.body.appendChild(panel);
     toggle.setAttribute('aria-controls', 'fs-menu');
-
-    var here = location.pathname.replace(/index\.html$/, '');
+    var page = document.documentElement.getAttribute('data-page') || '';
+    var appNow = document.documentElement.getAttribute('data-app') || '';
     var build = function () {
-      var items = [], seen = {};
-      var add = function (href, label, current) { if (seen[label]) return; seen[label] = 1; items.push({ href: href, label: label, current: current }); };
-      add(root || './', 'Home', !document.documentElement.getAttribute('data-app') && root === '');
-      add(root + 'apps/', 'All apps', /\/apps\/$/.test(here));
-      Array.prototype.forEach.call(nav.querySelectorAll('a'), function (a) {
-        if (a.hidden) return;
-        var h = a.getAttribute('href'), t = a.textContent.trim();
-        if (/(^|\/)apps\/$/.test(h) || t === 'Home' || t === 'All apps') return;
-        add(h, t, false);
-      });
-      panel.innerHTML =
-        '<div class="fs-inner">' +
-          '<nav class="fs-links" aria-label="Pages">' + items.map(function (it, i) {
-            return '<a href="' + it.href + '" style="--i:' + i + '"' + (it.current ? ' aria-current="page"' : '') + '>' + esc(it.label) + '</a>';
-          }).join('') + '</nav>' +
-          '<a class="fs-mail" style="--i:' + (items.length + 1) + '" href="mailto:' + esc(F.email) + '">' + esc(F.email) + '</a>' +
-        '</div>';
+      var items = [[root || './', 'Home', page === 'home'], [root + 'apps/', 'Apps', page === 'apps']];
+      V.slice(0, 3).forEach(function (a) { items.push([root + a.slug + '/', a.name, appNow === a.slug]); });
+      items.push([root + '#approach', 'Approach', false], [root + 'contact/', 'Contact', page === 'contact']);
+      var soc = ['instagram', 'youtube', 'facebook'].filter(function (k) { return F[k]; }).map(function (k) { return '<a class="soc card" href="' + esc(F[k]) + '" target="_blank" rel="noopener" aria-label="' + k + '">' + SOC[k] + '</a>'; }).join('');
+      panel.innerHTML = '<div class="wrap"><nav aria-label="Pages">' + items.map(function (it, i) {
+        return '<a href="' + it[0] + '" style="--i:' + i + '"' + (it[2] ? ' aria-current="page"' : '') + '>' + esc(it[1]) + '<span>' + IC.arrow + '</span></a>';
+      }).join('') + '</nav>' +
+        '<a class="btn btn-accent" href="' + root + '#early" data-track="menu-tester">Become a tester ' + IC.arrow + '</a>' +
+        '<div class="fs-foot"><a class="mail" href="mailto:' + esc(F.email) + '">' + esc(F.email) + '</a><div class="socials">' + soc + '</div></div></div>';
     };
     var closeT;
     var setOpen = function (open, instant) {
       clearTimeout(closeT); panel.classList.remove('closing');
-      panel.classList.toggle('instant', !!instant);
       if (open) { build(); panel.hidden = false; }
-      else if (instant || panel.hidden) { panel.hidden = true; }
+      else if (instant || panel.hidden) panel.hidden = true;
       else { panel.classList.add('closing'); closeT = setTimeout(function () { panel.hidden = true; panel.classList.remove('closing'); }, 150); }
       header.classList.toggle('menu-open', open);
       document.documentElement.classList.toggle('no-scroll', open);
       toggle.setAttribute('aria-expanded', String(open)); toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
       if (open) { var f = panel.querySelector('a'); if (f) f.focus({ preventScroll: true }); }
     };
-    toggle.setAttribute('aria-label', 'Open menu');
+    toggle.setAttribute('aria-label', 'Open menu'); toggle.setAttribute('aria-expanded', 'false');
     toggle.addEventListener('click', function () { setOpen(panel.hidden); });
-    panel.addEventListener('click', function (e) { if (e.target.closest('a') || e.target === panel) setOpen(false); });
+    panel.addEventListener('click', function (e) { if (e.target.closest('a')) setOpen(false); });
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !panel.hidden) { setOpen(false, true); toggle.focus(); } });
+    if (window.matchMedia) {
+      var mq = window.matchMedia('(min-width: 861px)');
+      var onMq = function () { if (mq.matches && !panel.hidden) setOpen(false, true); };
+      if (mq.addEventListener) mq.addEventListener('change', onMq); else if (mq.addListener) mq.addListener(onMq);
+    }
   }
 
-  // Year, email, socials
-  document.querySelectorAll('[data-year]').forEach(function (el) { el.textContent = new Date().getFullYear(); });
-  document.querySelectorAll('[data-email]').forEach(function (el) {
+  // ---------- year, email, socials ----------
+  var SOC = {
+    instagram: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>',
+    youtube: '<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2 31 31 0 0 0 .5 12 31 31 0 0 0 1 16.8a3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1c.4-1.6.5-3.2.5-4.8s-.1-3.2-.5-4.8zM9.8 15.1V8.9l5.7 3.1z"/></svg>',
+    facebook: '<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M13.5 21v-7.5h2.6l.4-3.1h-3V8.5c0-.9.3-1.5 1.6-1.5h1.6V4.2c-.3 0-1.2-.1-2.3-.1-2.3 0-3.9 1.4-3.9 4v2.3H7.9v3.1h2.6V21z"/></svg>'
+  };
+  $$('[data-year]').forEach(function (el) { el.textContent = new Date().getFullYear(); });
+  $$('[data-email]').forEach(function (el) {
+    if (!F.email) return;
     if (!el.hasAttribute('data-keep')) el.textContent = F.email;
     if (el.tagName === 'A') el.href = 'mailto:' + F.email;
   });
   ['youtube', 'instagram', 'facebook'].forEach(function (k) {
-    document.querySelectorAll('[data-social="' + k + '"]').forEach(function (el) {
-      if (F[k]) { el.href = F[k]; el.hidden = false; } else { el.hidden = true; }
-    });
+    $$('[data-social="' + k + '"]').forEach(function (el) { if (F[k]) { el.href = F[k]; el.hidden = false; } else el.hidden = true; });
   });
-  document.querySelectorAll('[data-app-count]').forEach(function (el) { el.textContent = F.apps.length; });
+  $$('[data-socials]').forEach(function (el) {
+    el.innerHTML = ['instagram', 'youtube', 'facebook'].filter(function (k) { return F[k]; }).map(function (k) {
+      var n = { instagram: 'Instagram', youtube: 'YouTube', facebook: 'Facebook' }[k];
+      return '<a class="soc card press" href="' + esc(F[k]) + '" target="_blank" rel="noopener" aria-label="Forge Apps on ' + n + '" title="' + n + '">' + SOC[k] + '</a>';
+    }).join('');
+  });
+  $$('[data-count]').forEach(function (el) {
+    var k = el.getAttribute('data-count');
+    el.textContent = k === 'all' ? V.length : V.filter(function (a) { return a.stage === k; }).length;
+  });
 
-  // Home: the latest apps (first 4 in apps.js). Clicking one shows it in the spotlight below.
-  var featured = document.getElementById('apps-featured');
-  var spot = document.getElementById('spotlight');
-  function spotlight(a) {
-    if (!spot) return;
-    var shots = a.screens || [];
-    var base = root + a.slug + '/';
-    var visual = shots.length
-      ? '<div class="spot-strip-wrap"><div class="spot-strip" tabindex="0" aria-label="' + esc(a.name) + ' screens">' +
-          shots.map(function (x, i) { return '<figure><img src="' + url(shotSrc(x)) + '" alt="' + esc(shotCap(x) || (a.name + ' screen ' + (i + 1))) + '" width="270" height="480" loading="lazy"></figure>'; }).join('') +
-        '</div><div class="spot-nav"><button type="button" class="sn-btn" data-dir="-1" aria-label="Previous screens">←</button><button type="button" class="sn-btn" data-dir="1" aria-label="Next screens">→</button></div></div>'
-      : '<div class="spot-visual" aria-hidden="true"><span class="sv-ring r1"></span><span class="sv-ring r2"></span><span class="sv-ring r3"></span><span class="sv-bit b1"></span><span class="sv-bit b2"></span><span class="sv-bit b3"></span><img src="' + url(a.icon) + '" alt="" width="150" height="150"><span class="sv-note">Screens coming soon</span></div>';
-    spot.setAttribute('style', vars(a.colors));
-    spot.classList.remove('swap'); void spot.offsetWidth; spot.classList.add('swap');
-    spot.innerHTML =
-      '<div class="spot-copy">' +
-        '<p class="eyebrow">In the spotlight</p>' +
-        '<div class="spot-id"><img src="' + url(a.icon) + '" alt="" width="64" height="64"><div><h2>' + esc(a.name) + '</h2><p>' + esc(a.kind || '') + ' · ' + esc(a.platform) + '</p></div></div>' +
-        '<p class="spot-tag">' + esc(a.tagline) + '</p>' +
-        (a.points ? '<ul class="spot-points">' + a.points.map(function (p) { return '<li>' + esc(p) + '</li>'; }).join('') + '</ul>' : '') +
-        tracker(a) +
-        '<div class="spot-actions"><a class="btn spot-btn" href="' + base + '"><span>Explore ' + esc(a.name) + '</span><span aria-hidden="true">→</span></a></div>' +
-      '</div>' + visual;
-    var strip = spot.querySelector('.spot-strip');
-    spot.querySelectorAll('.sn-btn').forEach(function (b) {
-      b.addEventListener('click', function () { strip.scrollBy({ left: parseInt(b.getAttribute('data-dir'), 10) * strip.clientWidth * 0.8, behavior: 'smooth' }); });
+  // ---------- footer: the apps column ----------
+  $$('[data-foot-apps]').forEach(function (el) {
+    el.innerHTML = V.map(function (a) {
+      return '<a href="' + root + a.slug + '/">' + esc(a.name) + (a.stage !== 'live' ? '<em>' + esc(STAGE_WORD[a.stage] || a.stage) + '</em>' : '') + '</a>';
+    }).join('') + '<a href="' + root + 'apps/">All apps</a>' + (V.some(function (a) { return a.stage === 'test'; }) ? '<a href="' + root + '#early">Become a tester</a>' : '');
+  });
+  var pageApp = document.documentElement.getAttribute('data-app') || '';
+  $$('[data-foot-legal]').forEach(function (el) {
+    var a = pageApp && bySlug(pageApp), out = '<a href="' + root + 'privacy/">Website privacy</a>';
+    var list = a ? [a] : V;
+    list.forEach(function (x) {
+      var b = root + x.slug + '/';
+      out += '<a href="' + b + 'privacy/">' + esc(x.name) + ' privacy</a>' + (a ? '<a href="' + b + 'terms/">' + esc(x.name) + ' terms</a><a href="' + b + 'delete-account/">Delete ' + esc(x.name) + ' data</a>' : '');
     });
-    if (featured) featured.querySelectorAll('.mini').forEach(function (c) { var on = c.getAttribute('data-slug') === a.slug; c.classList.toggle('on', on); c.setAttribute('aria-pressed', String(on)); });
-  }
-  if (featured) {
-    var limit = parseInt(featured.getAttribute('data-limit'), 10) || 4;
-    var list = F.apps.slice(0, limit);
-    list.forEach(function (a) { featured.appendChild(card(a, !!spot)); });
-    if (spot && list.length) {
-      featured.addEventListener('click', function (e) {
-        var b = e.target.closest('.mini'); if (!b) return;
-        var a = F.apps.filter(function (x) { return x.slug === b.getAttribute('data-slug'); })[0];
-        if (a) { spotlight(a); if (innerWidth < 900) spot.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
-      });
-      spotlight(list[0]);
+    el.innerHTML = out;
+  });
+
+  // ---------- home: our work ----------
+  var feat = $('#featured');
+  if (feat) {
+    var a0 = V[0];
+    if (!a0) feat.hidden = true;
+    else {
+      var sh = (a0.screens || [])[0];
+      feat.setAttribute('style', vars(a0.colors)); feat.href = root + a0.slug + '/'; feat.setAttribute('data-slug', a0.slug);
+      feat.innerHTML = '<div class="feat-copy"><div class="feat-id"><img src="' + esc(url(a0.icon)) + '" alt="" width="64" height="64"><span class="on-dark"><span class="live-dot"></span>' + esc(STAGE_WORD[a0.stage] || '') + '</span></div>' +
+        '<h3>' + esc(a0.name) + '</h3><p>' + esc(a0.tagline) + '</p><span class="go">Explore ' + esc(a0.name) + ' ' + IC.arrow + '</span></div>' +
+        '<div class="feat-visual">' + (sh ? '<img class="float" src="' + esc(url(shotSrc(sh))) + '" alt="' + esc(shotCap(sh) || a0.name + ' screen') + '" width="250" height="444" loading="lazy">' : '<img class="icon-big float" src="' + esc(url(a0.icon)) + '" alt="">') + '</div>';
+    }
+    var nx = $('#next-card'), a1 = V[1];
+    if (nx && a1) {
+      nx.outerHTML = '<a class="next card lift" data-zoom href="' + root + a1.slug + '/" data-slug="' + esc(a1.slug) + '"><img src="' + esc(url(a1.icon)) + '" alt="" width="64" height="64" style="border-radius:18px"><div><h3>' + esc(a1.name) + '</h3><p>' + esc(a1.tagline) + '</p></div><div style="color:var(--ink)">' + tracker(a1) + '</div></a>';
     }
   }
 
-  // Home: live counts for the About section
-  document.querySelectorAll('[data-count]').forEach(function (el) {
-    var k = el.getAttribute('data-count');
-    el.textContent = k === 'all' ? F.apps.length : F.apps.filter(function (a) { return a.stage === k; }).length;
-  });
-
-  // Home: latest updates
-  var upd = document.getElementById('updates');
+  // ---------- home: latest news ----------
+  var upd = $('#updates');
   if (upd && F.updates) {
-    upd.innerHTML = F.updates.map(function (u) {
-      var a = F.apps.filter(function (x) { return x.slug === u.app; })[0];
-      return '<li style="' + vars(a && a.colors) + '">' + (a ? '<img src="' + root + a.icon + '" alt="" width="34" height="34">' : '<span class="u-dot"></span>') +
-        '<div><span class="u-date">' + esc(u.date) + (a ? ' · ' + esc(a.name) : '') + '</span><p>' + esc(u.text) + '</p></div></li>';
+    var rows = F.updates.filter(function (u) { var a = u.app && bySlug(u.app); return !(a && a.hidden); }).slice(0, 5).map(function (u) {
+      var a = u.app && bySlug(u.app);
+      return '<li data-reveal><span class="when">' + esc(u.date) + '</span><div class="what">' + (a ? '<img src="' + esc(url(a.icon)) + '" alt="">' : '') + '<div><b>' + esc(a ? a.name : 'Forge Apps') + '</b><p>' + esc(u.text) + '</p></div></div></li>';
     }).join('');
+    upd.innerHTML = rows + '<li data-reveal><span class="when next">Next</span><div class="what"><div><b>More apps in the forge</b><p>New apps go to testers first. Join the list to hear about them.</p></div></div></li>';
   }
 
-  // All apps page: every app, with filter buttons for the stages that exist
-  var all = document.getElementById('apps-all');
+  // ---------- all apps page ----------
+  var all = $('#apps-all');
   if (all) {
-    F.apps.forEach(function (a) { all.appendChild(card(a)); });
-    var bar = document.getElementById('apps-filter');
+    all.innerHTML = V.map(function (a) {
+      var s = (a.screens || []).slice(0, 3);
+      var art = s.length >= 3 ? s.map(function (x, i) { return '<img src="' + esc(url(shotSrc(x))) + '" alt="' + (i === 1 ? esc(shotCap(x) || a.name) : '') + '" loading="lazy"' + (i === 1 ? ' class="float"' : '') + '>'; }).join('') : '<img class="solo float" src="' + esc(url(a.icon)) + '" alt="">';
+      var cta = a.stage === 'test' && a.testUrl ? '<a class="btn btn-line" href="' + root + '#early" data-track="apps-join-test">Join the test</a>' : a.playUrl ? '<a class="btn btn-line" href="' + esc(a.playUrl) + '" target="_blank" rel="noopener">Google Play</a>' : '';
+      return '<article class="app-row" data-zoom data-slug="' + esc(a.slug) + '" data-stage="' + esc(a.stage) + '" data-search="' + esc((a.name + ' ' + (a.kind || '') + ' ' + a.tagline).toLowerCase()) + '" style="' + vars(a.colors) + '">' +
+        '<div class="ar-copy"><div class="ar-id"><img src="' + esc(url(a.icon)) + '" alt="" width="72" height="72"><div><small>' + esc((a.kind ? a.kind + ' · ' : '') + (a.platform || 'Android')) + '</small><h2>' + esc(a.name) + '</h2></div></div>' +
+        '<p>' + esc(a.tagline) + '</p>' + (a.points && a.points.length ? '<ul class="pts">' + a.points.map(function (p) { return '<li>' + IC.check + esc(p) + '</li>'; }).join('') + '</ul>' : '') +
+        tracker(a) + '<div class="btns"><a class="btn btn-white" href="' + root + a.slug + '/">View app ' + IC.arrow + '</a>' + cta + '</div></div><div class="fan">' + art + '</div></article>';
+    }).join('');
+    var bar = $('#apps-filter');
     if (bar) {
-      var present = STAGES.slice().reverse().filter(function (s) { return F.apps.some(function (a) { return a.stage === s; }); });
-      var opts = [['all', 'All apps']].concat(present.map(function (s) { return [s, FILTER_LABEL[s]]; }));
+      var present = STAGES.slice().reverse().filter(function (s) { return V.some(function (a) { return a.stage === s; }); });
+      var opts = [['all', 'All · ' + V.length]].concat(present.map(function (s) { return [s, FILTER_LABEL[s]]; }));
       bar.innerHTML = opts.map(function (o, i) { return '<button type="button" class="chip' + (i === 0 ? ' on' : '') + '" data-f="' + o[0] + '" aria-pressed="' + (i === 0) + '">' + o[1] + '</button>'; }).join('');
-      var filt = 'all', q = '', search = document.getElementById('apps-search'), empty = document.getElementById('apps-empty');
+      var filt = 'all', q = '', search = $('#apps-search'), empty = $('#apps-empty');
       var apply = function () {
         var shown = 0;
-        all.querySelectorAll('.mini').forEach(function (c) {
+        $$('.app-row', all).forEach(function (c) {
           var ok = (filt === 'all' || c.getAttribute('data-stage') === filt) && (!q || c.getAttribute('data-search').indexOf(q) > -1);
           c.hidden = !ok; if (ok) shown++;
         });
         if (empty) empty.hidden = shown > 0;
-        var cnt = document.getElementById('apps-shown'); if (cnt) cnt.textContent = shown + (shown === 1 ? ' app' : ' apps');
       };
       bar.addEventListener('click', function (e) {
         var b = e.target.closest('button'); if (!b) return;
-        bar.querySelectorAll('button').forEach(function (x) { x.classList.toggle('on', x === b); x.setAttribute('aria-pressed', String(x === b)); });
+        $$('button', bar).forEach(function (x) { x.classList.toggle('on', x === b); x.setAttribute('aria-pressed', String(x === b)); });
         filt = b.getAttribute('data-f'); apply();
       });
       if (search) search.addEventListener('input', function () { q = search.value.trim().toLowerCase(); apply(); });
@@ -222,41 +207,49 @@
     }
   }
 
-  // App page: screenshots (with a viewer), videos and "about" from apps.js
-  function appSections(app) {
+  // ---------- app page ----------
+  function appPage(app) {
+    document.documentElement.setAttribute('style', vars(app.colors));
     var need = { screens: !!(app.screens && app.screens.length), videos: !!(app.videos && app.videos.length), about: !!(app.about && app.about.length) };
-    document.querySelectorAll('[data-needs]').forEach(function (el) { el.hidden = !need[el.getAttribute('data-needs')]; });
-    var sh = document.getElementById('app-screens');
+    $$('[data-needs]').forEach(function (el) { el.hidden = !need[el.getAttribute('data-needs')]; });
+    // hero screenshots
+    var hs = $('#ah-shots');
+    if (hs) {
+      var s3 = (app.screens || []).slice(0, 3);
+      hs.innerHTML = s3.length >= 3 ? [s3[1], s3[0], s3[2]].map(function (x, i) { return '<img src="' + esc(url(shotSrc(x))) + '" alt="' + (i === 1 ? esc(shotCap(x) || app.name) : '') + '"' + (i === 1 ? ' fetchpriority="high"' : ' loading="lazy"') + '>'; }).join('')
+        : '<img class="solo float" src="' + esc(url(app.icon)) + '" alt="">';
+    }
+    // facts bar
+    var fx = $('#app-facts');
+    if (fx) { if (app.facts && app.facts.length) fx.innerHTML = app.facts.slice(0, 5).map(function (f) { return '<div><dt>' + esc(f[0]) + '</dt><dd>' + esc(f[1]) + '</dd></div>'; }).join(''); else fx.hidden = true; }
+    // screenshots strip + viewer
+    var sh = $('#app-screens');
     if (sh && need.screens) {
       sh.innerHTML = app.screens.map(function (x, i) {
-        return '<button type="button" class="shot" data-i="' + i + '" aria-label="Open screen ' + (i + 1) + (shotCap(x) ? ': ' + esc(shotCap(x)) : '') + '"><img src="' + url(shotSrc(x)) + '" alt="" width="270" height="480" loading="lazy">' +
-          (shotCap(x) ? '<span>' + esc(shotCap(x)) + '</span>' : '') + '</button>';
+        return '<button type="button" class="shot" data-i="' + i + '" aria-label="Open screen ' + (i + 1) + (shotCap(x) ? ': ' + esc(shotCap(x)) : '') + '"><img src="' + esc(url(shotSrc(x))) + '" alt="" width="236" height="420" loading="lazy">' + (shotCap(x) ? '<span>' + esc(shotCap(x)) + '</span>' : '') + '</button>';
       }).join('');
-      // viewer
+      $$('[data-shots-dir]').forEach(function (b) { b.addEventListener('click', function () { sh.scrollBy({ left: parseInt(b.getAttribute('data-shots-dir'), 10) * sh.clientWidth * 0.7, behavior: reduce ? 'auto' : 'smooth' }); }); });
       var dlg = document.createElement('dialog'); dlg.className = 'viewer'; dlg.setAttribute('aria-label', app.name + ' screens');
       dlg.innerHTML = '<button type="button" class="v-close" aria-label="Close">×</button><button type="button" class="v-prev" aria-label="Previous">←</button><figure><img alt=""><figcaption></figcaption></figure><button type="button" class="v-next" aria-label="Next">→</button>';
       document.body.appendChild(dlg);
-      var cur = 0, img = dlg.querySelector('img'), cap = dlg.querySelector('figcaption');
+      var cur = 0, img = $('img', dlg), cap = $('figcaption', dlg);
       var show = function (i) { cur = (i + app.screens.length) % app.screens.length; var x = app.screens[cur]; img.src = url(shotSrc(x)); img.alt = shotCap(x) || app.name + ' screen ' + (cur + 1); cap.textContent = (cur + 1) + ' / ' + app.screens.length + (shotCap(x) ? ' · ' + shotCap(x) : ''); };
-      sh.addEventListener('click', function (e) { var b = e.target.closest('.shot'); if (!b) return; show(parseInt(b.getAttribute('data-i'), 10)); dlg.showModal(); });
-      dlg.querySelector('.v-close').addEventListener('click', function () { dlg.close(); });
-      dlg.querySelector('.v-prev').addEventListener('click', function () { show(cur - 1); });
-      dlg.querySelector('.v-next').addEventListener('click', function () { show(cur + 1); });
+      sh.addEventListener('click', function (e) { var b = e.target.closest('.shot'); if (!b || !dlg.showModal) return; show(parseInt(b.getAttribute('data-i'), 10)); dlg.showModal(); });
+      $('.v-close', dlg).addEventListener('click', function () { dlg.close(); });
+      $('.v-prev', dlg).addEventListener('click', function () { show(cur - 1); });
+      $('.v-next', dlg).addEventListener('click', function () { show(cur + 1); });
       dlg.addEventListener('keydown', function (e) { if (e.key === 'ArrowLeft') show(cur - 1); if (e.key === 'ArrowRight') show(cur + 1); });
       dlg.addEventListener('click', function (e) { if (e.target === dlg) dlg.close(); });
     }
-    var vd = document.getElementById('app-videos');
+    // videos (YouTube)
+    var vd = $('#app-videos');
     if (vd && need.videos) {
       vd.innerHTML = app.videos.map(function (v) {
-        var id = ytId(v.youtube || v.src || '');
-        if (id) {
-          var tall = v.vertical || /\/shorts\//.test(v.youtube || v.src || '');
-          return '<figure class="vid yt' + (tall ? ' tall' : ' wide') + '"><button type="button" class="yt-play" data-yt="' + id + '" aria-label="Play video: ' + esc(v.title || '') + '">' +
-            '<img src="https://i.ytimg.com/vi/' + id + '/' + (tall ? 'oar2' : 'hqdefault') + '.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src=\'https://i.ytimg.com/vi/' + id + '/hqdefault.jpg\'">' +
-            '<span class="yt-btn" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24"><path fill="currentColor" d="M8 5v14l11-7z"/></svg></span></button>' +
-            '<figcaption>' + esc(v.title || '') + '</figcaption></figure>';
-        }
-        return '<figure class="vid"><video controls playsinline preload="none" poster="' + url(v.poster || '') + '" src="' + url(v.src) + '"></video><figcaption>' + esc(v.title || '') + '</figcaption></figure>';
+        var id = ytId(v.youtube || v.src || ''); if (!id) return '';
+        var tall = v.vertical || /\/shorts\//.test(v.youtube || v.src || '');
+        return '<figure class="vid ' + (tall ? 'tall' : 'wide') + '"><button type="button" class="yt-play" data-yt="' + id + '" aria-label="Play video: ' + esc(v.title || app.name) + '">' +
+          '<img src="https://i.ytimg.com/vi/' + id + '/' + (tall ? 'oar2' : 'hqdefault') + '.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src=\'https://i.ytimg.com/vi/' + id + '/hqdefault.jpg\'">' +
+          '<span class="yt-btn" aria-hidden="true">' + IC.play + '</span></button><figcaption>' + esc(v.title || '') + '</figcaption></figure>';
       }).join('');
       vd.addEventListener('click', function (e) {
         var b = e.target.closest('.yt-play'); if (!b) return;
@@ -265,66 +258,150 @@
         f.title = b.getAttribute('aria-label'); f.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen'; f.allowFullscreen = true;
         b.replaceWith(f);
       });
-      vd.addEventListener('play', function (e) { vd.querySelectorAll('video').forEach(function (x) { if (x !== e.target) x.pause(); }); }, true);
     }
-    var ab = document.getElementById('app-about');
-    if (ab && need.about) {
-      ab.innerHTML = '<div class="about-text">' + app.about.map(function (p) { return '<p>' + esc(p) + '</p>'; }).join('') + '</div>' +
-        (app.facts && app.facts.length ? '<dl class="facts">' + app.facts.map(function (f) { return '<div><dt>' + esc(f[0]) + '</dt><dd>' + esc(f[1]) + '</dd></div>'; }).join('') + '</dl>' : '');
+    $$('[data-needs-video-link]').forEach(function (el) { el.hidden = !need.videos; });
+    // about
+    var ab = $('#app-about');
+    if (ab && need.about) ab.innerHTML = app.about.map(function (p) { return '<p>' + esc(p) + '</p>'; }).join('');
+    // stage
+    $$('[data-stage-tracker]').forEach(function (el) { el.innerHTML = tracker(app); });
+    $$('[data-stage-word]').forEach(function (el) { el.textContent = STAGE_WORD[app.stage] || app.stage; });
+    // Google Play buttons
+    $$('[data-play]').forEach(function (el) {
+      var label = $('span', el) || el;
+      if (app.playUrl && app.stage === 'live') { el.href = app.playUrl; el.removeAttribute('aria-disabled'); el.target = '_blank'; el.rel = 'noopener'; label.textContent = 'Get it on Google Play'; }
+      else if (app.stage === 'test' && app.testUrl) { el.href = '#join'; el.removeAttribute('aria-disabled'); el.removeAttribute('target'); label.textContent = 'Join the closed test'; }
+      else if (app.playUrl) { el.href = app.playUrl; el.removeAttribute('aria-disabled'); el.target = '_blank'; el.rel = 'noopener'; label.textContent = 'Open on Google Play'; }
+      else { el.setAttribute('aria-disabled', 'true'); el.removeAttribute('href'); label.textContent = 'Coming soon to Google Play'; }
+    });
+    $$('[data-play-note]').forEach(function (el) {
+      if (app.stage === 'test') { el.hidden = false; el.innerHTML = 'Free · ' + esc(app.platform || 'Android') + ' · In closed testing' + (app.testUrl ? ' · <a href="' + esc(app.testUrl) + '" target="_blank" rel="noopener">Already a tester? Open the test</a>' : ''); }
+      else if (app.stage !== 'live' && !app.playUrl) { el.hidden = false; el.textContent = 'Not on Google Play yet. It will appear here at launch.'; }
+    });
+    $$('[data-feedback]').forEach(function (el) { el.href = root + 'contact/?app=' + encodeURIComponent(app.slug); });
+    $$('[data-notify]').forEach(function (el) { el.href = root + 'contact/?app=' + encodeURIComponent(app.slug) + '&topic=launch'; el.hidden = app.stage === 'live'; });
+    // details for search engines
+    if (!$('#app-ld')) {
+      var ld = { '@context': 'https://schema.org', '@type': 'MobileApplication', name: app.name, operatingSystem: app.platform || 'Android',
+        applicationCategory: /financ/i.test(app.kind || '') ? 'FinanceApplication' : 'UtilitiesApplication', description: app.tagline,
+        url: 'https://forgeapps.in/' + app.slug + '/', image: 'https://forgeapps.in/' + app.icon,
+        author: { '@type': 'Organization', name: 'Forge Apps', url: 'https://forgeapps.in/' }, offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' } };
+      if (app.playUrl) ld.installUrl = app.playUrl;
+      var sc = document.createElement('script'); sc.type = 'application/ld+json'; sc.id = 'app-ld'; sc.textContent = JSON.stringify(ld); document.head.appendChild(sc);
+    }
+  }
+  if (pageApp) { var theApp = bySlug(pageApp); if (theApp) appPage(theApp); }
+
+  // ---------- early access: every app in closed testing (home), or just this app (app page) ----------
+  var tb = $('#tester-band');
+  if (tb) {
+    var only = tb.getAttribute('data-only');
+    var testing = V.filter(function (a) { return a.stage === 'test' && a.testUrl && (!only || a.slug === only); });
+    if (only && !testing.length) { var oa = bySlug(only); if (oa && oa.hidden !== true && oa.stage === 'test') testing = [oa]; }
+    var sec = tb.closest('[data-early]');
+    if (!testing.length) { if (sec) sec.hidden = true; }
+    else {
+      if (sec) sec.hidden = false;
+      var cnt = $('#early-count'); if (cnt) cnt.textContent = testing.length === 1 ? '1 app in testing' : testing.length + ' apps in testing';
+      var tabs = $('#tester-tabs'), sent = {};
+      var showBand = function (ta) {
+        tb.className = 'tband'; tb.setAttribute('data-slug', ta.slug);
+        tb.innerHTML =
+          '<div class="tb-copy"><div class="tb-id"><img src="' + esc(url(ta.icon)) + '" alt="" width="48" height="48"><span>Closed test · Open to join</span></div>' +
+            '<h3>' + (only ? 'Try ' + esc(ta.name) + ' before launch' : 'Join the ' + esc(ta.name) + ' closed test') + '</h3>' +
+            '<p>' + (only ? 'Join the free closed test on Google Play and tell us what to improve. Every message gets a reply.' : esc(ta.tagline) + ' Try it before anyone else, tell us what to fix, and help it launch on Google Play.') + '</p>' +
+            '<ul class="tb-points"><li>' + IC.check + 'Free</li><li>' + IC.check + esc(ta.platform || 'Android') + '</li><li>' + IC.check + 'Takes 2 minutes</li></ul>' +
+            (only ? '' : '<a class="tb-more" href="' + root + ta.slug + '/">See ' + esc(ta.name) + ' →</a>') +
+          '</div>' +
+          '<div class="tb-box"><form class="tb-form" novalidate><label for="tb-email">Your Google Play email</label>' +
+            '<div class="tb-row"><input id="tb-email" type="email" inputmode="email" autocomplete="email" placeholder="you@gmail.com" required><button class="btn btn-accent tb-btn" type="submit"><span>Request access</span></button></div>' +
+            '<input type="checkbox" name="botcheck" class="cf-hp" tabindex="-1" autocomplete="off" aria-hidden="true">' +
+            '<p class="tb-err" hidden>Please enter the email you use on Google Play.</p>' +
+            '<p class="tb-small">Use the Google account on your Android phone. We add it to the tester list and reply within a day.</p></form>' +
+            '<div class="tb-done" hidden tabindex="-1"><div class="tb-tick" aria-hidden="true"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5" pathLength="1"/></svg></div>' +
+              '<h3>You’re in the queue</h3><ol><li>We add <b class="tb-mail"></b> to the ' + esc(ta.name) + ' tester list and email you, usually within a day.</li><li>Then open the test link on your phone and tap <b>Become a tester</b>.</li><li>Install it from Google Play and keep it for 14 days.</li></ol></div>' +
+            '<a class="tb-link" href="' + esc(ta.testUrl || '#') + '" target="_blank" rel="noopener">Already added? Open the test link →</a></div>';
+        var tf = $('.tb-form', tb), ti = $('#tb-email', tb), te = $('.tb-err', tb), tbtn = $('.tb-btn', tb);
+        var finish = function (em) { sent[ta.slug] = em; $('.tb-mail', tb).textContent = em; tf.hidden = true; $('.tb-done', tb).hidden = false; };
+        if (sent[ta.slug]) finish(sent[ta.slug]);
+        ti.addEventListener('input', function () { te.hidden = true; ti.classList.remove('bad'); });
+        tf.addEventListener('submit', function (e) {
+          e.preventDefault();
+          var em = ti.value.trim();
+          if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(em)) { te.hidden = false; te.textContent = 'Please enter the email you use on Google Play.'; ti.classList.add('bad'); ti.focus(); return; }
+          if (tf.botcheck && tf.botcheck.checked) return;
+          var done = function () { finish(em); $('.tb-done', tb).focus({ preventScroll: true }); window.forgeTrack('tester-request', { app: ta.slug }); };
+          var subject = '[Forge Apps] Tester request · ' + ta.name;
+          if (!F.formKey) { location.href = 'mailto:' + F.email + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent('Please add me to the ' + ta.name + ' closed test.\n\nGoogle Play email: ' + em); done(); return; }
+          tbtn.disabled = true; $('span', tbtn).textContent = 'Sending…';
+          fetch('https://api.web3forms.com/submit', { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+            body: JSON.stringify({ access_key: F.formKey, subject: subject, from_name: 'Forge Apps website', email: em, replyto: em, topic: 'Tester request', app: ta.name,
+              message: 'Please add this Google account to the ' + ta.name + ' closed test: ' + em + '\n\nPlay Console → ' + ta.name + ' → Testing → Closed testing → Testers.', page: location.href, botcheck: false }) })
+            .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { if (!r.ok || j.success === false) throw 0; }); })
+            .then(done)
+            .catch(function () { tbtn.disabled = false; $('span', tbtn).textContent = 'Request access'; te.hidden = false; te.innerHTML = 'Couldn’t send just now. Try again, or email <a href="mailto:' + esc(F.email) + '">' + esc(F.email) + '</a>.'; });
+        });
+      };
+      if (tabs && testing.length > 1) {
+        tabs.hidden = false;
+        tabs.innerHTML = testing.map(function (a, i) { return '<button type="button" role="tab" class="tb-tab" data-slug="' + esc(a.slug) + '" aria-selected="' + (i === 0) + '"><img src="' + esc(url(a.icon)) + '" alt="" width="30" height="30"><span>' + esc(a.name) + '</span></button>'; }).join('');
+        tabs.addEventListener('click', function (e) {
+          var t = e.target.closest('.tb-tab'); if (!t || t.getAttribute('aria-selected') === 'true') return;
+          $$('.tb-tab', tabs).forEach(function (x) { x.setAttribute('aria-selected', String(x === t)); });
+          var a = bySlug(t.getAttribute('data-slug')); showBand(a);
+          tb.classList.remove('swap'); void tb.offsetWidth; tb.classList.add('swap');
+          window.forgeTrack('early-access-tab', { app: a.slug });
+        });
+      }
+      showBand(testing[0]);
     }
   }
 
-  // App page: stage tracker, brand colours and Google Play button from apps.js
-  var slug = document.documentElement.getAttribute('data-app');
-  if (slug) {
-    var app = F.apps.filter(function (a) { return a.slug === slug; })[0];
-    if (app) {
-      document.documentElement.setAttribute('style', vars(app.colors));
-      appSections(app);
-      document.querySelectorAll('[data-status]').forEach(function (el) {
-        var d = document.createElement('div'); d.innerHTML = tracker(app); el.parentNode.parentNode.insertBefore(d.firstChild, el.parentNode.nextSibling); el.remove();
-      });
-      document.querySelectorAll('[data-play]').forEach(function (el) {
-        var label = el.querySelector('span');
-        if (app.playUrl) {
-          el.href = app.playUrl; el.removeAttribute('aria-disabled'); el.target = '_blank'; el.rel = 'noopener';
-          label.textContent = app.stage === 'live' ? 'Get it on Google Play' : 'Open on Google Play';
-        } else { el.setAttribute('aria-disabled', 'true'); el.removeAttribute('href'); label.textContent = 'Coming soon to Google Play'; }
-      });
-      document.querySelectorAll('[data-play-note]').forEach(function (el) {
-        if (app.stage === 'test') {
-          el.hidden = false;
-          el.innerHTML = 'In closed testing: only invited testers can install it for now.' + (app.testUrl ? ' <a href="' + esc(app.testUrl) + '" target="_blank" rel="noopener">Join the test</a>' : '');
-        } else if (app.stage !== 'live' && !app.playUrl) { el.hidden = false; el.textContent = 'Not on Google Play yet. It will appear here at launch.'; }
-      });
+  // ---------- legal pages: "On this page" list ----------
+  var toc = $('#toc'), legal = $('.legal');
+  if (toc && legal) {
+    var hs2 = $$('h2', legal);
+    if (hs2.length < 3) toc.hidden = true;
+    else {
+      toc.innerHTML = '<p>On this page</p>' + hs2.map(function (h, i) { if (!h.id) h.id = 's' + (i + 1) + '-' + h.textContent.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 40); return '<a href="#' + h.id + '">' + esc(h.textContent) + '</a>'; }).join('');
+      if ('IntersectionObserver' in window) {
+        var links = $$('a', toc), seen = {};
+        var io2 = new IntersectionObserver(function (en) {
+          en.forEach(function (x) { seen[x.target.id] = x.isIntersecting; });
+          var first = hs2.filter(function (h) { return seen[h.id]; })[0];
+          if (first) links.forEach(function (l) { l.classList.toggle('on', l.getAttribute('href') === '#' + first.id); });
+        }, { rootMargin: '-90px 0px -55% 0px' });
+        hs2.forEach(function (h) { io2.observe(h); });
+      }
     }
   }
-  // ---------- Analytics (cookie-free). Turned on by the IDs in apps.js; does nothing until they're filled. ----------
+
+  // ---------- scroll reveals ----------
+  $$('[data-stagger]').forEach(function (g) { Array.prototype.forEach.call(g.children, function (c, i) { if (!c.hasAttribute('data-zoom')) c.setAttribute('data-reveal', ''); c.style.setProperty('--d', (Math.min(i, 6) * 0.07) + 's'); }); });
+  var els = $$('[data-reveal],[data-zoom]');
+  if (reduce || !('IntersectionObserver' in window)) els.forEach(function (e) { e.classList.add('shown'); });
+  else {
+    var io = new IntersectionObserver(function (en) { en.forEach(function (x) { if (x.isIntersecting) { x.target.classList.add('shown'); io.unobserve(x.target); } }); }, { rootMargin: '0px 0px -6% 0px', threshold: 0.08 });
+    els.forEach(function (e) { io.observe(e); });
+  }
+
+  // ---------- analytics (cookie-free). Turned on by the IDs in apps.js ----------
   var A = F.analytics || {};
   var live = /(^|\.)forgeapps\.in$/.test(location.hostname);
-  if (live && A.umami && !document.querySelector('script[data-website-id]')) {
-    var us = document.createElement('script');
-    us.defer = true; us.src = 'https://cloud.umami.is/script.js';
-    us.setAttribute('data-website-id', A.umami);
-    us.setAttribute('data-domains', 'forgeapps.in,www.forgeapps.in');
-    document.head.appendChild(us);
+  if (live && A.umami && !$('script[data-website-id]')) {
+    var us = document.createElement('script'); us.defer = true; us.src = 'https://cloud.umami.is/script.js';
+    us.setAttribute('data-website-id', A.umami); us.setAttribute('data-domains', 'forgeapps.in,www.forgeapps.in'); document.head.appendChild(us);
   }
-  if (live && A.cloudflare && !document.querySelector('script[data-cf-beacon]')) {
-    var cs = document.createElement('script');
-    cs.defer = true; cs.src = 'https://static.cloudflareinsights.com/beacon.min.js';
-    cs.setAttribute('data-cf-beacon', JSON.stringify({ token: A.cloudflare }));
-    document.head.appendChild(cs);
+  if (live && A.cloudflare && !$('script[data-cf-beacon]')) {
+    var cs = document.createElement('script'); cs.defer = true; cs.src = 'https://static.cloudflareinsights.com/beacon.min.js';
+    cs.setAttribute('data-cf-beacon', JSON.stringify({ token: A.cloudflare })); document.head.appendChild(cs);
   }
   // window.forgeTrack('event-name', { any: 'details' }) — safe to call any time
-  window.forgeTrack = function (name, data) {
-    try { if (window.umami && typeof window.umami.track === 'function') window.umami.track(name, data || {}); } catch (e) {}
-  };
-  var pageApp = document.documentElement.getAttribute('data-app') || '';
+  window.forgeTrack = function (name, data) { try { if (window.umami && typeof window.umami.track === 'function') window.umami.track(name, data || {}); } catch (e) {} };
   document.addEventListener('click', function (e) {
-    var el = e.target.closest && e.target.closest('a,button');
-    if (!el) return;
+    var el = e.target.closest && e.target.closest('a,button'); if (!el) return;
     var h = el.getAttribute('href') || '';
-    var appOf = function () { var s = el.closest('[data-slug]'); return (s && s.getAttribute('data-slug')) || pageApp || (document.getElementById('spotlight') && document.getElementById('spotlight').getAttribute('data-slug')) || ''; };
+    var appOf = function () { var s = el.closest('[data-slug]'); return (s && s.getAttribute('data-slug')) || pageApp || ''; };
     if (el.hasAttribute('data-track')) window.forgeTrack(el.getAttribute('data-track'), { app: appOf() });
     else if (/play\.google\.com\/apps\/testing/.test(h)) window.forgeTrack('join-test', { app: appOf() });
     else if (/play\.google\.com\/store/.test(h)) window.forgeTrack('play-store-click', { app: appOf() });
@@ -332,180 +409,9 @@
     else if (/youtube\.com|youtu\.be/.test(h)) window.forgeTrack('social-click', { network: 'youtube' });
     else if (/instagram\.com/.test(h)) window.forgeTrack('social-click', { network: 'instagram' });
     else if (/facebook\.com/.test(h)) window.forgeTrack('social-click', { network: 'facebook' });
-    else if (el.classList.contains('spot-btn')) window.forgeTrack('explore-app', { app: appOf() });
-    else if (el.classList.contains('mini') && el.tagName === 'BUTTON') window.forgeTrack('spotlight-app', { app: el.getAttribute('data-slug') || '' });
+    else if (el.id === 'featured') window.forgeTrack('explore-app', { app: appOf() });
     else if (el.classList.contains('yt-play')) window.forgeTrack('video-play', { app: pageApp });
-    else if (el.classList.contains('nav-toggle')) { if (el.getAttribute('aria-expanded') !== 'true') window.forgeTrack('menu-open'); }
+    else if (el.classList.contains('shot')) window.forgeTrack('screenshot-open', { app: pageApp });
+    else if (el.classList.contains('menubtn')) { if (el.getAttribute('aria-expanded') !== 'true') window.forgeTrack('menu-open'); }
   }, true);
-  document.addEventListener('play', function (e) { if (e.target && e.target.tagName === 'VIDEO') window.forgeTrack('video-play', { app: pageApp, video: (e.target.getAttribute('src') || '').split('/').pop() }); }, true);
-
-  // close the full-screen menu if the window grows to desktop width
-  if (window.matchMedia) {
-    var mq = window.matchMedia('(min-width: 1024px)');
-    var onMq = function () { var t = document.querySelector('.nav-toggle'); if (mq.matches && t && t.getAttribute('aria-expanded') === 'true') t.click(); };
-    if (mq.addEventListener) mq.addEventListener('change', onMq); else if (mq.addListener) mq.addListener(onMq);
-  }
-
-  // ---------- Contact links go to the contact page ----------
-  var contactUrl = root + 'contact/';
-  document.querySelectorAll('.nav a').forEach(function (a) {
-    if (/#contact$/.test(a.getAttribute('href') || '')) a.setAttribute('href', contactUrl);
-  });
-
-  // ---------- App pages: feedback and launch-alert buttons ----------
-  if (pageApp) {
-    var pa = F.apps.filter(function (a) { return a.slug === pageApp; })[0];
-    var links = document.querySelector('.app-links');
-    if (pa && links && !links.querySelector('[data-feedback]')) {
-      var fb = document.createElement('a');
-      fb.className = 'btn btn-primary'; fb.setAttribute('data-feedback', '');
-      fb.href = contactUrl + '?app=' + encodeURIComponent(pa.slug);
-      fb.innerHTML = '<span>Send feedback</span>';
-      links.insertBefore(fb, links.firstChild);
-    }
-    var band = document.querySelector('.get-band');
-    if (pa && band && pa.stage !== 'live' && !band.querySelector('[data-notify]')) {
-      var nb = document.createElement('a');
-      nb.className = 'btn btn-ghost notify-btn'; nb.setAttribute('data-notify', ''); nb.setAttribute('data-track', 'launch-alert-click');
-      nb.href = contactUrl + '?app=' + encodeURIComponent(pa.slug) + '&topic=launch';
-      nb.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 8 3 8H3s3-1 3-8"/><path d="M10.3 21a1.9 1.9 0 0 0 3.4 0"/></svg><span>Tell me at launch</span>';
-      band.appendChild(nb);
-    }
-  }
-
-  // ---------- Home: early access — every app in closed testing, one band at a time ----------
-  var tb = document.getElementById('tester-band');
-  var testing = F.apps.filter(function (a) { return a.stage === 'test' && a.testUrl; });
-  if (tb && testing.length) {
-    document.getElementById('early').hidden = false;
-    var cnt = document.getElementById('early-count');
-    if (cnt) cnt.textContent = testing.length === 1 ? '1 app in testing' : testing.length + ' apps in testing';
-    var tabs = document.getElementById('tester-tabs');
-    var sent = {};   // remembers who already asked, per app, while on the page
-    var showBand = function (ta) {
-      tb.className = 'tband'; tb.setAttribute('style', vars(ta.colors)); tb.setAttribute('data-slug', ta.slug);
-      tb.innerHTML =
-        '<div class="tb-copy">' +
-          '<div class="tb-id"><img src="' + url(ta.icon) + '" alt="" width="64" height="64"><span class="tb-badge"><i></i>Closed test · Open to join</span></div>' +
-          '<h3 class="tb-title">Join the ' + esc(ta.name) + ' closed test</h3>' +
-          '<p>' + esc(ta.tagline) + ' Try it before anyone else, tell us what to fix, and help it launch on Google Play.</p>' +
-          '<ul class="tb-points"><li>Free</li><li>' + esc(ta.platform || 'Android') + '</li><li>Takes 2 minutes</li><li>Your feedback shapes the app</li></ul>' +
-          '<a class="tb-more" href="' + root + ta.slug + '/">See ' + esc(ta.name) + ' →</a>' +
-        '</div>' +
-        '<div class="tb-box">' +
-          '<form class="tb-form" novalidate>' +
-            '<label for="tb-email">Your Google Play email</label>' +
-            '<div class="tb-row"><input id="tb-email" type="email" inputmode="email" autocomplete="email" placeholder="you@gmail.com" required>' +
-            '<button class="btn tb-btn" type="submit"><span>Request access</span></button></div>' +
-            '<input type="checkbox" name="botcheck" class="cf-hp" tabindex="-1" autocomplete="off" aria-hidden="true">' +
-            '<p class="tb-err" hidden>Please enter the email you use on Google Play.</p>' +
-            '<p class="tb-small">Use the Google account on your Android phone. We add it to the tester list and reply within a day.</p>' +
-          '</form>' +
-          '<div class="tb-done" hidden tabindex="-1">' +
-            '<div class="tb-tick" aria-hidden="true"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5" pathLength="1"/></svg></div>' +
-            '<h3>You’re in the queue</h3>' +
-            '<ol><li>We add <b class="tb-mail"></b> to the ' + esc(ta.name) + ' tester list and email you, usually within a day.</li><li>Then open the test link on your phone and tap <b>Become a tester</b>.</li><li>Install it from Google Play and keep it for 14 days.</li></ol>' +
-          '</div>' +
-          '<a class="tb-link" href="' + esc(ta.testUrl) + '" target="_blank" rel="noopener">Already added? Open the test link →</a>' +
-        '</div>';
-      var tf = tb.querySelector('.tb-form'), ti = tb.querySelector('#tb-email'), te = tb.querySelector('.tb-err'), tbtn = tb.querySelector('.tb-btn');
-      var finish = function (em) {
-        sent[ta.slug] = em;
-        tb.querySelector('.tb-mail').textContent = em;
-        tf.hidden = true; var d = tb.querySelector('.tb-done'); d.hidden = false;
-      };
-      if (sent[ta.slug]) finish(sent[ta.slug]);
-      ti.addEventListener('input', function () { te.hidden = true; ti.classList.remove('bad'); });
-      tf.addEventListener('submit', function (e) {
-        e.preventDefault();
-        var em = ti.value.trim();
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(em)) { te.hidden = false; te.textContent = 'Please enter the email you use on Google Play.'; ti.classList.add('bad'); ti.focus(); return; }
-        if (tf.botcheck && tf.botcheck.checked) return;
-        var done = function () { finish(em); tb.querySelector('.tb-done').focus({ preventScroll: true }); window.forgeTrack('tester-request', { app: ta.slug }); };
-        var subject = '[Forge Apps] Tester request · ' + ta.name;
-        if (!F.formKey) {
-          location.href = 'mailto:' + F.email + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent('Please add me to the ' + ta.name + ' closed test.\n\nGoogle Play email: ' + em);
-          done(); return;
-        }
-        tbtn.disabled = true; tbtn.querySelector('span').textContent = 'Sending…';
-        fetch('https://api.web3forms.com/submit', { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-          body: JSON.stringify({ access_key: F.formKey, subject: subject, from_name: 'Forge Apps website', email: em, replyto: em,
-            topic: 'Tester request', app: ta.name, message: 'Please add this Google account to the ' + ta.name + ' closed test: ' + em + '\n\nPlay Console → ' + ta.name + ' → Testing → Closed testing → Testers.', page: location.href, botcheck: false }) })
-          .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { if (!r.ok || j.success === false) throw 0; }); })
-          .then(done)
-          .catch(function () { tbtn.disabled = false; tbtn.querySelector('span').textContent = 'Request access'; te.hidden = false; te.innerHTML = 'Couldn’t send just now. Try again, or email <a href="mailto:' + esc(F.email) + '">' + esc(F.email) + '</a>.'; });
-      });
-    };
-    // more than one app in testing: a row of app tabs above the band
-    if (tabs && testing.length > 1) {
-      tabs.hidden = false;
-      tabs.innerHTML = testing.map(function (a, i) {
-        return '<button type="button" role="tab" class="tb-tab" data-slug="' + esc(a.slug) + '" aria-selected="' + (i === 0) + '" style="' + vars(a.colors) + '">' +
-          '<img src="' + url(a.icon) + '" alt="" width="28" height="28"><span>' + esc(a.name) + '</span></button>';
-      }).join('');
-      tabs.addEventListener('click', function (e) {
-        var t = e.target.closest('.tb-tab'); if (!t || t.getAttribute('aria-selected') === 'true') return;
-        tabs.querySelectorAll('.tb-tab').forEach(function (x) { x.setAttribute('aria-selected', String(x === t)); });
-        var a = testing.filter(function (x) { return x.slug === t.getAttribute('data-slug'); })[0];
-        showBand(a);
-        tb.classList.remove('swap'); void tb.offsetWidth; tb.classList.add('swap');
-        window.forgeTrack('early-access-tab', { app: a.slug });
-      });
-    }
-    showBand(testing[0]);
-  }
-
-  // ---------- App pages: details for search engines ----------
-  if (pageApp) {
-    var sa = F.apps.filter(function (a) { return a.slug === pageApp; })[0];
-    if (sa && !document.getElementById('app-ld')) {
-      var ld = { '@context': 'https://schema.org', '@type': 'MobileApplication', name: sa.name, operatingSystem: sa.platform || 'Android',
-        applicationCategory: /financ/i.test(sa.kind || '') ? 'FinanceApplication' : 'UtilitiesApplication', description: sa.tagline,
-        url: 'https://forgeapps.in/' + sa.slug + '/', image: 'https://forgeapps.in/' + sa.icon,
-        author: { '@type': 'Organization', name: 'Forge Apps', url: 'https://forgeapps.in/' }, offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' } };
-      if (sa.playUrl) ld.installUrl = sa.playUrl;
-      var sc = document.createElement('script'); sc.type = 'application/ld+json'; sc.id = 'app-ld'; sc.textContent = JSON.stringify(ld);
-      document.head.appendChild(sc);
-    }
-  }
-
-  // ---------- Footer: built from apps.js, so every new app shows up by itself ----------
-  var foot = document.querySelector('.site-footer');
-  if (foot && !foot.hasAttribute('data-static')) {
-    var appNow = pageApp && F.apps.filter(function (a) { return a.slug === pageApp; })[0];
-    var col = function (title, items) {
-      return '<div class="f-col"><h3>' + esc(title) + '</h3><ul>' + items.map(function (i) {
-        return '<li><a href="' + esc(i[1]) + '"' + (i[2] ? ' target="_blank" rel="noopener"' : '') + '>' + i[0] + '</a></li>';
-      }).join('') + '</ul></div>';
-    };
-    var IC = {
-      instagram: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>',
-      youtube: '<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2 31 31 0 0 0 .5 12 31 31 0 0 0 1 16.8a3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1c.4-1.6.5-3.2.5-4.8s-.1-3.2-.5-4.8zM9.8 15.1V8.9l5.7 3.1z"/></svg>',
-      facebook: '<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M13.5 21v-7.5h2.6l.4-3.1h-3V8.5c0-.9.3-1.5 1.6-1.5h1.6V4.2c-.3 0-1.2-.1-2.3-.1-2.3 0-3.9 1.4-3.9 4v2.3H7.9v3.1h2.6V21z"/></svg>',
-      email: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg>'
-    };
-    var NAMES = { instagram: 'Instagram', youtube: 'YouTube', facebook: 'Facebook' };
-    var socials = ['instagram', 'youtube', 'facebook'].filter(function (k) { return F[k]; }).map(function (k) {
-      return '<a class="f-soc" href="' + esc(F[k]) + '" target="_blank" rel="noopener" aria-label="Forge Apps on ' + NAMES[k] + '" title="' + NAMES[k] + '">' + IC[k] + '</a>';
-    });
-    socials.push('<a class="f-soc" href="mailto:' + esc(F.email) + '" aria-label="Email ' + esc(F.email) + '" title="Email">' + IC.email + '</a>');
-    var legal = [['Website privacy', root + 'privacy/']];
-    if (appNow) {
-      var ab = root + appNow.slug + '/';
-      legal.push([esc(appNow.name) + ' privacy', ab + 'privacy/'], [esc(appNow.name) + ' terms', ab + 'terms/'], ['Delete your data', ab + 'delete-account/']);
-    }
-    foot.innerHTML =
-      '<div class="wrap f-grid">' +
-        '<div class="f-brand">' +
-          '<a class="brand" href="' + (root || './') + '" aria-label="Forge Apps home"><img src="' + root + 'assets/favicon.svg" alt="" width="30" height="30"><span><b>Forge</b> Apps</span></a>' +
-          '<p>Useful apps, designed and built from scratch, and hammered into shape until they feel right.</p>' +
-          '<div class="f-socials">' + socials.join('') + '</div>' +
-        '</div>' +
-        col('Apps', F.apps.map(function (a) { return [esc(a.name) + (a.stage !== 'live' ? ' <em>' + esc(STAGE_WORD[a.stage] || a.stage) + '</em>' : ''), root + a.slug + '/']; }).concat([['All apps →', root + 'apps/']])) +
-        col('Studio', [['About', root + '#about'], ['How it’s made', root + '#how'], ['Contact', contactUrl]]) +
-        col('Help', [['Send feedback', contactUrl], ['Report a bug', contactUrl + '?topic=bug'], ['Suggest an idea', contactUrl + '?topic=idea'], [esc(F.email), 'mailto:' + F.email]]) +
-        col('Legal', legal) +
-      '</div>' +
-      '<div class="wrap f-bottom"><span>© ' + new Date().getFullYear() + ' Forge Apps. All rights reserved.</span><span>Made in India · Hammered into shape</span></div>';
-  }
 })();

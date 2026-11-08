@@ -4,7 +4,7 @@ A plain HTML/CSS site, no build step. It runs free on GitHub Pages.
 
 ```
 website/
-├── index.html            → forgeapps.in (latest 3 apps)
+├── index.html            → forgeapps.in (home)
 ├── apps/                 → forgeapps.in/apps/ (every app, with filters)
 ├── wealthon/             → forgeapps.in/wealthon/
 │   ├── index.html          app page
@@ -12,10 +12,10 @@ website/
 │   ├── terms/              forgeapps.in/wealthon/terms/
 │   ├── delete-account/     forgeapps.in/wealthon/delete-account/
 │   └── icon.svg            placeholder: replace with the real icon
-├── noctyl/               → forgeapps.in/noctyl/   (coming-soon page)
-├── assets/             (ui.css = layout, motion.js = logo intro + fade-ins; vendor/ is no longer used)
+├── noctyl/               → forgeapps.in/noctyl/   (hidden for now: "hidden": true in apps.js)
+├── assets/             (frost.css = the whole design; site.js = fills pages from apps.js)
 │   ├── apps.js             ← THE file to edit: app list, Play links, email, socials
-│   ├── site.js, style.css
+│   ├── site.js, frost.css, contact.js
 │   └── logo.svg, favicon, og-image.png
 ├── _template/            blank app (not published; used by the script)
 ├── _tools/new_app.py     adds a new app in one command
