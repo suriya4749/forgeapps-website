@@ -1,8 +1,7 @@
 /*
   Forge Apps — site settings and the list of apps.
   Edit this with the admin panel (/admin/) or by hand.
-  The first app shows big on the home page. stage: idea | build | test | live.
-  "hidden": true keeps an app off the website (its page still exists) until you're ready.
+  The first 4 apps show on the home page. stage: idea | build | test | live.
 */
 window.FORGE = {
   "email": "support@forgeapps.in",
@@ -84,9 +83,8 @@ window.FORGE = {
       ],
       "videos": [
         {
-          "youtube": "https://www.youtube.com/shorts/9YFxxaZPQMs",
-          "title": "Early Access",
-          "vertical": true
+          "youtube": "https://youtu.be/Yf8L2sMaDIM?si=QPqDIdfyjIwHzzAq",
+          "title": "WealthOn: every feature in 2 minutes"
         }
       ],
       "about": [
