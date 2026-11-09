@@ -402,17 +402,28 @@
   var setStory = function (st, idx) {
     if (st._idx === idx) return; st._idx = idx;
     var steps = $$('.story-step', st), n = steps.length;
-    steps.forEach(function (s, i) { s.classList.toggle('on', i === idx); });
-    $$('[data-si]', st).forEach(function (v) { v.classList.toggle('on', +v.getAttribute('data-si') === idx); });
+    steps.forEach(function (s, i) { s.classList.toggle('on', i === idx); s.classList.toggle('was', i < idx); });
+    $$('[data-si]', st).forEach(function (v) {
+      var d = +v.getAttribute('data-si') - idx;
+      v.classList.toggle('on', d === 0);
+      if (v.classList.contains('sc')) { v.classList.remove('past', 'n1', 'n2', 'n3'); if (d < 0) v.classList.add('past'); else if (d > 0) v.classList.add('n' + Math.min(d, 3)); }
+    });
     $$('.story-dots i', st).forEach(function (d, i) { d.classList.toggle('on', i === idx); });
     st.style.setProperty('--sp', ((idx + 1) / n).toFixed(3));
   };
   stories.forEach(function (st) { setStory(st, 0); });
-  var ticking = false;
+  var ticking = false, LERP = 0.12;
+  var ease = function (el, key, target) {
+    var cur = el[key] == null ? target : el[key];
+    cur += (target - cur) * LERP;
+    if (Math.abs(target - cur) < 0.0008) cur = target; else moving = true;
+    el[key] = cur; return cur;
+  };
+  var moving = false;
   var frame = function () {
-    ticking = false;
+    ticking = false; moving = false;
     var vh = window.innerHeight;
-    pItems.forEach(function (el) { var r = el.getBoundingClientRect(); if (r.bottom < -vh || r.top > vh * 2) return; el.style.setProperty('--p', progress(el, el.getAttribute('data-p'), r, vh).toFixed(4)); });
+    pItems.forEach(function (el) { var r = el.getBoundingClientRect(); if (r.bottom < -vh || r.top > vh * 2) return; el.style.setProperty('--p', ease(el, '_p', progress(el, el.getAttribute('data-p'), r, vh)).toFixed(4)); });
     wItems.forEach(function (el) {
       var r = el.getBoundingClientRect(); if (r.bottom < 0 || r.top > vh) return;
       var p = clamp((vh * 0.82 - r.top) / (r.height + vh * 0.28)), lit = Math.round(p * el._w.length);
@@ -422,13 +433,17 @@
     parItems.forEach(function (el) {
       var r = el.getBoundingClientRect(); if (r.bottom < -200 || r.top > vh + 200) return;
       var f = parseFloat(el.getAttribute('data-parallax')) || 0.1;
-      el.style.setProperty('--py', ((r.top + r.height / 2 - vh / 2) * -f).toFixed(1) + 'px');
+      var target = (r.top + r.height / 2 - vh / 2) * -f;
+      var cur = el._py == null ? target : el._py + (target - el._py) * LERP;
+      if (Math.abs(target - cur) < 0.2) cur = target; else moving = true;
+      el._py = cur; el.style.setProperty('--py', cur.toFixed(2) + 'px');
     });
     stories.forEach(function (st) {
-      var steps = $$('.story-step', st), idx = 0;
-      steps.forEach(function (s, i) { if (s.getBoundingClientRect().top < vh * 0.55) idx = i; });
-      setStory(st, idx);
+      var steps = $$('.story-step', st), n = steps.length, r = st.getBoundingClientRect();
+      var pr = clamp(-r.top / Math.max(r.height - vh, 1));
+      setStory(st, Math.min(n - 1, Math.floor(pr * n)));
     });
+    if (moving && !reduce) { ticking = true; requestAnimationFrame(frame); }
   };
   var onScroll = function () { if (!ticking) { ticking = true; requestAnimationFrame(frame); } };
   if (reduce) {
