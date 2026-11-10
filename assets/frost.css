@@ -772,3 +772,15 @@ main{position:relative;z-index:1}
 .sc.on .sc-bar i{transform:none}
 .story-stage .story-dots{right:-6px}
 @media (prefers-reduced-motion:reduce){.sc{transition:none}}
+
+/* pricing details */
+.prices{align-items:stretch}
+.price .top{display:flex;justify-content:space-between;align-items:center}
+.price ul{gap:11px}
+.price .tick{font-size:15.5px}
+.pgroup{padding-top:18px;border-top:1px solid rgba(255,255,255,.18)}
+.pgroup h3{margin:0 0 12px;font-family:var(--body);font-size:13px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--app-soft)}
+.pgroup ul{padding:0;border:0}
+.price.pro .tick svg{color:#7CE3B0}
+.fnote{font-style:normal;margin-left:6px;padding:2px 8px;border-radius:999px;background:rgba(255,255,255,.12);font-size:12.5px;white-space:nowrap;opacity:.85}
+@media (min-width:1200px){.price{max-width:680px}.price .tick{font-size:clamp(15.5px,1.05vw,18px)}}
