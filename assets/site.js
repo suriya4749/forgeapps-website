@@ -161,11 +161,11 @@
   // ---------- home: latest news ----------
   var upd = $('#updates');
   if (upd && F.updates) {
-    var rows = F.updates.filter(function (u) { var a = u.app && bySlug(u.app); return !(a && a.hidden); }).slice(0, 5).map(function (u) {
+    var rows = F.updates.filter(function (u) { var a = u.app && bySlug(u.app); return !(a && a.hidden); }).slice(0, 3).map(function (u) {
       var a = u.app && bySlug(u.app);
-      return '<li data-reveal><span class="when">' + esc(u.date) + '</span><div class="what">' + (a ? '<img src="' + esc(url(a.icon)) + '" alt="">' : '') + '<div><b>' + esc(a ? a.name : 'Forge Apps') + '</b><p>' + esc(u.text) + '</p></div></div></li>';
+      return '<li><span class="when">' + esc(u.date) + '</span><div class="what">' + (a ? '<img src="' + esc(url(a.icon)) + '" alt="">' : '') + '<div><b>' + esc(a ? a.name : 'Forge Apps') + '</b><p>' + esc(u.text) + '</p></div></div></li>';
     }).join('');
-    upd.innerHTML = rows + '<li data-reveal><span class="when next">Next</span><div class="what"><div><b>More apps in the forge</b><p>New apps go to testers first. Join the list to hear about them.</p></div></div></li>';
+    upd.innerHTML = rows;
   }
 
   // ---------- all apps page ----------
@@ -391,7 +391,7 @@
     };
     walk(el); el._w = $$('.w', el); el._lit = -1;
   });
-  var pItems = $$('[data-p]'), wItems = $$('[data-words]'), parItems = $$('[data-parallax]'), stories = $$('[data-story]');
+  var pItems = $$('[data-p]'), wItems = $$('[data-words]'), parItems = $$('[data-parallax]'), stories = $$('[data-story]').filter(function (x) { return x.getAttribute('data-story') !== 'tabs'; });
   var progress = function (el, mode, r, vh) {
     if (mode === 'out') return clamp(-r.top / Math.max(r.height * 0.9, 1));
     if (mode === 'grow') return clamp((vh - r.top) / (vh * 0.8));
@@ -399,8 +399,8 @@
   };
   var setStory = function (st, idx) {
     if (st._idx === idx) return; st._idx = idx;
-    var steps = $$('.story-step', st), n = steps.length;
-    steps.forEach(function (s, i) { s.classList.toggle('on', i === idx); s.classList.toggle('was', i < idx); });
+    var steps = $$('.story-step,.tour-item', st), n = steps.length;
+    steps.forEach(function (s, i) { s.classList.toggle('on', i === idx); s.classList.toggle('was', i < idx); if (s.tagName === 'BUTTON') s.setAttribute('aria-pressed', String(i === idx)); });
     $$('[data-si]', st).forEach(function (v) {
       var d = +v.getAttribute('data-si') - idx;
       v.classList.toggle('on', d === 0);
@@ -410,6 +410,15 @@
     st.style.setProperty('--sp', ((idx + 1) / n).toFixed(3));
   };
   stories.forEach(function (st) { setStory(st, 0); });
+  // feature tour: tap a feature to see its screen; it also moves on by itself while in view
+  $$('[data-story="tabs"]').forEach(function (st) {
+    var items = $$('.tour-item', st), timer = null, visible = false, paused = false;
+    setStory(st, 0);
+    var go = function (i) { st._idx = -1; setStory(st, (i + items.length) % items.length); };
+    var play = function () { clearInterval(timer); if (reduce || paused || !visible) return; timer = setInterval(function () { go(($$('.tour-item.on', st)[0] ? items.indexOf($$('.tour-item.on', st)[0]) : 0) + 1); }, 4500); };
+    items.forEach(function (b, i) { b.addEventListener('click', function () { paused = true; st.classList.add('paused'); clearInterval(timer); go(i); }); });
+    if ('IntersectionObserver' in window) new IntersectionObserver(function (en) { visible = en[0].isIntersecting; play(); }, { threshold: 0.35 }).observe(st);
+  });
   var ticking = false, LERP = 0.12;
   var ease = function (el, key, target) {
     var cur = el[key] == null ? target : el[key];
