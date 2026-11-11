@@ -10,7 +10,7 @@ window.FORGE = {
   "facebook": "https://www.facebook.com/profile.php?id=61595949729625",
   "formKey": "00da2d2a-9e79-4964-aa47-da2aa6d50dac",
   "analytics": {
-    "umami": "",
+    "umami": "a6ca8a38-2ac8-48b6-9664-91036187779d",
     "cloudflare": ""
   },
   "updates": [
