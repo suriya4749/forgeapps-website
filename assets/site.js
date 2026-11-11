@@ -142,22 +142,20 @@
     el.innerHTML = out;
   });
 
-  // ---------- home: our work ----------
-  var feat = $('#featured');
-  if (feat) {
-    var a0 = V[0];
-    if (!a0) feat.hidden = true;
-    else {
-      var sh = (a0.screens || [])[0];
-      feat.setAttribute('style', vars(a0.colors)); feat.href = root + a0.slug + '/'; feat.setAttribute('data-slug', a0.slug);
-      feat.innerHTML = '<div class="feat-copy"><div class="feat-id"><img src="' + esc(url(a0.icon)) + '" alt="" width="64" height="64"><span class="on-dark"><span class="live-dot"></span>' + esc(STAGE_WORD[a0.stage] || '') + '</span></div>' +
-        '<h3>' + esc(a0.name) + '</h3><p>' + esc(a0.tagline) + '</p><span class="go">Explore ' + esc(a0.name) + ' ' + IC.arrow + '</span></div>' +
-        '<div class="feat-visual">' + (sh ? '<img class="float" src="' + esc(url(shotSrc(sh))) + '" alt="' + esc(shotCap(sh) || a0.name + ' screen') + '" width="250" height="444" loading="lazy">' : '<img class="icon-big float" src="' + esc(url(a0.icon)) + '" alt="">') + '</div>';
-    }
-    var nx = $('#next-card'), a1 = V[1];
-    if (nx && a1) {
-      nx.outerHTML = '<a class="next card lift" data-zoom href="' + root + a1.slug + '/" data-slug="' + esc(a1.slug) + '"><img src="' + esc(url(a1.icon)) + '" alt="" width="64" height="64" style="border-radius:18px"><div><h3>' + esc(a1.name) + '</h3><p>' + esc(a1.tagline) + '</p></div><div style="color:var(--ink)">' + tracker(a1) + '</div></a>';
-    }
+  // ---------- home: our apps (every visible app, newest first as listed in apps.js) ----------
+  var wg = $('#work-grid');
+  if (wg) {
+    var list = V.slice(0, 4);
+    wg.innerHTML = list.map(function (a, i) {
+      var sh = (a.screens || [])[0];
+      return '<a class="wcard lift" data-zoom href="' + root + a.slug + '/" data-slug="' + esc(a.slug) + '" style="' + vars(a.colors) + ';--d:' + (i * 0.08) + 's">' +
+        '<div class="wc-copy"><div class="wc-id"><img src="' + esc(url(a.icon)) + '" alt="" width="56" height="56"><div><small>' + esc(a.kind || 'App') + '</small><h3>' + esc(a.name) + '</h3></div></div>' +
+        '<p>' + esc(a.tagline) + '</p>' +
+        (a.points && a.points.length ? '<ul class="pts">' + a.points.slice(0, 3).map(function (p) { return '<li>' + IC.check + esc(p) + '</li>'; }).join('') + '</ul>' : '') +
+        '<div class="wc-foot"><span class="on-dark"><span class="live-dot"></span>' + esc(STAGE_WORD[a.stage] || '') + '</span><span class="go">View app ' + IC.arrow + '</span></div></div>' +
+        '<div class="wc-art">' + (sh ? '<img src="' + esc(url(shotSrc(sh))) + '" alt="' + esc(shotCap(sh) || a.name + ' screen') + '" loading="lazy">' : '<img class="icon-big" src="' + esc(url(a.icon)) + '" alt="">') + '</div></a>';
+    }).join('') +
+      '<a class="wnext card lift" data-zoom href="' + root + 'contact/?topic=launch" data-track="next-app-notify"><span class="dash">' + '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>' + '</span><div><h3>More apps are in the forge</h3><p>Testers hear about new apps first. Get a note when the next one is ready.</p></div><span class="ul-link">Get notified</span></a>';
   }
 
   // ---------- home: latest news ----------

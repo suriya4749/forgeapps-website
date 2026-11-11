@@ -16,6 +16,11 @@ window.FORGE = {
   "updates": [
     {
       "date": "Nov 2026",
+      "app": "renewly",
+      "text": "Work started on Renewly: family documents with renewal reminders."
+    },
+    {
+      "date": "Nov 2026",
       "app": "",
       "text": "The new forgeapps.in is live: a fresh design, every app in one place, and early access for testers."
     },
@@ -31,6 +36,77 @@ window.FORGE = {
     }
   ],
   "apps": [
+    {
+      "slug": "renewly",
+      "name": "Renewly",
+      "kind": "Family documents",
+      "tagline": "Your family's documents, always valid.",
+      "points": [
+        "Scan and find the expiry",
+        "Reminders before it's late",
+        "The whole family, privately"
+      ],
+      "platform": "Android",
+      "stage": "build",
+      "stageNote": "Being built right now",
+      "icon": "renewly/icon.png",
+      "playUrl": "",
+      "screens": [
+        {
+          "src": "renewly/screens/1.jpg",
+          "caption": "Your family’s documents at a glance"
+        },
+        {
+          "src": "renewly/screens/2.jpg",
+          "caption": "See what ends soon, sorted for you"
+        },
+        {
+          "src": "renewly/screens/3.jpg",
+          "caption": "Everyone in the family, in one place"
+        },
+        {
+          "src": "renewly/screens/4.jpg",
+          "caption": "Each person’s documents and due dates"
+        }
+      ],
+      "about": [
+        "Renewly keeps your family's passports, IDs, licences, insurance policies and vehicle papers in one private place on your phone, and makes sure none of them quietly runs out.",
+        "Scan a document or import a stack of PDFs: Renewly reads the expiry date, sorts each one by type and person, and reminds you 30 days, 10 days, or on the day, whichever you choose.",
+        "Everything is encrypted on your phone with app lock, with no sign-in, no ads and no tracking. Renewly Plus adds unlimited family members and documents and keeps every phone in the family in sync through your own Google Drive."
+      ],
+      "facts": [
+        [
+          "Price",
+          "Free · Plus ₹149 one-time"
+        ],
+        [
+          "Platform",
+          "Android"
+        ],
+        [
+          "Reads",
+          "Photos and PDFs, many at once"
+        ],
+        [
+          "Languages",
+          "English, Hindi, Tamil and more"
+        ],
+        [
+          "Your data",
+          "Encrypted on your phone. No sign-in, no ads."
+        ]
+      ],
+      "colors": {
+        "bg": "#0F766E",
+        "bg2": "#0B3B37",
+        "accent": "#2DD4BF",
+        "accent2": "#F79009",
+        "soft": "#CCFBF1",
+        "text": "#FFFFFF",
+        "btnBg": "#FFFFFF",
+        "btnText": "#0F766E"
+      }
+    },
     {
       "slug": "wealthon",
       "name": "WealthOn",
