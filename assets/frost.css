@@ -1036,3 +1036,68 @@ body{font-size:16px}
   .wc-art img{max-width:190px}
 }
 @media (max-width:480px){.grid4{grid-template-columns:1fr 1fr;gap:10px}.pcard{padding:16px;border-radius:18px}.pcard h3{font-size:16px}.pcard p{font-size:13px}}
+
+/* =====================================================================
+   v5 — spotlight + tiles (home), compact list (all apps), tidy images
+   ===================================================================== */
+.work-grid{display:flex;flex-direction:column;gap:14px}
+.wcard.spotlight{min-height:0}
+.wcard.spotlight .wc-art{max-height:380px;overflow:hidden;align-items:flex-start;padding:28px 24px 0}
+.wcard.spotlight .wc-art img{max-width:240px;border-radius:20px 20px 0 0}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+.tile{position:relative;display:flex;align-items:center;gap:14px;padding:16px;border-radius:20px;min-width:0}
+.tile:hover{color:var(--ink)}
+.tile > img{width:52px;height:52px;border-radius:15px;flex:none;box-shadow:0 10px 20px -12px rgba(17,19,24,.5)}
+.t-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.t-body b{font-family:var(--head);font-size:17px;letter-spacing:-.02em}
+.t-line{font-size:13.5px;color:var(--muted2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.t-go{color:var(--muted2);transition:transform .3s var(--ease),color .3s}
+.tile:hover .t-go{transform:translateX(4px);color:var(--accent)}
+.st{align-self:flex-start;margin-top:5px;display:inline-flex;align-items:center;gap:6px;padding:3px 9px;border-radius:999px;background:rgba(17,19,24,.05);font-size:12px;font-weight:600;color:var(--muted)}
+.st i{width:7px;height:7px;border-radius:50%;background:#8A8E97}
+.st-live i{background:#12B76A}.st-test i{background:#3B5BDB}.st-build i{background:#F79009}
+
+/* all apps: compact list */
+.app-list2{border-radius:24px;padding:4px 6px;display:block}
+.lrow{display:flex;align-items:center;gap:14px;padding:14px 12px;border-top:1px solid var(--line)}
+.lrow:first-child{border-top:0}
+.lr-main{flex:1;min-width:0;display:flex;align-items:center;gap:16px}
+.lr-main:hover{color:var(--ink)}
+.lr-main img{width:60px;height:60px;border-radius:17px;flex:none;box-shadow:0 12px 24px -14px rgba(17,19,24,.5);transition:transform .4s var(--ease)}
+.lrow:hover .lr-main img{transform:scale(1.05)}
+.lr-body{min-width:0;display:flex;flex-direction:column;gap:2px}
+.lr-top{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.lr-top b{font-family:var(--head);font-size:19px;letter-spacing:-.02em}
+.lr-kind{font-size:12.5px;color:var(--muted2)}
+.lr-line{font-size:14.5px;color:var(--muted2)}
+.lr-act{display:flex;gap:8px;flex:none}
+.btn.sm{min-height:40px;padding:0 16px;font-size:14px;border-radius:12px}
+@media (max-width:640px){
+  .lrow{flex-wrap:wrap;padding:14px 8px}
+  .lr-main{flex-basis:100%;align-items:flex-start;gap:12px}
+  .lr-main img{width:52px;height:52px;border-radius:15px}
+  .lr-act{width:100%;padding-left:64px}
+  .lr-act .btn{flex:1}
+}
+
+/* phones: no decorative cards in the home top section */
+@media (max-width:760px){.hero-art{display:none}.hero{padding-bottom:20px}}
+
+/* feature tour: show the store image as it is, no phone frame around it */
+.shotbox{position:relative;height:min(600px,72vh);aspect-ratio:9/16;max-width:100%;border-radius:28px;overflow:hidden;box-shadow:0 50px 90px -40px rgba(17,19,24,.6)}
+.shotbox img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0;transform:scale(1.03);transition:opacity .7s var(--ease),transform 1s var(--ease)}
+.shotbox img.on{opacity:1;transform:none}
+@media (max-width:860px){.shotbox{height:440px}}
+
+/* screenshot strip: stays inside the page, fades at both edges, centred when it fits */
+.strip{margin:0 -6px;padding:8px 6px 26px;scroll-padding-left:6px;justify-content:safe center;
+  -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 40px,#000 calc(100% - 40px),transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 40px,#000 calc(100% - 40px),transparent 100%)}
+.strip .shot:first-child{margin-left:28px}.strip .shot:last-child{margin-right:28px}
+.shot{width:clamp(170px,20vw,210px)}
+.shot img{aspect-ratio:auto;object-fit:contain;height:auto}
+/* strip v2: exactly N screens fill the page width, the rest scroll in with the arrows */
+.strip{margin:0;padding:8px 0 26px;scroll-padding-left:0;-webkit-mask-image:none;mask-image:none;gap:18px}
+.strip .shot:first-child,.strip .shot:last-child{margin:0}
+.strip .shot{flex:0 0 calc((100% - 4 * 18px) / 5);width:auto}
+@media (max-width:1100px){.strip .shot{flex-basis:calc((100% - 3 * 18px) / 4)}}
+@media (max-width:760px){.strip{gap:12px}.strip .shot{flex-basis:calc((100% - 12px) / 2.15)}}

@@ -142,20 +142,26 @@
     el.innerHTML = out;
   });
 
-  // ---------- home: our apps (every visible app, newest first as listed in apps.js) ----------
+  // ---------- home: one spotlight app + small tiles for the rest ----------
+  // Spotlight = the app with "featured": true in apps.js, otherwise the most finished one (live, then testing, then build).
+  var rank = { live: 0, test: 1, build: 2, idea: 3 };
+  var spot = V.filter(function (a) { return a.featured; })[0] || V.slice().sort(function (a, b) { return (rank[a.stage] || 9) - (rank[b.stage] || 9); })[0];
+  var stDot = function (st) { return '<span class="st st-' + esc(st) + '"><i></i>' + esc(STAGE_WORD[st] || st) + '</span>'; };
+  var iconImg = function (a, n) { return '<img src="' + esc(url(a.icon)) + '" alt="" width="' + n + '" height="' + n + '" loading="lazy">'; };
   var wg = $('#work-grid');
-  if (wg) {
-    var list = V.slice(0, 4);
-    wg.innerHTML = list.map(function (a, i) {
-      var sh = (a.screens || [])[0];
-      return '<a class="wcard lift" data-zoom href="' + root + a.slug + '/" data-slug="' + esc(a.slug) + '" style="' + vars(a.colors) + ';--d:' + (i * 0.08) + 's">' +
-        '<div class="wc-copy"><div class="wc-id"><img src="' + esc(url(a.icon)) + '" alt="" width="56" height="56"><div><small>' + esc(a.kind || 'App') + '</small><h3>' + esc(a.name) + '</h3></div></div>' +
-        '<p>' + esc(a.tagline) + '</p>' +
-        (a.points && a.points.length ? '<ul class="pts">' + a.points.slice(0, 3).map(function (p) { return '<li>' + IC.check + esc(p) + '</li>'; }).join('') + '</ul>' : '') +
-        '<div class="wc-foot"><span class="on-dark"><span class="live-dot"></span>' + esc(STAGE_WORD[a.stage] || '') + '</span><span class="go">View app ' + IC.arrow + '</span></div></div>' +
-        '<div class="wc-art">' + (sh ? '<img src="' + esc(url(shotSrc(sh))) + '" alt="' + esc(shotCap(sh) || a.name + ' screen') + '" loading="lazy">' : '<img class="icon-big" src="' + esc(url(a.icon)) + '" alt="">') + '</div></a>';
-    }).join('') +
-      '<a class="wnext card lift" data-zoom href="' + root + 'contact/?topic=launch" data-track="next-app-notify"><span class="dash">' + '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>' + '</span><div><h3>More apps are in the forge</h3><p>Testers hear about new apps first. Get a note when the next one is ready.</p></div><span class="ul-link">Get notified</span></a>';
+  if (wg && spot) {
+    var sh = (spot.screens || [])[0], rest = V.filter(function (a) { return a !== spot; });
+    wg.innerHTML = '<a class="wcard spotlight lift" data-zoom href="' + root + spot.slug + '/" data-slug="' + esc(spot.slug) + '" style="' + vars(spot.colors) + '">' +
+        '<div class="wc-copy"><div class="wc-id">' + iconImg(spot, 56) + '<div><small>Spotlight · ' + esc(spot.kind || 'App') + '</small><h3>' + esc(spot.name) + '</h3></div></div>' +
+        '<p>' + esc(spot.tagline) + '</p>' +
+        (spot.points && spot.points.length ? '<ul class="pts">' + spot.points.slice(0, 3).map(function (p) { return '<li>' + IC.check + esc(p) + '</li>'; }).join('') + '</ul>' : '') +
+        '<div class="wc-foot"><span class="on-dark"><span class="live-dot"></span>' + esc(STAGE_WORD[spot.stage] || '') + '</span><span class="go">View app ' + IC.arrow + '</span></div></div>' +
+        '<div class="wc-art">' + (sh ? '<img src="' + esc(url(shotSrc(sh))) + '" alt="' + esc(shotCap(sh) || spot.name + ' screen') + '" loading="lazy">' : '<img class="icon-big" src="' + esc(url(spot.icon)) + '" alt="">') + '</div></a>' +
+      (rest.length ? '<div class="tiles" data-stagger>' + rest.map(function (a) {
+        return '<a class="tile card lift" href="' + root + a.slug + '/" data-slug="' + esc(a.slug) + '">' + iconImg(a, 52) +
+          '<span class="t-body"><b>' + esc(a.name) + '</b><span class="t-line">' + esc(a.tagline) + '</span>' + stDot(a.stage) + '</span><span class="t-go" aria-hidden="true">' + IC.arrow + '</span></a>';
+      }).join('') + '</div>' : '') +
+      '<a class="wnext card lift" href="' + root + 'contact/?topic=launch" data-track="next-app-notify"><span class="dash"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span><div><h3>More apps are in the forge</h3><p>Testers hear about new apps first. Get a note when the next one is ready.</p></div><span class="ul-link">Get notified</span></a>';
   }
 
   // ---------- home: latest news ----------
@@ -171,14 +177,13 @@
   // ---------- all apps page ----------
   var all = $('#apps-all');
   if (all) {
+    all.className = 'app-list2 card';
     all.innerHTML = V.map(function (a) {
-      var s = (a.screens || []).slice(0, 3);
-      var art = s.length >= 3 ? s.map(function (x, i) { return '<img src="' + esc(url(shotSrc(x))) + '" alt="' + (i === 1 ? esc(shotCap(x) || a.name) : '') + '" loading="lazy"' + (i === 1 ? ' class="float"' : '') + '>'; }).join('') : '<img class="solo float" src="' + esc(url(a.icon)) + '" alt="">';
-      var cta = a.stage === 'test' && a.testUrl ? '<a class="btn btn-line" href="' + root + '#early" data-track="apps-join-test">Join the test</a>' : a.playUrl ? '<a class="btn btn-line" href="' + esc(a.playUrl) + '" target="_blank" rel="noopener">Google Play</a>' : '';
-      return '<article class="app-row" data-zoom data-slug="' + esc(a.slug) + '" data-stage="' + esc(a.stage) + '" data-search="' + esc((a.name + ' ' + (a.kind || '') + ' ' + a.tagline).toLowerCase()) + '" style="' + vars(a.colors) + '">' +
-        '<div class="ar-copy"><div class="ar-id"><img src="' + esc(url(a.icon)) + '" alt="" width="72" height="72"><div><small>' + esc((a.kind ? a.kind + ' · ' : '') + (a.platform || 'Android')) + '</small><h2>' + esc(a.name) + '</h2></div></div>' +
-        '<p>' + esc(a.tagline) + '</p>' + (a.points && a.points.length ? '<ul class="pts">' + a.points.map(function (p) { return '<li>' + IC.check + esc(p) + '</li>'; }).join('') + '</ul>' : '') +
-        tracker(a) + '<div class="btns"><a class="btn btn-white" href="' + root + a.slug + '/">View app ' + IC.arrow + '</a>' + cta + '</div></div><div class="fan">' + art + '</div></article>';
+      var cta = a.stage === 'test' && a.testUrl ? '<a class="btn btn-accent sm" href="' + root + '#early" data-track="apps-join-test">Join test</a>' : a.playUrl && a.stage === 'live' ? '<a class="btn btn-accent sm" href="' + esc(a.playUrl) + '" target="_blank" rel="noopener">Get it</a>' : '';
+      return '<div class="lrow" data-slug="' + esc(a.slug) + '" data-stage="' + esc(a.stage) + '" data-search="' + esc((a.name + ' ' + (a.kind || '') + ' ' + a.tagline).toLowerCase()) + '">' +
+        '<a class="lr-main" href="' + root + a.slug + '/"><img src="' + esc(url(a.icon)) + '" alt="" width="60" height="60" loading="lazy">' +
+        '<span class="lr-body"><span class="lr-top"><b>' + esc(a.name) + '</b><span class="lr-kind">' + esc(a.kind || '') + '</span></span><span class="lr-line">' + esc(a.tagline) + '</span>' + stDot(a.stage) + '</span></a>' +
+        '<span class="lr-act">' + cta + '<a class="btn btn-glass card sm" href="' + root + a.slug + '/">View</a></span></div>';
     }).join('');
     var bar = $('#apps-filter');
     if (bar) {
@@ -188,7 +193,7 @@
       var filt = 'all', q = '', search = $('#apps-search'), empty = $('#apps-empty');
       var apply = function () {
         var shown = 0;
-        $$('.app-row', all).forEach(function (c) {
+        $$('.lrow', all).forEach(function (c) {
           var ok = (filt === 'all' || c.getAttribute('data-stage') === filt) && (!q || c.getAttribute('data-search').indexOf(q) > -1);
           c.hidden = !ok; if (ok) shown++;
         });
@@ -225,6 +230,8 @@
       sh.innerHTML = app.screens.map(function (x, i) {
         return '<button type="button" class="shot" data-i="' + i + '" aria-label="Open screen ' + (i + 1) + (shotCap(x) ? ': ' + esc(shotCap(x)) : '') + '"><img src="' + esc(url(shotSrc(x))) + '" alt="" width="236" height="420" loading="lazy">' + (shotCap(x) ? '<span>' + esc(shotCap(x)) + '</span>' : '') + '</button>';
       }).join('');
+      var fitArrows = function () { $$('.arrows').forEach(function (ar) { ar.style.visibility = sh.scrollWidth > sh.clientWidth + 4 ? '' : 'hidden'; }); };
+      fitArrows(); window.addEventListener('resize', fitArrows); window.addEventListener('load', fitArrows);
       $$('[data-shots-dir]').forEach(function (b) { b.addEventListener('click', function () { sh.scrollBy({ left: parseInt(b.getAttribute('data-shots-dir'), 10) * sh.clientWidth * 0.7, behavior: reduce ? 'auto' : 'smooth' }); }); });
       var dlg = document.createElement('dialog'); dlg.className = 'viewer'; dlg.setAttribute('aria-label', app.name + ' screens');
       dlg.innerHTML = '<button type="button" class="v-close" aria-label="Close">×</button><button type="button" class="v-prev" aria-label="Previous">←</button><figure><img alt=""><figcaption></figcaption></figure><button type="button" class="v-next" aria-label="Next">→</button>';
