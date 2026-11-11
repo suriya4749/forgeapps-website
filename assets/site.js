@@ -148,6 +148,14 @@
   var spot = V.filter(function (a) { return a.featured; })[0] || V.slice().sort(function (a, b) { return (rank[a.stage] || 9) - (rank[b.stage] || 9); })[0];
   var stDot = function (st) { return '<span class="st st-' + esc(st) + '"><i></i>' + esc(STAGE_WORD[st] || st) + '</span>'; };
   var iconImg = function (a, n) { return '<img src="' + esc(url(a.icon)) + '" alt="" width="' + n + '" height="' + n + '" loading="lazy">'; };
+  var ha = $('#hero-apps');
+  if (ha && V.length) {
+    var testing = V.filter(function (a) { return a.stage === 'test'; }).length, live = V.filter(function (a) { return a.stage === 'live'; }).length;
+    ha.hidden = false;
+    ha.innerHTML = '<span class="ha-icons">' + V.slice(0, 4).map(function (a) { return '<img src="' + esc(url(a.icon)) + '" alt="" width="34" height="34">'; }).join('') + '</span>' +
+      '<span class="ha-text"><b>' + V.length + ' app' + (V.length > 1 ? 's' : '') + ' from the forge</b><span>' + (live ? live + ' live · ' : '') + (testing ? testing + ' in testing' : '') + '<em> · Free on Android</em></span></span>' +
+      '<span class="ha-arrow" aria-hidden="true">' + IC.arrow + '</span>';
+  }
   var wg = $('#work-grid');
   if (wg && spot) {
     var sh = (spot.screens || [])[0], rest = V.filter(function (a) { return a !== spot; });
@@ -157,10 +165,10 @@
         (spot.points && spot.points.length ? '<ul class="pts">' + spot.points.slice(0, 3).map(function (p) { return '<li>' + IC.check + esc(p) + '</li>'; }).join('') + '</ul>' : '') +
         '<div class="wc-foot"><span class="on-dark"><span class="live-dot"></span>' + esc(STAGE_WORD[spot.stage] || '') + '</span><span class="go">View app ' + IC.arrow + '</span></div></div>' +
         '<div class="wc-art">' + (sh ? '<img src="' + esc(url(shotSrc(sh))) + '" alt="' + esc(shotCap(sh) || spot.name + ' screen') + '" loading="lazy">' : '<img class="icon-big" src="' + esc(url(spot.icon)) + '" alt="">') + '</div></a>' +
-      (rest.length ? '<div class="tiles" data-stagger>' + rest.map(function (a) {
-        return '<a class="tile card lift" href="' + root + a.slug + '/" data-slug="' + esc(a.slug) + '">' + iconImg(a, 52) +
+      '<div class="tiles" data-stagger>' + [spot].concat(rest).map(function (a, i) {
+        return '<a class="tile card lift' + (i === 0 ? ' tile-spot' : '') + '" href="' + root + a.slug + '/" data-slug="' + esc(a.slug) + '">' + iconImg(a, 52) +
           '<span class="t-body"><b>' + esc(a.name) + '</b><span class="t-line">' + esc(a.tagline) + '</span>' + stDot(a.stage) + '</span><span class="t-go" aria-hidden="true">' + IC.arrow + '</span></a>';
-      }).join('') + '</div>' : '') +
+      }).join('') + '</div>' +
       '<a class="wnext card lift" href="' + root + 'contact/?topic=launch" data-track="next-app-notify"><span class="dash"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span><div><h3>More apps are in the forge</h3><p>Testers hear about new apps first. Get a note when the next one is ready.</p></div><span class="ul-link">Get notified</span></a>';
   }
 
