@@ -52,7 +52,7 @@
 <tr><td>Family members, vehicles and homes you add (names and relationships)</td><td>To organise documents by person</td><td>Only on your phone, encrypted</td></tr>
 <tr><td>Emergency card (blood group, allergies, insurer, emergency contacts), only if you fill it in</td><td>To show it quickly in an emergency</td><td>Only on your phone, encrypted</td></tr>
 <tr><td>Text read from your documents</td><td>To find expiry dates and to let you search inside documents</td><td>Read on your phone, stored only on your phone</td></tr>
-<tr><td>Settings (reminder times, language, theme, app lock)</td><td>To make the app work the way you chose</td><td>Only on your phone</td></tr>
+<tr><td>Settings (reminder times, country, theme, app lock)</td><td>To make the app work the way you chose; your country sets which document types are suggested and the date order</td><td>Only on your phone</td></tr>
 <tr><td>Renewly Plus purchase</td><td>To unlock Plus</td><td>Handled by Google Play; we do not see your payment details</td></tr>
 </tbody>
 </table>
@@ -61,11 +61,14 @@
 <h2>2. Reading your documents</h2>
 <p>When you scan or import a document, Renewly reads its text on your phone using Google ML Kit's on-device text recognition, to find the expiry date and document type. The images and text are not uploaded for this. You check the details before anything is saved.</p>
 
-<h2>3. Sync between phones (Renewly Plus, off until you turn it on)</h2>
-<p>If you turn on sync, Renewly stores an encrypted copy of your vault in the hidden app-data area of <b>your own Google Drive</b>, so your other phones (and family phones you pair) can stay up to date. It is encrypted on your phone before upload with a key only your phones hold, so Google and we cannot read it. We do not run a server for this and receive nothing. Signing in to Google Drive is handled by Google under its own terms. You can turn sync off and remove the copy at any time in Settings → Backup &amp; sync.</p>
+<h2>3. Sync between phones (Renewly Plus, coming soon, off until you turn it on)</h2>
+<p>Sync is coming in an update. When it arrives and you turn it on, Renewly stores an encrypted copy of your vault in the hidden app-data area of <b>your own Google Drive</b>, so your other phones (and family phones you pair) can stay up to date. It is encrypted on your phone before upload with a key only your phones hold, so Google and we cannot read it. We do not run a server for this and receive nothing. Signing in to Google Drive is handled by Google under its own terms. You can turn sync off and remove the copy at any time in Settings → Backup &amp; sync.</p>
 
 <h2>4. What else can leave your phone, only when you choose</h2>
 <ul>
+<li><b>Backup file:</b> when you tap "Back up now", Renewly makes one encrypted file of your vault and lets you choose where to save it (for example your own Google Drive, email or a computer). It can only be opened with your 24-word recovery key. Where you keep it is up to you; we never receive it.</li>
+<li><b>Recovery key:</b> shown once in the app. You can save it as a PDF or share it to a place you choose; it is not copied to the clipboard and we never receive it.</li>
+<li><b>Error reports:</b> if the app runs into an error, it keeps a short log of the last errors on your phone (no document contents). Nothing is sent unless you tap "Send report", which opens an email you can read and edit before sending.</li>
 <li><b>Safe sharing:</b> when you share a document, Renewly makes a copy with a watermark (who it is for, why, and the date) and opens Android's share sheet. You pick where it goes; that copy is then handled by the app or person you sent it to.</li>
 <li><b>Calendar:</b> if you turn on "Add renewals to calendar", expiry and reminder dates are written to the calendar on your phone. If that calendar syncs to an online account, it is handled by that account's provider.</li>
 <li><b>Feedback:</b> if you send feedback, it goes from our website's contact form or your email app, with what you choose to write.</li>
@@ -85,7 +88,7 @@
 <li><b>Notifications:</b> for renewal reminders, worked out and scheduled on your phone.</li>
 <li><b>Biometrics:</b> only if you turn on app lock; the fingerprint or face check is done by Android and Renewly never receives it.</li>
 <li><b>Calendar:</b> only if you turn on calendar export.</li>
-<li><b>Internet:</b> only for sync and for the Google Play purchase.</li>
+<li><b>Internet:</b> only for the Google Play purchase and, once available, sync.</li>
 </ul>
 
 <h2>7. How your data is protected</h2>

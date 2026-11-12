@@ -72,7 +72,7 @@ window.FORGE = {
       "about": [
         "Renewly keeps your family's passports, IDs, licences, insurance policies and vehicle papers in one private place on your phone, and makes sure none of them quietly runs out.",
         "Scan a document or import a stack of PDFs: Renewly reads the expiry date, sorts each one by type and person, and reminds you 30 days, 10 days, or on the day, whichever you choose.",
-        "Everything is encrypted on your phone with app lock, with no sign-in, no ads and no tracking. Renewly Plus adds unlimited family members and documents and keeps every phone in the family in sync through your own Google Drive."
+        "Everything is encrypted on your phone with app lock, with no sign-in, no ads and no tracking. Renewly Plus adds unlimited family members and documents, with sync between phones through your own Google Drive coming soon."
       ],
       "facts": [
         [
@@ -88,8 +88,8 @@ window.FORGE = {
           "Photos and PDFs, many at once"
         ],
         [
-          "Languages",
-          "English, Hindi, Tamil and more"
+          "Backup",
+          "Free encrypted backup file"
         ],
         [
           "Your data",
