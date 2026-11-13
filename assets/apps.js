@@ -121,7 +121,14 @@ window.FORGE = {
         "text": "#FFFFFF",
         "btnBg": "#FFFFFF",
         "btnText": "#0F766E"
-      }
+      },
+      "videos": [
+        {
+          "youtube": "https://www.youtube.com/shorts/rWp3NOIWTKY",
+          "title": "Renewly – Your Family's Important Documents, All in One Place",
+          "vertical": true
+        }
+      ]
     },
     {
       "slug": "wealthon",
