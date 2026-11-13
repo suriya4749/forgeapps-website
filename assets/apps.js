@@ -54,19 +54,35 @@ window.FORGE = {
       "screens": [
         {
           "src": "renewly/screens/1.jpg",
-          "caption": "Your family’s documents at a glance"
+          "caption": "Your family's documents at a glance"
         },
         {
           "src": "renewly/screens/2.jpg",
-          "caption": "See what ends soon, sorted for you"
+          "caption": "Scan it, and the expiry date is read for you"
         },
         {
           "src": "renewly/screens/3.jpg",
-          "caption": "Everyone in the family, in one place"
+          "caption": "See what ends soon, sorted for you"
         },
         {
           "src": "renewly/screens/4.jpg",
-          "caption": "Each person’s documents and due dates"
+          "caption": "A clear reminder before anything runs out"
+        },
+        {
+          "src": "renewly/screens/5.jpg",
+          "caption": "Every renewal as a card, one tap away"
+        },
+        {
+          "src": "renewly/screens/6.jpg",
+          "caption": "Each person's documents and due dates"
+        },
+        {
+          "src": "renewly/screens/7.jpg",
+          "caption": "An emergency card for each person"
+        },
+        {
+          "src": "renewly/screens/8.jpg",
+          "caption": "Private, encrypted and on your phone"
         }
       ],
       "about": [
