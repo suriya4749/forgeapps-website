@@ -148,42 +148,42 @@ window.FORGE = {
       "testUrl": "https://play.google.com/apps/testing/com.suriya.wealthon",
       "screens": [
         {
-          "src": "wealthon/screens/1.jpg",
-          "caption": "Know what's safe to spend today"
+          "src": "wealthon/screens/mwib0cxf0.jpg",
+          "caption": ""
         },
         {
-          "src": "wealthon/screens/2.jpg",
-          "caption": "See every bill before it's due"
+          "src": "wealthon/screens/mwib0cyk1.jpg",
+          "caption": ""
         },
         {
-          "src": "wealthon/screens/3.jpg",
-          "caption": "Count down to debt-free"
+          "src": "wealthon/screens/mwib0czo2.jpg",
+          "caption": ""
         },
         {
-          "src": "wealthon/screens/4.jpg",
-          "caption": "Can I afford it? Know before you buy"
+          "src": "wealthon/screens/mwib0d0r3.jpg",
+          "caption": ""
         },
         {
-          "src": "wealthon/screens/5.jpg",
-          "caption": "Your month, planned for you"
+          "src": "wealthon/screens/mwib0d1u4.jpg",
+          "caption": ""
         },
         {
-          "src": "wealthon/screens/6.jpg",
-          "caption": "Import any bank statement"
+          "src": "wealthon/screens/mwib0d2t5.jpg",
+          "caption": ""
         },
         {
-          "src": "wealthon/screens/7.jpg",
-          "caption": "Add a spend in two taps"
+          "src": "wealthon/screens/mwib0d3y6.jpg",
+          "caption": ""
         },
         {
-          "src": "wealthon/screens/8.jpg",
-          "caption": "Your money stays on your phone"
+          "src": "wealthon/screens/mwib0d507.jpg",
+          "caption": ""
         }
       ],
       "videos": [
         {
-          "youtube": "https://youtu.be/Yf8L2sMaDIM?si=QPqDIdfyjIwHzzAq",
-          "title": "WealthOn: every feature in 2 minutes"
+          "youtube": "https://youtu.be/Ihw48xZoQNo?si=9E2pCuHnT_FN_QoB",
+          "title": "WealthOn: know what’s safe to spend | free budget & debt app"
         }
       ],
       "about": [
