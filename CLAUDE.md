@@ -9,6 +9,7 @@ Showcase site for the apps made by **Forge Apps** (Suriya's app studio brand; ta
 
 ## Key files
 - `assets/apps.js` — **the source of truth**: site settings (email, socials, form key, analytics), the `updates` feed, and the `apps` list (stage idea | build | test | live, Play links, screens, videos, about, facts, colours, `hidden`). The home page shows the first 4 apps.
+- `assets/prices.js` — Google Play's WealthOn Pro price per country (copied from Play Console) + time zone → country; the WealthOn page shows the visitor's own price. Update it when Play prices change.
 - `assets/site.js` fills every page from `apps.js`; `assets/frost.css` is the whole design.
 - `admin/` — browser admin panel that edits `apps.js` and publishes through the GitHub API with the owner's token. **Keep `apps.js` as `window.FORGE = { …JSON… };`** (double-quoted, JSON-compatible) or the admin panel can't read or write it.
 - `_template/` + `_tools/new_app.py` — add an app: `python3 _tools/new_app.py <slug> "<Name>" "<one line>"` creates `<slug>/` with privacy, terms and delete-account pages, adds it first in `apps.js` and to `sitemap.xml`.
