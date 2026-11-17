@@ -10,6 +10,9 @@
   var FILTER_LABEL = { live: 'On Google Play', test: 'In testing', build: 'Being built', idea: 'Ideas' };
   var $ = function (s, r) { return (r || document).querySelector(s); };
   var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+  // Prices: visitors in India see the rupee price; everyone else is told Google Play shows the price in their currency.
+  var IN_INDIA = (function () { try { return /^Asia\/(Kolkata|Calcutta)$/.test(Intl.DateTimeFormat().resolvedOptions().timeZone); } catch (e) { return false; } })();
+  var localPrice = function (t) { return IN_INDIA ? t : String(t).replace(/\s*₹[\d,]+\s*/g, ' ').replace(/\s{2,}/g, ' ').trim(); };
   var url = function (p) { return !p ? '' : /^(data:|https?:|\/)/.test(p) ? p : root + p; };
   var shotSrc = function (x) { return typeof x === 'string' ? x : x.src; };
   var shotCap = function (x) { return typeof x === 'string' ? '' : (x.caption || ''); };
@@ -231,7 +234,7 @@
     }
     // facts bar
     var fx = $('#app-facts');
-    if (fx) { if (app.facts && app.facts.length) fx.innerHTML = app.facts.slice(0, 5).map(function (f) { return '<div><dt>' + esc(f[0]) + '</dt><dd>' + esc(f[1]) + '</dd></div>'; }).join(''); else fx.hidden = true; }
+    if (fx) { if (app.facts && app.facts.length) fx.innerHTML = app.facts.slice(0, 5).map(function (f) { return '<div><dt>' + esc(f[0]) + '</dt><dd>' + esc(localPrice(f[1])) + '</dd></div>'; }).join(''); else fx.hidden = true; }
     // screenshots strip + viewer
     var sh = $('#app-screens');
     if (sh && need.screens) {
@@ -304,6 +307,7 @@
   }
   if (pageApp) { var theApp = bySlug(pageApp); if (theApp) appPage(theApp); }
 
+  if (IN_INDIA) $$('[data-in]').forEach(function (el) { el.innerHTML = el.getAttribute('data-in'); });
   // No closed test open anywhere: "Early access" links ask for a launch email for the next app instead of jumping to a hidden section.
   if (!V.some(function (a) { return a.stage === 'test' && a.testUrl; })) {
     var nextApp = V.filter(function (a) { return a.stage === 'build' || a.stage === 'test'; })[0];
