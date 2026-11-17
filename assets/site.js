@@ -544,3 +544,17 @@
     else if (el.classList.contains('menubtn')) { if (el.getAttribute('aria-expanded') !== 'true') window.forgeTrack('menu-open'); }
   }, true);
 })();
+
+// Google Play links on Android: open the Play Store app directly. In-app browsers (Instagram, Facebook,
+// WhatsApp) often can't hand a play.google.com page over to the store, so the link would just sit there.
+(function () {
+  if (!/Android/i.test(navigator.userAgent)) return;
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href*="play.google.com/store/apps/details"]');
+    if (!a) return;
+    var m = /[?&]id=([\w.]+)/.exec(a.href);
+    if (!m) return;
+    e.preventDefault();
+    location.href = 'intent://details?id=' + m[1] + '#Intent;scheme=market;package=com.android.vending;S.browser_fallback_url=' + encodeURIComponent(a.href) + ';end';
+  });
+})();
