@@ -153,7 +153,7 @@
     var testing = V.filter(function (a) { return a.stage === 'test'; }).length, live = V.filter(function (a) { return a.stage === 'live'; }).length;
     ha.hidden = false;
     ha.innerHTML = '<span class="ha-icons">' + V.slice(0, 4).map(function (a) { return '<img src="' + esc(url(a.icon)) + '" alt="" width="34" height="34">'; }).join('') + '</span>' +
-      '<span class="ha-text"><b>' + V.length + ' app' + (V.length > 1 ? 's' : '') + ' from the forge</b><span>' + (live ? live + ' live · ' : '') + (testing ? testing + ' in testing' : '') + '<em> · Free on Android</em></span></span>' +
+      '<span class="ha-text"><b>' + V.length + ' app' + (V.length > 1 ? 's' : '') + ' from the forge</b><span>' + [live ? live + ' live' : '', testing ? testing + ' in testing' : ''].filter(Boolean).join(' · ') + '<em> · Free on Android</em></span></span>' +
       '<span class="ha-arrow" aria-hidden="true">' + IC.arrow + '</span>';
   }
   var wg = $('#work-grid');
@@ -304,6 +304,11 @@
   }
   if (pageApp) { var theApp = bySlug(pageApp); if (theApp) appPage(theApp); }
 
+  // No closed test open anywhere: "Early access" links ask for a launch email for the next app instead of jumping to a hidden section.
+  if (!V.some(function (a) { return a.stage === 'test' && a.testUrl; })) {
+    var nextApp = V.filter(function (a) { return a.stage === 'build' || a.stage === 'test'; })[0];
+    $$('a[href$="#early"]').forEach(function (a) { a.href = root + 'contact/?' + (nextApp ? 'app=' + encodeURIComponent(nextApp.slug) + '&' : '') + 'topic=launch'; });
+  }
   // ---------- early access: every app in closed testing (home), or just this app (app page) ----------
   var tb = $('#tester-band');
   if (tb) {
@@ -311,7 +316,9 @@
     var testing = V.filter(function (a) { return a.stage === 'test' && a.testUrl && (!only || a.slug === only); });
     if (only && !testing.length) { var oa = bySlug(only); if (oa && oa.hidden !== true && oa.stage === 'test') testing = [oa]; }
     var sec = tb.closest('[data-early]');
-    if (!testing.length) { if (sec) sec.hidden = true; }
+    if (!testing.length) {
+      if (sec) sec.hidden = true;
+    }
     else {
       if (sec) sec.hidden = false;
       var cnt = $('#early-count'); if (cnt) cnt.textContent = testing.length === 1 ? '1 app in testing' : testing.length + ' apps in testing';

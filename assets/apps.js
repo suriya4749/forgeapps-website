@@ -16,6 +16,11 @@ window.FORGE = {
   "updates": [
     {
       "date": "Nov 2026",
+      "app": "wealthon",
+      "text": "WealthOn is live on Google Play. Free to use; Pro is one payment."
+    },
+    {
+      "date": "Nov 2026",
       "app": "renewly",
       "text": "Work started on Renewly: family documents with renewal reminders."
     },
@@ -141,11 +146,11 @@ window.FORGE = {
         "EMI payoff plan"
       ],
       "platform": "Android",
-      "stage": "test",
-      "stageNote": "In closed testing on Google Play",
+      "stage": "live",
+      "stageNote": "On Google Play",
       "icon": "wealthon/icon.png",
       "playUrl": "https://play.google.com/store/apps/details?id=com.suriya.wealthon",
-      "testUrl": "https://play.google.com/apps/testing/com.suriya.wealthon",
+      "testUrl": "",
       "screens": [
         {
           "src": "wealthon/screens/mwib0cxf0.jpg",
