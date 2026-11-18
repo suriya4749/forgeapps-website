@@ -401,15 +401,15 @@ window.FORGE = {
     "hero": {
       "label": "Independent app studio · Made in India",
       "title": "Useful apps,\nhammered into *shape.*",
-      "text": "Forge Apps designs and builds simple, private Android apps from scratch, then keeps improving them with real feedback.",
-      "textPhone": "Simple, private Android apps, built from scratch and improved with real feedback.",
+      "text": "We build thoughtful Android applications that solve everyday problems. Simple experiences, transparent pricing and privacy built into the foundation.",
+      "textPhone": "Thoughtful Android apps for everyday problems. Simple, fairly priced and private by design.",
       "btn1": {
-        "text": "See our apps",
+        "text": "Explore our apps",
         "href": "#work"
       },
       "btn2": {
-        "text": "Get early access",
-        "href": "#early"
+        "text": "Meet Forge Apps",
+        "href": "about/"
       },
       "screens": [
         "wealthon/screens/mwib0cxf0.jpg",
@@ -419,22 +419,37 @@ window.FORGE = {
     },
     "sections": [
       {
+        "id": "values",
+        "desktop": true,
+        "phone": true
+      },
+      {
         "id": "work",
         "desktop": true,
         "phone": true
       },
       {
-        "id": "approach",
+        "id": "why",
         "desktop": true,
         "phone": true
       },
       {
-        "id": "process",
+        "id": "how",
         "desktop": true,
         "phone": true
       },
       {
-        "id": "promises",
+        "id": "trust",
+        "desktop": true,
+        "phone": true
+      },
+      {
+        "id": "stats",
+        "desktop": true,
+        "phone": true
+      },
+      {
+        "id": "founder",
         "desktop": true,
         "phone": true
       },
@@ -474,7 +489,11 @@ window.FORGE = {
         "on": true
       },
       {
-        "id": "approach",
+        "id": "about",
+        "on": true
+      },
+      {
+        "id": "updates",
         "on": true
       },
       {

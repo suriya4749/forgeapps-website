@@ -23,11 +23,13 @@
   var DEFAULT_COLORS = { bg: '#1C1F26', bg2: '#111318', accent: '#FF6A2B', accent2: '#FFB547', soft: '#2A2E37', text: '#F5F3EF', btnBg: '#FF6A2B', btnText: '#111318' };
   var COLOR_LABELS = { bg: 'Panel background', bg2: 'Panel background 2', accent: 'Main colour', accent2: 'Second colour', soft: 'Soft tint', text: 'Text on panel', btnBg: 'Button', btnText: 'Button text' };
   var SEC = {
-    work: ['Apps from the forge', 'App cards and the spotlight'], approach: ['Four rules for every app', 'Approach'], process: ['From idea to your phone', 'Process steps'],
-    promises: ['Six promises in every app', 'Promise tiles'], early: ['Try apps before they launch', 'Tester sign-up · only shows while an app is in testing'],
-    news: ['From the forge', 'Latest news'], faq: ['Questions, answered', 'FAQ'], contact: ['Have an idea or feedback?', 'Contact card']
+    values: ['Technology should make everyday life simpler', 'Studio values · rule book'], work: ['Meet our applications', 'App rows on desktop, app list on phones'],
+    why: ['Small studio. Serious attention to detail', 'Spec sheet'], how: ['How we build', 'Four-step timeline'],
+    trust: ['Your trust matters more than your data', 'Privacy points and policy links'], stats: ['Numbers', 'Only real numbers from your apps and updates'],
+    founder: ['Built independently. Improved together', 'Founder photo and story'], early: ['Try apps before they launch', 'Tester sign-up · only shows while an app is in testing'],
+    news: ['From the workshop', 'Latest 3 updates'], faq: ['Questions, answered', 'Help desk with search'], contact: ['Have an idea worth building?', 'Closing box']
   };
-  var TABS = { home: 'Home', apps: 'Apps (opens the apps sheet)', approach: 'Approach', contact: 'Contact' };
+  var TABS = { home: 'Home', apps: 'Apps (opens the apps sheet)', about: 'About', updates: 'Updates', approach: 'How we build', contact: 'Contact' };
   var LINKS = ['#work', '#approach', '#process', '#promises', '#early', '#news', '#faq', '#contact', 'apps/', 'contact/', 'contact/?topic=idea', 'contact/?topic=launch'];
   var I = {
     grid: '<path d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z"/>', spark: '<path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M6 18l2.5-2.5M15.5 8.5 18 6"/>',
@@ -487,9 +489,10 @@
 
   function vNews() {
     var opts = function (v) { return '<option value="">Forge Apps</option>' + state.apps.map(function (a) { return '<option value="' + esc(a.slug) + '"' + (a.slug === v ? ' selected' : '') + '>' + esc(a.name) + '</option>'; }).join(''); };
-    shell(H('Site', 'Latest news', 'Short news on the home page. The first 3 show, newest first.', '<button type="button" class="b dk" data-act="add-update">+ Add news</button>') +
+    shell(H('Site', 'Latest news', 'News for the home page (latest 3) and the Updates page (all of them), newest first.', '<button type="button" class="b dk" data-act="add-update">+ Add news</button>') +
       '<div class="box rows">' + (state.updates.map(function (u, i) {
-        return dragRow('updates', i) + GRIP + '<input style="flex:0 0 110px" data-bind="updates.' + i + '.date" value="' + esc(u.date) + '" placeholder="Nov 2026"><select style="flex:0 0 150px" data-bind="updates.' + i + '.app">' + opts(u.app) + '</select><input class="grow" data-bind="updates.' + i + '.text" value="' + esc(u.text) + '" placeholder="What happened">' + moveBtns('updates', i) + delBtn('updates', i) + '</div>';
+        var CT = [['', 'Type: automatic'], ['release', 'Release'], ['beta', 'Beta'], ['feature', 'New feature'], ['fix', 'Fix'], ['studio', 'Studio']].map(function (c) { return '<option value="' + c[0] + '"' + ((u.cat || '') === c[0] ? ' selected' : '') + '>' + c[1] + '</option>'; }).join('');
+        return dragRow('updates', i) + GRIP + '<div class="grow" style="display:flex;flex-direction:column;gap:6px"><div class="row"><input style="flex:0 0 110px" data-bind="updates.' + i + '.date" value="' + esc(u.date) + '" placeholder="Nov 2026"><select style="flex:0 0 150px" data-bind="updates.' + i + '.app">' + opts(u.app) + '</select><select style="flex:0 0 160px" data-bind="updates.' + i + '.cat">' + CT + '</select><input style="flex:1;min-width:160px" data-bind="updates.' + i + '.title" value="' + esc(u.title || '') + '" placeholder="Title (optional)"></div><input data-bind="updates.' + i + '.text" value="' + esc(u.text) + '" placeholder="What happened"><input data-bind="updates.' + i + '.more" value="' + esc(u.more || '') + '" placeholder="More details for the Updates page (optional)"></div>' + moveBtns('updates', i) + delBtn('updates', i) + '</div>';
       }).join('') || '<p class="empty pad">No news yet.</p>') + '</div>');
   }
   function vFaq() {

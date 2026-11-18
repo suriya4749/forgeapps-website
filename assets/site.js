@@ -229,6 +229,8 @@
     home: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="2"/><rect x="13" y="4" width="7" height="7" rx="2"/><rect x="4" y="13" width="7" height="7" rx="2"/><rect x="13" y="13" width="7" height="7" rx="2"/></svg>',
     apps: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M6 18l2.5-2.5M15.5 8.5 18 6"/></svg>',
     approach: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L4 17v3h3l5.3-5.3a4 4 0 0 0 5.4-5.4l-2.6 2.6-2.4-.6-.6-2.4z"/></svg>',
+    about: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4.5-6 8-6s7 2 8 6"/></svg>',
+    updates: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg>',
     contact: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M3.5 7l8.5 6 8.5-6"/></svg>'
   };
   var bar = $('.topbar .bar');
@@ -279,15 +281,15 @@
     }
     if (ga) bar.appendChild(ga);
   }
-  var tabs = (PH.tabs || [{ id: 'home' }, { id: 'apps' }, { id: 'approach' }, { id: 'contact' }]).filter(function (t) { return t.on !== false && TI[t.id]; });
+  var tabs = (PH.tabs || [{ id: 'home' }, { id: 'apps' }, { id: 'about' }, { id: 'contact' }]).filter(function (t) { return t.on !== false && TI[t.id]; });
   if (bar && tabs.length) {
     var pg = document.documentElement.getAttribute('data-page') || '';
-    var TL = { home: 'Home', apps: 'Apps', approach: 'Approach', contact: 'Contact' };
+    var TL = { home: 'Home', apps: 'Apps', approach: 'Build', about: 'About', updates: 'Updates', contact: 'Contact' };
     var nav = document.createElement('nav'); nav.className = 'tabbar'; nav.setAttribute('aria-label', 'Main');
     nav.innerHTML = tabs.map(function (t) {
       if (t.id === 'apps') return '<button type="button" data-tab="apps"' + (pg === 'apps' ? ' class="on"' : '') + '>' + TI.apps + '<span>Apps</span></button>';
-      var href = t.id === 'home' ? (root || './') : t.id === 'approach' ? (pg === 'home' ? '#approach' : root + '#approach') : root + 'contact/';
-      return '<a href="' + href + '"' + ((t.id === 'home' && pg === 'home') || (t.id === 'contact' && pg === 'contact') ? ' aria-current="page"' : '') + '>' + TI[t.id] + '<span>' + TL[t.id] + '</span></a>';
+      var href = t.id === 'home' ? (root || './') : t.id === 'approach' ? (pg === 'home' ? '#how' : root + '#how') : t.id === 'about' ? root + 'about/' : t.id === 'updates' ? root + 'updates/' : root + 'contact/';
+      return '<a href="' + href + '"' + ((t.id === 'home' && pg === 'home') || (t.id === 'contact' && pg === 'contact') || (t.id === 'about' && pg === 'about') || (t.id === 'updates' && pg === 'updates') ? ' aria-current="page"' : '') + '>' + TI[t.id] + '<span>' + TL[t.id] + '</span></a>';
     }).join('');
     document.body.appendChild(nav);
     var at = $('[data-tab="apps"]', nav); if (at) at.addEventListener('click', openSheet);

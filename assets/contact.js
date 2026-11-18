@@ -11,7 +11,7 @@
   var form = $('#cform'); if (!form) return;
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var track = function (n, d) { if (window.forgeTrack) window.forgeTrack(n, d); };
-  var TOPIC = { feedback: 'Feedback', bug: 'Bug report', idea: 'Idea', question: 'Question', launch: 'Launch alert' };
+  var TOPIC = { feedback: 'Feedback', bug: 'Bug report', idea: 'App suggestion', question: 'General enquiry', partner: 'Partnership', launch: 'Launch alert' };
 
   // ---- app picker: "Forge Apps" + every app from apps.js ----
   var apps = [{ slug: 'general', name: 'Forge Apps', icon: 'assets/favicon.svg', note: 'In general' }].concat(VIS.map(function (a) {
@@ -45,7 +45,7 @@
   var msg = form.elements.message, label = $('#msg-label');
   function onTopic() {
     var t = val('topic');
-    var ph = { feedback: 'What do you like, and what would make it better?', bug: 'What did you tap, what happened, and what did you expect?', idea: 'What should we build or add?', question: 'Ask anything.', launch: 'Anything you would like it to do? (optional)' };
+    var ph = { feedback: 'What do you like, and what would make it better?', bug: 'What did you tap, what happened, and what did you expect?', idea: 'What should we build or add?', question: 'Ask anything.', partner: 'Who are you, and what would you like to do together?', launch: 'Anything you would like it to do? (optional)' };
     msg.placeholder = ph[t] || '';
     msg.required = t !== 'launch';
     label.innerHTML = t === 'launch' ? 'Message <i>optional</i>' : 'Message';
