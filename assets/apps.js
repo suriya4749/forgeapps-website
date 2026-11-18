@@ -151,7 +151,6 @@ window.FORGE = {
       "stageNote": "On Google Play",
       "icon": "wealthon/icon.png",
       "playUrl": "https://play.google.com/store/apps/details?id=com.suriya.wealthon",
-      "testUrl": "",
       "screens": [
         {
           "src": "wealthon/screens/mwib0cxf0.jpg",
@@ -413,8 +412,8 @@ window.FORGE = {
         "href": "#early"
       },
       "screens": [
-        "renewly/screens/1.jpg",
-        "wealthon/screens/mwib0cxf0.jpg"
+        "wealthon/screens/mwib0cxf0.jpg",
+        "renewly/screens/1.jpg"
       ],
       "stamp": "Built in the forge"
     },
