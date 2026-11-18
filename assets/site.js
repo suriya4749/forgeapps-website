@@ -169,7 +169,7 @@
         '<div class="wc-copy"><div class="wc-id">' + iconImg(spot, 56) + '<div><small>Spotlight · ' + esc(spot.kind || 'App') + '</small><h3>' + esc(spot.name) + '</h3></div></div>' +
         '<p>' + esc(spot.tagline) + '</p>' +
         (spot.points && spot.points.length ? '<ul class="pts">' + spot.points.slice(0, 3).map(function (p) { return '<li>' + IC.check + esc(p) + '</li>'; }).join('') + '</ul>' : '') +
-        '<div class="wc-foot"><span class="on-dark"><span class="live-dot"></span>' + esc(STAGE_WORD[spot.stage] || '') + '</span><span class="go">View app ' + IC.arrow + '</span></div></div>' +
+        '<div class="wc-foot"><span class="on-dark"><span class="live-dot' + (spot.stage === 'live' ? ' pulse' : '') + '"></span>' + esc(STAGE_WORD[spot.stage] || '') + '</span><span class="go">View app ' + IC.arrow + '</span></div></div>' +
         '<div class="wc-art">' + (sh ? '<img src="' + esc(url(shotSrc(sh))) + '" alt="' + esc(shotCap(sh) || spot.name + ' screen') + '" loading="lazy">' : '<img class="icon-big" src="' + esc(url(spot.icon)) + '" alt="">') + '</div></a>' +
       '<div class="tiles" data-stagger>' + [spot].concat(rest).map(function (a, i) {
         return '<a class="tile card lift' + (i === 0 ? ' tile-spot' : '') + '" href="' + root + a.slug + '/" data-slug="' + esc(a.slug) + '">' + iconImg(a, 52) +
@@ -283,7 +283,7 @@
     if (ab && need.about) ab.innerHTML = app.about.map(function (p) { return '<p>' + esc(p) + '</p>'; }).join('');
     // stage
     $$('[data-stage-tracker]').forEach(function (el) { el.innerHTML = tracker(app); });
-    $$('[data-stage-word]').forEach(function (el) { el.textContent = STAGE_WORD[app.stage] || app.stage; });
+    $$('[data-stage-word]').forEach(function (el) { el.textContent = STAGE_WORD[app.stage] || app.stage; var d = el.previousElementSibling; if (d && d.classList.contains('live-dot')) d.classList.toggle('pulse', app.stage === 'live'); });
     // Google Play buttons
     $$('[data-play]').forEach(function (el) {
       var label = $('span', el) || el;
