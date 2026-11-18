@@ -133,7 +133,8 @@ window.FORGE = {
           "title": "Renewly – Your Family's Important Documents, All in One Place",
           "vertical": true
         }
-      ]
+      ],
+      "featured": true
     },
     {
       "slug": "wealthon",
@@ -227,6 +228,116 @@ window.FORGE = {
         "text": "#FFFFFF",
         "btnBg": "#FFFFFF",
         "btnText": "#1E3A8A"
+      },
+      "pricing": {
+        "show": true,
+        "title": "Free, always. Pro, once.",
+        "lead": "Everything you need is free. Pro is one payment, no subscription.",
+        "free": {
+          "name": "Free, always",
+          "amount": "₹0",
+          "items": [
+            "Safe to spend, every day",
+            "What’s due, with the low balance warning",
+            "This month’s plan and answers to your money questions",
+            "Speak or type to add a spend, or use the widget",
+            "Can I afford it? (four ways to pay) and Thinking about",
+            "Debt-free date, days of freedom and the payoff planner",
+            "Next month preview, the money check-up and yearly bills",
+            "Budgets, loans and EMIs, 2 credit cards",
+            "1 statement import a month (the first one sorted by AI)",
+            "Your days, evening check-in, round-ups and Your week",
+            "Money score, 1 spending alert, 5 widgets",
+            "Any currency, reminders, weekly automatic backup, app lock, CSV export"
+          ]
+        },
+        "pro": {
+          "name": "WealthOn Pro",
+          "badge": "One payment",
+          "note": "pay once, keep it",
+          "groups": [
+            {
+              "title": "Save money",
+              "items": [
+                {
+                  "text": "Spending alerts for every shop and category",
+                  "note": "free: 1 alert"
+                },
+                {
+                  "text": "Subscriptions finder with price-rise alerts",
+                  "note": ""
+                },
+                {
+                  "text": "Every credit card",
+                  "note": "free: 2"
+                }
+              ]
+            },
+            {
+              "title": "Save time with AI",
+              "items": [
+                {
+                  "text": "Unlimited statement imports",
+                  "note": "free: 1 a month"
+                },
+                {
+                  "text": "AI sorting on every import",
+                  "note": "free: first import"
+                },
+                {
+                  "text": "Read any statement with AI",
+                  "note": "free: once"
+                },
+                {
+                  "text": "Coach’s words",
+                  "note": ""
+                }
+              ]
+            },
+            {
+              "title": "See the big picture",
+              "items": [
+                {
+                  "text": "Analytics for 3 months, 6 months and a year",
+                  "note": ""
+                },
+                {
+                  "text": "Money score history and details",
+                  "note": ""
+                },
+                {
+                  "text": "Monthly PDF report",
+                  "note": ""
+                }
+              ]
+            },
+            {
+              "title": "Make it yours",
+              "items": [
+                {
+                  "text": "All 16 widgets",
+                  "note": "free: 5"
+                },
+                {
+                  "text": "Daily backup",
+                  "note": "free: weekly"
+                },
+                {
+                  "text": "Unlimited goals, lend & borrow and repeats",
+                  "note": "free: 3 goals, 2 people, 10 repeats"
+                },
+                {
+                  "text": "Receipt photos",
+                  "note": ""
+                },
+                {
+                  "text": "Extra colours",
+                  "note": ""
+                }
+              ]
+            }
+          ]
+        }
       }
     },
     {
@@ -260,5 +371,117 @@ window.FORGE = {
         "btnText": "#0B0B0C"
       }
     }
-  ]
+  ],
+  "faq": [
+    {
+      "q": "Who is behind Forge Apps?",
+      "a": "An independent studio in India that designs, builds and supports every app itself, from the first sketch to the replies in your inbox."
+    },
+    {
+      "q": "Are your apps free?",
+      "a": "Every app is free to start. Where there is an upgrade, it is clearly priced and one-time wherever possible. WealthOn Pro, for example, is a one-time ₹199."
+    },
+    {
+      "q": "Do your apps collect my data?",
+      "a": "We keep data on your phone wherever possible and never sell it. Each app has its own privacy policy on its page."
+    },
+    {
+      "q": "How do I become a tester?",
+      "a": "Enter your Google Play email in the [early access](#early) section. We add you to the test and email you the link, usually within a day."
+    },
+    {
+      "q": "How do I delete my data?",
+      "a": "Each app’s page has a “Delete your data” link that explains how to do it in the app or by email."
+    },
+    {
+      "q": "Can I suggest an app idea?",
+      "a": "Yes, please. [Send it here](contact/?topic=idea). Every idea is read, and the best ones end up in the forge."
+    }
+  ],
+  "home": {
+    "hero": {
+      "label": "Independent app studio · Made in India",
+      "title": "Useful apps,\nhammered into *shape.*",
+      "text": "Forge Apps designs and builds simple, private Android apps from scratch, then keeps improving them with real feedback.",
+      "textPhone": "Simple, private Android apps, built from scratch and improved with real feedback.",
+      "btn1": {
+        "text": "See our apps",
+        "href": "#work"
+      },
+      "btn2": {
+        "text": "Get early access",
+        "href": "#early"
+      },
+      "screens": [
+        "renewly/screens/1.jpg",
+        "wealthon/screens/mwib0cxf0.jpg"
+      ],
+      "stamp": "Built in the forge"
+    },
+    "sections": [
+      {
+        "id": "work",
+        "desktop": true,
+        "phone": true
+      },
+      {
+        "id": "approach",
+        "desktop": true,
+        "phone": true
+      },
+      {
+        "id": "process",
+        "desktop": true,
+        "phone": true
+      },
+      {
+        "id": "promises",
+        "desktop": true,
+        "phone": true
+      },
+      {
+        "id": "early",
+        "desktop": true,
+        "phone": true
+      },
+      {
+        "id": "news",
+        "desktop": true,
+        "phone": true
+      },
+      {
+        "id": "faq",
+        "desktop": true,
+        "phone": true
+      },
+      {
+        "id": "contact",
+        "desktop": true,
+        "phone": true
+      }
+    ]
+  },
+  "phone": {
+    "topRight": "getapp",
+    "getApp": "auto",
+    "under": "socials",
+    "tabs": [
+      {
+        "id": "home",
+        "on": true
+      },
+      {
+        "id": "apps",
+        "on": true
+      },
+      {
+        "id": "approach",
+        "on": true
+      },
+      {
+        "id": "contact",
+        "on": true
+      }
+    ]
+  }
 };
