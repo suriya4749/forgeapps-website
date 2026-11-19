@@ -422,11 +422,15 @@ window.FORGE = {
       "screens": [
         {
           "src": "assets/hero/wealthon-start.jpg",
-          "label": "WealthOn"
+          "label": "WealthOn",
+          "app": "wealthon",
+          "specs": "Status: Live on Google Play\nPrice: Free · Pro is one payment\nSign-up: None\nYour data: Stays on your phone"
         },
         {
           "src": "assets/hero/renewly-start.jpg",
-          "label": "Renewly"
+          "label": "Renewly",
+          "app": "renewly",
+          "specs": "Status: Being built\nPrice: Free · Plus is one payment\nSign-up: None\nYour data: Stays on your phone"
         }
       ],
       "stamp": "Built in the forge"

@@ -202,7 +202,17 @@
       var trk = $('.trk', bp), cp = $('.cp', bp), dots = $('.bp-dots', bp), cur = 0, n = scr.length, tmr = null;
       trk.innerHTML = scr.map(function (x) { return '<img src="' + esc(url(x.src)) + '" alt="' + esc(who(x) || 'App screen') + '" width="172" height="382" draggable="false">'; }).join('');
       dots.innerHTML = n > 1 ? scr.map(function (x, i) { return '<button type="button" aria-label="Screen ' + (i + 1) + '"></button>'; }).join('') : '';
-      var show = function (i) { cur = (i + n) % n; trk.style.transform = 'translateX(-' + cur * 100 + '%)'; cp.textContent = who(scr[cur]); $$('button', dots).forEach(function (d, j) { d.classList.toggle('on', j === cur); }); };
+      // desktop spec sheet beside the phone: the facts and a switch for each screen
+      var spec = $('#x-spec'), sr = spec && $('.x-spec-r', spec), ssw = spec && $('.x-spec-sw', spec);
+      var appOf = function (x) { return bySlug(x.app) || bySlug(String(x.src).split('/')[0]) || bySlug((String(x.src).match(/hero\/([a-z0-9-]+?)-/) || [])[1]); };
+      var specRows = function (x) { return String(x.specs || '').split('\n').map(function (l) { var k = l.indexOf(':'); return k > 0 ? [l.slice(0, k).trim(), l.slice(k + 1).trim()] : null; }).filter(function (r) { return r && r[0] && r[1]; }); };
+      if (spec && scr.some(function (x) { return specRows(x).length; })) {
+        spec.hidden = false;
+        ssw.innerHTML = n > 1 ? scr.map(function (x, i) { var a = appOf(x); return '<button type="button" data-i="' + i + '">' + (a ? '<img src="' + esc(url(a.icon)) + '" alt="">' + esc(a.name) : esc(x.label || 'Screen ' + (i + 1))) + '</button>'; }).join('') : '';
+        ssw.addEventListener('click', function (e) { var b = e.target.closest('button'); if (b) { show(+b.getAttribute('data-i')); auto(); } });
+      }
+      var show = function (i) { cur = (i + n) % n; trk.style.transform = 'translateX(-' + cur * 100 + '%)'; cp.textContent = who(scr[cur]); $$('button', dots).forEach(function (d, j) { d.classList.toggle('on', j === cur); });
+        if (spec && !spec.hidden) { var a = appOf(scr[cur]); sr.innerHTML = '<div><span>App</span><b>' + esc(a ? a.name : (scr[cur].label || '')) + '</b></div>' + specRows(scr[cur]).map(function (r) { return '<div><span>' + esc(r[0]) + '</span><b>' + esc(r[1]) + '</b></div>'; }).join(''); $$('button', ssw).forEach(function (d, j) { d.classList.toggle('on', j === cur); d.setAttribute('aria-pressed', j === cur); }); } };
       var auto = function () { clearInterval(tmr); if (n > 1 && !reduce) tmr = setInterval(function () { if (!document.hidden) show(cur + 1); }, 3600); };
       show(0); setTimeout(auto, 2600);
       dots.addEventListener('click', function (e) { var d = e.target.closest('button'); if (d) { show($$('button', dots).indexOf(d)); auto(); } });
