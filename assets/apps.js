@@ -525,7 +525,7 @@ window.FORGE = {
     }
   },
   "phone": {
-    "topRight": "none",
+    "topRight": "getapp",
     "getApp": "auto",
     "under": "apps",
     "tabs": [
