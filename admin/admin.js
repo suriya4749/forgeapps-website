@@ -23,13 +23,14 @@
   var DEFAULT_COLORS = { bg: '#1C1F26', bg2: '#111318', accent: '#FF6A2B', accent2: '#FFB547', soft: '#2A2E37', text: '#F5F3EF', btnBg: '#FF6A2B', btnText: '#111318' };
   var COLOR_LABELS = { bg: 'Panel background', bg2: 'Panel background 2', accent: 'Main colour', accent2: 'Second colour', soft: 'Soft tint', text: 'Text on panel', btnBg: 'Button', btnText: 'Button text' };
   var SEC = {
-    values: ['Technology should make everyday life simpler', 'Studio values · rule book'], work: ['Meet our applications', 'App rows on desktop, app list on phones'],
-    why: ['Small studio. Serious attention to detail', 'Spec sheet'], how: ['How we build', 'Four-step timeline'],
-    trust: ['Your trust matters more than your data', 'Privacy points and policy links'], stats: ['Numbers', 'Only real numbers from your apps and updates'],
+    featured: ['Featured app', 'One app with its Get it on Google Play button, under the top section'], work: ['Meet our applications', 'App rows on desktop, app list on phones'],
+    reviews: ['What people say', 'Moving strip of Google Play reviews · shows once there are reviews'], why: ['Small studio. Serious attention to detail', 'The rule book and privacy policy links'],
+    how: ['How we build', 'Four-step timeline'], stats: ['Numbers', 'Play rating, reviews, updates, apps · set them in Featured app & numbers'],
     founder: ['Built independently. Improved together', 'Founder photo and story'], early: ['Try apps before they launch', 'Tester sign-up · only shows while an app is in testing'],
     news: ['From the workshop', 'Latest 3 updates'], faq: ['Questions, answered', 'Help desk with search'], contact: ['Have an idea worth building?', 'Closing box']
   };
   var TABS = { home: 'Home', apps: 'Apps (opens the apps sheet)', about: 'About', updates: 'Updates', approach: 'How we build', contact: 'Contact' };
+  var STAT_TILES = { rating: ['Play rating', 'Average stars, from the Reviews view'], reviews: ['Reviews on Google Play', 'How many ratings or reviews'], updates: ['Updates shipped', 'Counted from Latest news'], apps: ['Apps from the forge', 'With how many are live and being built'] };
   var LINKS = ['#work', '#approach', '#process', '#promises', '#early', '#news', '#faq', '#contact', 'apps/', 'contact/', 'contact/?topic=idea', 'contact/?topic=launch'];
   var I = {
     grid: '<path d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z"/>', spark: '<path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M6 18l2.5-2.5M15.5 8.5 18 6"/>',
@@ -56,11 +57,16 @@
     var have = (F.home.sections || []).map(function (s) { return s.id; });
     F.home.sections = (F.home.sections || []).filter(function (s) { return SEC[s.id]; });
     Object.keys(SEC).forEach(function (k) { if (have.indexOf(k) === -1) F.home.sections.push({ id: k, desktop: true, phone: true }); });
+    F.theme = F.theme || 'soft'; if (F.playName == null) F.playName = 'Forge Apps Labs'; if (F.playDevUrl == null) F.playDevUrl = '';
+    F.home.pitch = F.home.pitch || { app: '', title: '', text: '' };
+    F.stats = F.stats && F.stats.tiles ? F.stats : { tiles: ['rating', 'reviews', 'updates', 'apps'], custom: [] }; F.stats.custom = F.stats.custom || [];
+    F.reviews = F.reviews || {}; F.reviews.apps = F.reviews.apps || {}; F.reviews.hide = F.reviews.hide || []; F.reviews.pin = F.reviews.pin || []; F.reviews.rating = F.reviews.rating || {};
+    F.home.hero.screens = (F.home.hero.screens || []).map(function (x) { return typeof x === 'string' ? { src: x, label: '' } : x; });
     F.phone = F.phone || {};
     F.phone.topRight = F.phone.topRight || 'getapp'; F.phone.getApp = F.phone.getApp || 'auto'; F.phone.under = F.phone.under || 'socials';
     var ht = (F.phone.tabs || []).map(function (t) { return t.id; });
     F.phone.tabs = (F.phone.tabs || []).filter(function (t) { return TABS[t.id]; });
-    Object.keys(TABS).forEach(function (k) { if (ht.indexOf(k) === -1) F.phone.tabs.push({ id: k, on: true }); });
+    Object.keys(TABS).forEach(function (k) { if (ht.indexOf(k) === -1) F.phone.tabs.push({ id: k, on: false }); });
     return F;
   }
   function load(F, P) {
@@ -321,10 +327,10 @@
 
   /* ---------------- shell ---------------- */
   function shell(inner, withPreview) {
-    var side = [['Home page'], ['layout', 'Sections & order', ico('grid')], ['hero', 'Top section', ico('spark')], ['phone', 'Phone view', ico('phone')],
+    var side = [['Home page'], ['layout', 'Sections & order', ico('grid')], ['hero', 'Top section', ico('spark')], ['phone', 'Phone view', ico('phone')], ['extras', 'Featured app & numbers', ico('spark')],
       ['Apps'], ['apps', 'All apps & order', ico('list')]].concat(state.apps.map(function (a, i) {
         return ['app:' + i, '<img src="' + esc(imgSrc(a.icon)) + '" alt="">' + esc(a.name || 'Untitled') + '<span class="tag">' + (a.hidden ? 'Hidden' : a.stage) + '</span>', ''];
-      })).concat([['pricing', 'Prices & plans', ico('wallet')], ['Site'], ['news', 'Latest news', ico('doc')], ['faq', 'Questions', ico('chat')], ['settings', 'Socials, email, analytics', ico('tool')], ['security', 'Connection & security', ico('lock')]]);
+      })).concat([['pricing', 'Prices & plans', ico('wallet')], ['Site'], ['news', 'Latest news', ico('doc')], ['reviews', 'Reviews', ico('chat')], ['faq', 'Questions', ico('chat')], ['settings', 'Look, socials, analytics', ico('tool')], ['security', 'Connection & security', ico('lock')]]);
     var nav = side.map(function (s) {
       if (s.length === 1) return '<span class="g">' + s[0] + '</span>';
       var on = view === s[0] || (s[0].indexOf('app:') === 0 && view === s[0]);
@@ -365,9 +371,11 @@
 
   function vHero() {
     var h = state.home.hero, P = 'home.hero.';
-    var all = [];
+    var all = [], hs = h.screens = h.screens || [];
     state.apps.forEach(function (a) { (a.screens || []).forEach(function (s) { var src = typeof s === 'string' ? s : s.src; all.push([src, a.name]); }); });
-    var picks = all.map(function (x) { var k = (h.screens || []).indexOf(x[0]); return '<div class="shot pick' + (k > -1 ? ' on' : '') + '" data-pick="' + esc(x[0]) + '"><div class="im"><img src="' + esc(imgSrc(x[0])) + '" alt="" loading="lazy">' + (k > -1 ? '<span class="bd">' + (k + 1) + '</span>' : '') + '</div><small>' + esc(x[1]) + '</small></div>'; }).join('');
+    var at = function (src) { for (var q = 0; q < hs.length; q++) if (hs[q].src === src) return q; return -1; };
+    var picks = all.map(function (x) { var k = at(x[0]); return '<div class="shot pick' + (k > -1 ? ' on' : '') + '" data-pick="' + esc(x[0]) + '"><div class="im"><img src="' + esc(imgSrc(x[0])) + '" alt="" loading="lazy">' + (k > -1 ? '<span class="bd">' + (k + 1) + '</span>' : '') + '</div><small>' + esc(x[1]) + '</small></div>'; }).join('');
+    var chosen = hs.map(function (x, k) { return dragRow('home.hero.screens', k) + GRIP + '<img src="' + esc(imgSrc(x.src)) + '" alt="" style="width:38px;height:76px;object-fit:cover;object-position:top;border-radius:7px;border:2px solid var(--ink)"><input class="grow" data-bind="home.hero.screens.' + k + '.label" value="' + esc(x.label || '') + '" placeholder="Label above the phone, e.g. WealthOn · Safe to spend">' + moveBtns('home.hero.screens', k) + delBtn('home.hero.screens', k) + '</div>'; }).join('');
     var dl = '<datalist id="links">' + LINKS.map(function (l) { return '<option value="' + l + '">'; }).join('') + '</datalist>';
     shell(H('Home page', 'Top section', 'The first thing people see. Phones get their own shorter text.') +
       '<div class="box pad">' + fld('Small label above the heading · desktop only · leave empty to hide', P + 'label', h.label) +
@@ -376,7 +384,9 @@
       '<div class="cols">' + fld('Main button text', P + 'btn1.text', (h.btn1 || {}).text) + fld('Main button goes to', P + 'btn1.href', (h.btn1 || {}).href, { list: 'links' }) + '</div>' +
       '<div class="cols">' + fld('Second button text · empty hides it', P + 'btn2.text', (h.btn2 || {}).text) + fld('Second button goes to', P + 'btn2.href', (h.btn2 || {}).href, { list: 'links' }) + '</div>' + dl +
       fld('Stamp on the blueprint · empty hides it', P + 'stamp', h.stamp) + '</div>' +
-      '<div class="box pad"><h3>Blueprint phone shows</h3><p class="hint">Pick one or two screenshots. With two, the phone switches between them. Add screenshots in each app’s Media tab.</p><div class="shots">' + (picks || '<p class="empty">No screenshots yet.</p>') + '</div></div>', true);
+      '<div class="box pad"><h3>Blueprint phone · screens it swipes through</h3><p class="hint">Up to 8. Use plain phone screenshots (no store headline), so it looks like the real app. Drag to reorder; the label shows above the phone.</p><div class="inner rows">' + (chosen || '<p class="empty" style="padding:10px">No screens yet.</p>') + '</div>' +
+      '<div class="row" style="margin-top:12px"><span class="b sm file">Upload phone screenshots<input type="file" accept="image/*" multiple data-upload="hero"></span><span class="note">Saved in assets/hero/ when you publish.</span></div>' +
+      '<details class="help" style="margin-top:14px"><summary>Or pick from the apps’ store screenshots</summary><div class="shots" style="margin-top:10px">' + (picks || '<p class="empty">No screenshots yet.</p>') + '</div></details></div>', true);
   }
 
   function vPhone() {
@@ -489,10 +499,10 @@
 
   function vNews() {
     var opts = function (v) { return '<option value="">Forge Apps</option>' + state.apps.map(function (a) { return '<option value="' + esc(a.slug) + '"' + (a.slug === v ? ' selected' : '') + '>' + esc(a.name) + '</option>'; }).join(''); };
-    shell(H('Site', 'Latest news', 'News for the home page (latest 3) and the Updates page (all of them), newest first.', '<button type="button" class="b dk" data-act="add-update">+ Add news</button>') +
+    shell(H('Site', 'Latest news', 'News for the home page (latest 3) and the Updates page (all of them), newest first. Give each a title and a summary that adds something; the version number is optional.', '<button type="button" class="b dk" data-act="add-update">+ Add news</button>') +
       '<div class="box rows">' + (state.updates.map(function (u, i) {
         var CT = [['', 'Type: automatic'], ['release', 'Release'], ['beta', 'Beta'], ['feature', 'New feature'], ['fix', 'Fix'], ['studio', 'Studio']].map(function (c) { return '<option value="' + c[0] + '"' + ((u.cat || '') === c[0] ? ' selected' : '') + '>' + c[1] + '</option>'; }).join('');
-        return dragRow('updates', i) + GRIP + '<div class="grow" style="display:flex;flex-direction:column;gap:6px"><div class="row"><input style="flex:0 0 110px" data-bind="updates.' + i + '.date" value="' + esc(u.date) + '" placeholder="Nov 2026"><select style="flex:0 0 150px" data-bind="updates.' + i + '.app">' + opts(u.app) + '</select><select style="flex:0 0 160px" data-bind="updates.' + i + '.cat">' + CT + '</select><input style="flex:1;min-width:160px" data-bind="updates.' + i + '.title" value="' + esc(u.title || '') + '" placeholder="Title (optional)"></div><input data-bind="updates.' + i + '.text" value="' + esc(u.text) + '" placeholder="What happened"><input data-bind="updates.' + i + '.more" value="' + esc(u.more || '') + '" placeholder="More details for the Updates page (optional)"></div>' + moveBtns('updates', i) + delBtn('updates', i) + '</div>';
+        return dragRow('updates', i) + GRIP + '<div class="grow" style="display:flex;flex-direction:column;gap:6px"><div class="row"><input style="flex:0 0 110px" data-bind="updates.' + i + '.date" value="' + esc(u.date) + '" placeholder="Nov 2026"><select style="flex:0 0 150px" data-bind="updates.' + i + '.app">' + opts(u.app) + '</select><select style="flex:0 0 160px" data-bind="updates.' + i + '.cat">' + CT + '</select><input style="flex:0 0 90px" data-bind="updates.' + i + '.ver" value="' + esc(u.ver || '') + '" placeholder="v1.2"></div><input style="font-weight:700" data-bind="updates.' + i + '.title" value="' + esc(u.title || '') + '" placeholder="Title, e.g. WealthOn is live on Google Play"><input data-bind="updates.' + i + '.text" value="' + esc(u.text) + '" placeholder="Summary: one or two lines that say more than the title"><input data-bind="updates.' + i + '.more" value="' + esc(u.more || '') + '" placeholder="More details for the Updates page (optional)"></div>' + moveBtns('updates', i) + delBtn('updates', i) + '</div>';
       }).join('') || '<p class="empty pad">No news yet.</p>') + '</div>');
   }
   function vFaq() {
@@ -502,8 +512,45 @@
           fld('Question', 'faq.' + i + '.q', f.q) + fld('Answer', 'faq.' + i + '.a', f.a, { ta: true }) + '</div>';
       }).join('') || '<div class="box pad"><p class="empty">No questions yet. The page keeps its built-in list.</p></div>'));
   }
+  function vExtras() {
+    var pi = state.home.pitch, opts = '<option value="">Nothing (hide the strip)</option>' + state.apps.filter(function (a) { return !a.hidden; }).map(function (a) { return '<option value="' + esc(a.slug) + '"' + (pi.app === a.slug ? ' selected' : '') + '>' + esc(a.name) + (a.stage === 'live' ? '' : ' · not live yet') + '</option>'; }).join('');
+    var T = state.stats.tiles, keys = T.concat(Object.keys(STAT_TILES).filter(function (k) { return T.indexOf(k) === -1; }));
+    var tiles = keys.map(function (k) { var on = T.indexOf(k) > -1, i = T.indexOf(k); return '<div class="rw' + (on ? '' : ' off') + '"><span class="grow"><b>' + STAT_TILES[k][0] + '</b><small>' + STAT_TILES[k][1] + '</small></span><button type="button" class="tg' + (on ? ' on' : '') + '" data-act="tile" data-k="' + k + '" aria-pressed="' + on + '"></button>' + (on ? moveBtns('stats.tiles', i) : '<span style="width:64px"></span>') + '</div>'; }).join('');
+    var cus = state.stats.custom.map(function (c, k) { return '<div class="rw"><input style="flex:0 0 90px" data-bind="stats.custom.' + k + '.value" value="' + esc(c.value) + '" placeholder="0"><input class="grow" data-bind="stats.custom.' + k + '.label" value="' + esc(c.label) + '" placeholder="Label, e.g. Ads in any app"><input class="grow" data-bind="stats.custom.' + k + '.sub" value="' + esc(c.sub || '') + '" placeholder="Small line (optional)">' + delBtn('stats.custom', k) + '</div>'; }).join('');
+    shell(H('Home page', 'Featured app &amp; numbers', 'The strip under the top section, and the numbers further down. Switch either section off in Sections &amp; order.') +
+      '<div class="box pad"><h3>Featured app</h3><p class="hint">A live app gets “Get it on Google Play” and its star rating; an app that isn’t live yet links to its page.</p><label class="f"><span>App</span><select data-bind="home.pitch.app">' + opts + '</select></label>' +
+      fld('Headline', 'home.pitch.title', pi.title, { ph: 'New: WealthOn. Know what’s safe to spend today.', max: 70 }) + fld('Line under it', 'home.pitch.text', pi.text, { ph: 'One number, after your loans, bills and savings are set aside.', max: 120 }) + '</div>' +
+      '<div class="box pad"><h3>Numbers</h3><p class="hint">Only real numbers. A tile with no value yet (e.g. a rating before the first review) is left out by itself.</p><div class="inner rows">' + tiles + '</div>' +
+      '<h3 style="margin-top:16px">Your own tiles</h3><p class="hint">Only facts, e.g. “0 · Ads in any app”.</p><div class="inner rows">' + (cus || '<p class="empty" style="padding:10px">None.</p>') + '</div><button type="button" class="b sm" data-act="add-stat">+ Tile</button></div>', true);
+  }
+  var RVDATA = null, RVLOAD = false;
+  function vReviews() {
+    var R = state.reviews, live = state.apps.filter(function (a) { return !a.hidden; });
+    if (!RVDATA && !RVLOAD) { RVLOAD = true; fetch('../assets/reviews.json?ts=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : {}; }).catch(function () { return {}; }).then(function (d) { RVDATA = d || {}; RVLOAD = false; if (view === 'reviews') rerender(); }); }
+    var appRows = live.map(function (a) { var rt = R.rating[a.slug] || {}; return '<div class="rw"><img src="' + esc(imgSrc(a.icon)) + '" alt="" style="width:34px;height:34px;border-radius:9px;border:2px solid var(--ink)"><span class="grow"><b>' + esc(a.name) + '</b><small>Show its reviews (app page + home strip)</small></span>' + tg('reviews.apps.' + a.slug, R.apps[a.slug] !== false) +
+      '<input style="flex:0 0 74px" type="number" min="0" max="5" step="0.1" data-bind="reviews.rating.' + a.slug + '.stars" value="' + esc(rt.stars || '') + '" placeholder="4.8" title="Star rating from Play Console"><input style="flex:0 0 90px" type="number" min="0" step="1" data-bind="reviews.rating.' + a.slug + '.count" value="' + esc(rt.count || '') + '" placeholder="count" title="Number of ratings"></div>'; }).join('');
+    var list = [];
+    if (RVDATA && RVDATA.apps) Object.keys(RVDATA.apps).forEach(function (k) { ((RVDATA.apps[k] || {}).reviews || []).forEach(function (r) { r.app = k; list.push(r); }); });
+    list.sort(function (x, y) { return String(y.date).localeCompare(String(x.date)); });
+    var rows = list.map(function (r) { var a = state.apps.filter(function (x) { return x.slug === r.app; })[0] || {}, hid = R.hide.indexOf(r.id) > -1, pin = R.pin.indexOf(r.id) > -1;
+      return '<div class="rw' + (hid ? ' off' : '') + '"><img src="' + esc(imgSrc(a.icon)) + '" alt="" style="width:28px;height:28px;border-radius:7px"><span class="grow"><b>' + '★★★★★'.slice(0, r.stars) + ' · ' + esc(r.author || 'Google Play user') + '</b><small>' + esc(String(r.date || '').slice(0, 10)) + ' · ' + esc(String(r.text || '(rating only, not shown)').slice(0, 160)) + '</small></span>' +
+        '<button type="button" class="b sm' + (pin ? ' dk' : '') + '" data-act="rv-pin" data-id="' + esc(r.id) + '">' + (pin ? 'Pinned' : 'Pin') + '</button><button type="button" class="b sm' + (hid ? ' danger' : '') + '" data-act="rv-hide" data-id="' + esc(r.id) + '">' + (hid ? 'Hidden' : 'Hide') + '</button></div>'; }).join('');
+    shell(H('Site', 'Reviews', 'Real reviews from Google Play. A GitHub Action fetches new ones every day into assets/reviews.json; you choose where they show.', '<button type="button" class="b sm" data-act="rv-reload">Reload reviews</button>') +
+      '<div class="box pad"><h3>Where they show</h3><div class="inner rows"><div class="rw"><span class="grow"><b>Home page strip</b><small>“What people say”, moving cards from all apps</small></span>' + tg('reviews.home', R.home !== false) + '</div></div>' +
+      '<h3 style="margin-top:16px">Per app · and the star rating from Play Console</h3><p class="hint">Google’s review feed doesn’t include your overall rating. Copy it from Play Console (Ratings overview) to show the exact number; leave it empty to work it out from the reviews collected.</p><div class="inner rows">' + appRows + '</div></div>' +
+      '<div class="box"><div class="pad" style="padding-bottom:6px"><h3>Collected reviews' + (list.length ? ' · ' + list.length : '') + '</h3><p class="hint">Pin puts a review first. Hide is for spam or abuse only; hiding honest low ratings would mislead people.' + (RVDATA && RVDATA.updated ? ' Last fetched ' + esc(String(RVDATA.updated).slice(0, 10)) + '.' : '') + '</p></div>' +
+      (RVLOAD && !RVDATA ? '<p class="empty pad">Loading…</p>' : rows ? '<div class="rows">' + rows + '</div>' : '<p class="empty pad">No reviews collected yet. Once the GitHub Action is set up, new Play reviews appear here within a day.</p>') + '</div>' +
+      '<div class="box pad"><details class="help"><summary>Set up the daily fetch (once)</summary><ol class="note" style="line-height:1.7;margin:10px 0 0;padding-left:18px">' +
+      '<li>Google Cloud console: create a project (or use one), enable the <b>Google Play Android Developer API</b>, create a <b>service account</b> and download its JSON key.</li>' +
+      '<li>Play Console → Users and permissions → Invite new users: add the service account’s email with access to your apps and the permission <b>Reply to reviews</b> (it lets it read them too).</li>' +
+      '<li>GitHub → the website repo → Settings → Secrets and variables → Actions → New secret: name <b>PLAY_SERVICE_ACCOUNT_JSON</b>, value = the whole JSON key.</li>' +
+      '<li>GitHub → Actions → “Fetch Google Play reviews” → Run workflow. After that it runs every day by itself.</li></ol></details></div>');
+  }
   function vSettings() {
-    shell(H('Site', 'Socials, email, analytics', 'Shown across the whole site. Leave a social link empty to hide its button.') +
+    var th = function (v, t, d) { return '<label class="' + (state.theme === v ? 'on' : '') + '"><input type="radio" name="theme" data-radio="theme" value="' + v + '"' + (state.theme === v ? ' checked' : '') + '><span><b>' + t + '</b><small>' + d + '</small></span></label>'; };
+    shell(H('Site', 'Look, socials, analytics', 'Shown across the whole site. Leave a social link empty to hide its button.') +
+      '<div class="cols"><div class="box pad"><h3>Look</h3><div class="radio" style="margin-top:10px">' + th('soft', 'Workshop · softer', 'Grid paper in calmer, less bright tones (default)') + th('classic', 'Workshop · bright', 'The original, brighter paper') + '</div></div>' +
+      '<div class="box pad"><h3>Google Play developer</h3>' + fld('Developer name on Google Play', 'playName', state.playName, { note: 'Shown as “by … on Google Play” under Play buttons and in the footer. Empty hides it.' }) + fld('Developer page link', 'playDevUrl', state.playDevUrl, { type: 'url', ph: 'https://play.google.com/store/apps/dev?id=…', note: 'In Play Console: open your developer page, then copy its link.' }) + '</div></div>' +
       '<div class="cols"><div class="box pad"><h3>Contact and socials</h3>' + fld('Support email', 'email', state.email) + fld('Instagram link', 'instagram', state.instagram, { type: 'url' }) + fld('YouTube channel link', 'youtube', state.youtube, { type: 'url' }) + fld('Facebook Page link', 'facebook', state.facebook || '', { type: 'url' }) + '</div>' +
       '<div class="box pad"><h3>Contact form and analytics</h3>' + fld('Web3Forms access key', 'formKey', state.formKey || '', { note: 'Messages from the contact page go to the email this key was made for.' }) +
       fld('Umami website ID', 'analytics.umami', state.analytics.umami || '', { note: 'From cloud.umami.is → Websites → forgeapps.in → Edit.' }) + fld('Cloudflare Web Analytics token (optional)', 'analytics.cloudflare', state.analytics.cloudflare || '') + '</div></div>');
@@ -528,7 +575,7 @@
     var y = window.scrollY;
     if (view === 'layout') vLayout(); else if (view === 'hero') vHero(); else if (view === 'phone') vPhone();
     else if (view === 'apps') vApps(); else if (view === 'pricing') vPricing(); else if (view === 'news') vNews();
-    else if (view === 'faq') vFaq(); else if (view === 'settings') vSettings(); else if (view === 'security') vSecurity();
+    else if (view === 'faq') vFaq(); else if (view === 'extras') vExtras(); else if (view === 'reviews') vReviews(); else if (view === 'settings') vSettings(); else if (view === 'security') vSecurity();
     else if (view.indexOf('app:') === 0) vApp(parseInt(view.split(':')[1], 10));
     else { view = 'layout'; vLayout(); }
     window.scrollTo(0, render.keep ? y : 0); render.keep = false;
@@ -646,13 +693,19 @@
     }
     if ((t = e.target.closest('[data-set]'))) { setPath(state, t.getAttribute('data-set'), t.getAttribute('data-val')); touched(); rerender(); return; }
     if ((t = e.target.closest('[data-pick]'))) {
-      var s = t.getAttribute('data-pick'), arr = state.home.hero.screens = state.home.hero.screens || [], k = arr.indexOf(s);
-      if (k > -1) arr.splice(k, 1); else { arr.push(s); if (arr.length > 2) arr.shift(); }
+      var s = t.getAttribute('data-pick'), arr = state.home.hero.screens = state.home.hero.screens || [], k = -1;
+      arr.forEach(function (x, q) { if (x.src === s) k = q; });
+      if (k > -1) arr.splice(k, 1); else { var ow = state.apps.filter(function (a) { return s.indexOf(a.slug + '/') === 0; })[0]; arr.push({ src: s, label: ow ? ow.name : '' }); if (arr.length > 8) arr.shift(); }
       touched(); rerender(); return;
     }
     var b = e.target.closest('[data-act]'); if (!b) return;
     var act = b.getAttribute('data-act'), i = view.indexOf('app:') === 0 ? parseInt(view.split(':')[1], 10) : -1, a = state.apps[i];
     var list = b.getAttribute('data-list'), n = parseInt(b.getAttribute('data-i'), 10), lst = list ? getPath(state, list) : null;
+    var rid = b.getAttribute('data-id');
+    if (act === 'rv-hide' || act === 'rv-pin') { var L = state.reviews[act === 'rv-hide' ? 'hide' : 'pin'], q = L.indexOf(rid); if (q > -1) L.splice(q, 1); else L.push(rid); touched(); rerender(); return; }
+    if (act === 'tile') { var T = state.stats.tiles, tk = b.getAttribute('data-k'), tq = T.indexOf(tk); if (tq > -1) T.splice(tq, 1); else T.push(tk); touched(); rerender(); return; }
+    if (act === 'add-stat') { state.stats.custom.push({ value: '', label: '', sub: '' }); touched(); rerender(); return; }
+    if (act === 'rv-reload') { RVDATA = null; rerender(); return; }
     if (act === 'del' && lst) lst.splice(n, 1);
     else if (act === 'up' && lst) { if (!moveIn(lst, n, n - 1)) return; if (list === 'apps') view = 'apps'; }
     else if (act === 'down' && lst) { if (!moveIn(lst, n, n + 1)) return; }
@@ -727,6 +780,11 @@
     var up = el.getAttribute && el.getAttribute('data-upload'); if (up && el.files.length) addFiles(up, Array.prototype.slice.call(el.files));
   });
   function addFiles(kind, files) {
+    if (kind === 'hero') {
+      files = files.filter(function (f) { return /^image\//.test(f.type); }); if (!files.length) return;
+      return files.reduce(function (pr, f, n) { return pr.then(function () { return readImage(f, 540, 1200, 'image/jpeg').then(function (r) { var p = 'assets/hero/' + Date.now().toString(36) + n + '.jpg'; pending[p] = r; state.home.hero.screens.push({ src: p, label: '' }); }); }); }, Promise.resolve())
+        .then(function () { if (state.home.hero.screens.length > 8) state.home.hero.screens = state.home.hero.screens.slice(-8); touched(); rerender(); toast('Added. Write a label for each, then publish.'); }).catch(function (err) { toast(err.message, 'bad'); });
+    }
     var a = state.apps[parseInt(view.split(':')[1], 10)]; if (!a) return;
     files = files.filter(function (f) { return /^image\//.test(f.type); }); if (!files.length) return;
     var job = kind === 'icon'

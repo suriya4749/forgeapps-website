@@ -5,6 +5,7 @@
   if (/[?&]preview=1/.test(location.search)) { try { var PV = JSON.parse(localStorage.getItem('forge-preview') || 'null'); if (PV && PV.apps) window.FORGE = PV; } catch (e) {} }
   var F = window.FORGE || { apps: [] };
   var V = (F.apps || []).filter(function (a) { return !a.hidden; });          // apps shown on the site
+  if (F.theme && F.theme !== 'soft') document.documentElement.setAttribute('data-theme', F.theme);   // site look, picked in the admin
   var root = document.documentElement.getAttribute('data-root') || '';
   var STAGES = ['idea', 'build', 'test', 'live'];
   var STAGE_LABEL = { idea: 'Idea', build: 'Build', test: 'Test', live: 'Live' };
@@ -194,12 +195,21 @@
       if (!b.text) { el.hidden = true; return; }
       $('span', el).textContent = b.text; if (b.href) el.setAttribute('href', b.href);
     });
-    var bp = $('#bp'), scr = (H.screens || []).filter(Boolean).slice(0, 2);
+    // blueprint phone: real app screens that swipe (by themselves, or by hand)
+    var bp = $('#bp'), scr = (H.screens || []).filter(Boolean).map(function (x) { return typeof x === 'string' ? { src: x } : x; }).filter(function (x) { return x.src; }).slice(0, 8);
     if (bp && scr.length) {
-      var who = function (p) { var a = bySlug(String(p).split('/')[0]); return a ? a.name + (a.kind ? ' · ' + a.kind : '') : ''; };
-      $('.fill', bp).innerHTML = scr.map(function (p) { return '<img src="' + esc(url(p)) + '" alt="" width="178" height="318">'; }).join('');
-      $('.cp', bp).innerHTML = scr.map(function (p) { return '<i>' + esc(who(p)) + '</i>'; }).join('');
-      bp.classList.toggle('n2', scr.length > 1);
+      var who = function (x) { if (x.label) return x.label; var a = bySlug(String(x.src).split('/')[0]) || bySlug((String(x.src).match(/hero\/([a-z0-9-]+?)-/) || [])[1]); return a ? a.name + (a.kind ? ' · ' + a.kind : '') : ''; };
+      var trk = $('.trk', bp), cp = $('.cp', bp), dots = $('.bp-dots', bp), cur = 0, n = scr.length, tmr = null;
+      trk.innerHTML = scr.map(function (x) { return '<img src="' + esc(url(x.src)) + '" alt="' + esc(who(x) || 'App screen') + '" width="172" height="382" draggable="false">'; }).join('');
+      dots.innerHTML = n > 1 ? scr.map(function (x, i) { return '<button type="button" aria-label="Screen ' + (i + 1) + '"></button>'; }).join('') : '';
+      var show = function (i) { cur = (i + n) % n; trk.style.transform = 'translateX(-' + cur * 100 + '%)'; cp.textContent = who(scr[cur]); $$('button', dots).forEach(function (d, j) { d.classList.toggle('on', j === cur); }); };
+      var auto = function () { clearInterval(tmr); if (n > 1 && !reduce) tmr = setInterval(function () { if (!document.hidden) show(cur + 1); }, 3600); };
+      show(0); setTimeout(auto, 2600);
+      dots.addEventListener('click', function (e) { var d = e.target.closest('button'); if (d) { show($$('button', dots).indexOf(d)); auto(); } });
+      var sx = null, fill = $('.fill', bp);
+      fill.addEventListener('pointerdown', function (e) { sx = e.clientX; });
+      fill.addEventListener('pointerup', function (e) { if (sx === null) return; var dx = e.clientX - sx; sx = null; if (Math.abs(dx) > 25) { show(cur + (dx < 0 ? 1 : -1)); auto(); } });
+      fill.addEventListener('pointercancel', function () { sx = null; });
     }
     var stp = bp && $('.stamp', bp); if (stp) { if (H.stamp) stp.textContent = H.stamp; else stp.hidden = true; }
   }
@@ -451,7 +461,7 @@
       var ld = { '@context': 'https://schema.org', '@type': 'MobileApplication', name: app.name, operatingSystem: app.platform || 'Android',
         applicationCategory: /financ/i.test(app.kind || '') ? 'FinanceApplication' : 'UtilitiesApplication', description: app.tagline,
         url: 'https://forgeapps.in/' + app.slug + '/', image: 'https://forgeapps.in/' + app.icon,
-        author: { '@type': 'Organization', name: 'Forge Apps', url: 'https://forgeapps.in/' }, offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' } };
+        author: { '@type': 'Organization', name: F.playName || 'Forge Apps', url: 'https://forgeapps.in/' }, offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' } };
       if (app.playUrl) ld.installUrl = app.playUrl;
       var sc = document.createElement('script'); sc.type = 'application/ld+json'; sc.id = 'app-ld'; sc.textContent = JSON.stringify(ld); document.head.appendChild(sc);
     }

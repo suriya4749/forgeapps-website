@@ -17,27 +17,35 @@ window.FORGE = {
     {
       "date": "Nov 2026",
       "app": "wealthon",
-      "text": "WealthOn is live on Google Play. Free to use; Pro is one payment."
+      "text": "Safe-to-spend, a due-date radar and an EMI payoff plan, all on your phone. Free to use; Pro is one payment.",
+      "title": "WealthOn is live on Google Play",
+      "cat": "release"
     },
     {
       "date": "Nov 2026",
       "app": "renewly",
-      "text": "Work started on Renewly: family documents with renewal reminders."
+      "text": "Family documents with renewal reminders: scan a document and the expiry date is read for you.",
+      "title": "Work started on Renewly"
     },
     {
       "date": "Nov 2026",
       "app": "",
-      "text": "The new forgeapps.in is live: a fresh design, every app in one place, and early access for testers."
+      "text": "A fresh design, every app in one place, and early access for testers.",
+      "title": "The new forgeapps.in is live",
+      "cat": "studio"
     },
     {
       "date": "Oct 2026",
       "app": "wealthon",
-      "text": "WealthOn is in closed testing on Google Play."
+      "text": "The first testers could try it on Google Play before launch.",
+      "title": "WealthOn enters closed testing",
+      "cat": "beta"
     },
     {
       "date": "Oct 2026",
       "app": "noctyl",
-      "text": "Work started on Noctyl: icons and widgets first, a full launcher later."
+      "text": "Icons and widgets first, a full launcher later.",
+      "title": "Work started on Noctyl"
     }
   ],
   "apps": [
@@ -412,19 +420,42 @@ window.FORGE = {
         "href": "about/"
       },
       "screens": [
-        "wealthon/screens/mwib0cxf0.jpg",
-        "renewly/screens/1.jpg"
+        {
+          "src": "assets/hero/wealthon-safe-to-spend.jpg",
+          "label": "WealthOn · Safe to spend"
+        },
+        {
+          "src": "assets/hero/wealthon-whats-due.jpg",
+          "label": "WealthOn · What's due"
+        },
+        {
+          "src": "assets/hero/wealthon-debt-free.jpg",
+          "label": "WealthOn · Debt-free countdown"
+        },
+        {
+          "src": "assets/hero/wealthon-can-i-afford-it.jpg",
+          "label": "WealthOn · Can I afford it?"
+        },
+        {
+          "src": "renewly/screens/1.jpg",
+          "label": "Renewly · Family vault"
+        }
       ],
       "stamp": "Built in the forge"
     },
     "sections": [
       {
-        "id": "values",
+        "id": "featured",
         "desktop": true,
         "phone": true
       },
       {
         "id": "work",
+        "desktop": true,
+        "phone": true
+      },
+      {
+        "id": "reviews",
         "desktop": true,
         "phone": true
       },
@@ -435,11 +466,6 @@ window.FORGE = {
       },
       {
         "id": "how",
-        "desktop": true,
-        "phone": true
-      },
-      {
-        "id": "trust",
         "desktop": true,
         "phone": true
       },
@@ -473,7 +499,12 @@ window.FORGE = {
         "desktop": true,
         "phone": true
       }
-    ]
+    ],
+    "pitch": {
+      "app": "wealthon",
+      "title": "New: WealthOn. Know what’s safe to spend today.",
+      "text": "One number, after your loans, bills and savings are set aside. Free on Google Play."
+    }
   },
   "phone": {
     "topRight": "getapp",
@@ -501,5 +532,24 @@ window.FORGE = {
         "on": true
       }
     ]
+  },
+  "theme": "soft",
+  "playName": "Forge Apps Labs",
+  "playDevUrl": "https://play.google.com/store/apps/developer?id=Forge+Apps+Labs",
+  "stats": {
+    "tiles": [
+      "rating",
+      "reviews",
+      "updates",
+      "apps"
+    ],
+    "custom": []
+  },
+  "reviews": {
+    "home": true,
+    "apps": {},
+    "hide": [],
+    "pin": [],
+    "rating": {}
   }
 };

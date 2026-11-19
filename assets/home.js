@@ -13,17 +13,7 @@
   var root = document.documentElement;
   var go = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
 
-  /* ---- hero B: "On the bench" column ---- */
-  var hero = $('.hero');
-  if (hero) {
-    var bench = document.createElement('aside'); bench.className = 'x-bench'; bench.setAttribute('aria-label', 'On the bench');
-    bench.innerHTML = '<p class="x-k">On the bench</p>' + apps.map(function (a) {
-      return '<a class="x-bc" href="' + esc(a.slug) + '/"><img src="' + esc(src(a.icon)) + '" alt=""><span><b>' + esc(a.name) + '</b><small>' + esc(WORD[a.stage]) + '</small><i style="--p:' + PCT[a.stage] + '%"></i></span></a>';
-    }).join('') + '<a class="x-bc ghost" href="contact/?topic=launch"><span class="q">?</span><span><b>Next app</b><small>On the drawing board</small><i style="--p:10%"></i></span></a>';
-    hero.appendChild(bench);
-  }
-
-  /* ---- apps B: side-by-side cards; C: spec rows ---- */
+    /* ---- apps B: side-by-side cards; C: spec rows ---- */
   var wg = $('#work-grid');
   if (wg) {
     var rows = document.createElement('div'); rows.className = 'x-rows';
@@ -77,15 +67,7 @@
   var F = window.FORGE || { apps: [], updates: [] }, V = F.apps.filter(function (a) { return !a.hidden; });
   var pols = $('#v2-pols');
   if (pols) pols.insertAdjacentHTML('afterbegin', V.map(function (a) { return '<a href="' + esc(a.slug) + '/privacy/"><img src="' + esc(a.icon) + '" alt="">' + esc(a.name) + ' privacy policy →</a>'; }).join(''));
-  var st = $('#v2-stats');
-  if (st) {
-    var live = V.filter(function (a) { return a.stage === 'live'; }).length, work = V.length - live;
-    var P = window.FORGE_PRICES && window.FORGE_PRICES.wealthon, n = P ? Object.keys(P).length : 0;
-    var S = [[live, live === 1 ? 'App on Google Play' : 'Apps on Google Play'], [work, work === 1 ? 'App in the forge' : 'Apps in the forge'], [(F.updates || []).filter(function (u) { return !u.app || V.some(function (a) { return a.slug === u.app; }); }).length, 'Product updates']];
-    if (n) S.push([n, 'Countries with local pricing']);
-    if (F.stats) Object.keys(F.stats).forEach(function (k) { if (F.stats[k]) S.push([F.stats[k], k]); });
-    st.innerHTML = S.map(function (s) { return '<div class="v2-stat"><b>' + esc(s[0]) + '</b><span>' + esc(s[1]) + '</span></div>'; }).join('');
-  }
+  // the numbers are drawn by v3.js (they include the Google Play rating)
   var ul = $('#updates');
   if (ul && ul.parentNode) {
     var by = function (s) { return V.filter(function (a) { return a.slug === s; })[0]; };

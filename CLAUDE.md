@@ -13,6 +13,10 @@ Showcase site for the apps made by **Forge Apps** (Suriya's app studio brand; ta
 - `assets/site.js` fills every page from `apps.js`; `assets/frost.css` is the base design and `assets/workshop.css` (loaded after it on every page) is the Workshop look: grid paper, condensed headings, outlined cards, the blueprint hero and the phone tab bar.
 - `apps.js` also holds `home` (top-section text, blueprint screens, section order and desktop/phone switches), `phone` (top-right Get app / status chip, tab bar tabs, socials under the buttons), `faq` (home questions; links as [text](url)) and each app's `pricing` (Free/Pro lists; the Pro amount comes from prices.js). `featured: true` = the home spotlight app.
 - `assets/home.js` (home page only) builds the on-the-bench column in the top section, the app rows (desktop; phones keep the spotlight list), the rule book + timeline and the questions help desk from `apps.js`.
+- `assets/v3.js` + `assets/v3.css` (loaded last on every page): Google Play reviews (home strip, app-page section, `reviews/` page), the featured-app strip and numbers on the home page, "by Forge Apps Labs" under Play buttons and in the footer (`playName` / `playDevUrl` in apps.js), and the small animations (stamp drop, count-up, sparks on orange buttons, timeline fill, typewriter labels; all off with reduce-motion).
+- Reviews: `.github/workflows/play-reviews.yml` runs `_tools/play_reviews.py` daily with the secret `PLAY_SERVICE_ACCOUNT_JSON` and commits `assets/reviews.json` (real reviews only, kept forever because the API returns ~1 week). `apps.js` → `reviews` holds the admin choices (home strip on/off, per-app on/off, hidden spam ids, pinned ids, star rating copied from Play Console). Because the Action commits, run `git pull` before pushing from the Mac.
+- Theme: `theme` in apps.js = `soft` (default, calmer tones) or `classic` (brighter original); set in admin → Look.
+- Hero phone: Android blueprint frame; `home.hero.screens` = list of `{src,label}` (plain phone screenshots in `assets/hero/`), swiped automatically or by hand.
 - `about/` is the About me page (blueprint portrait); the founder portrait is `assets/founder.jpg` (comic style, no name shown).
 - The admin panel opens `/?preview=1` to show unpublished changes (read from localStorage); analytics is off in preview.
 - `admin/` — browser admin panel that edits `apps.js` and `prices.js` and publishes through the GitHub API with the owner's token. The token is stored in the browser encrypted with a 6-digit passcode (PBKDF2 + AES-GCM); 10 wrong passcodes wipe it, and it locks after a set time without use. **Keep `apps.js` as `window.FORGE = { …JSON… };`** (double-quoted, JSON-compatible) or the admin panel can't read or write it.
@@ -23,7 +27,7 @@ Showcase site for the apps made by **Forge Apps** (Suriya's app studio brand; ta
 ## Rules
 - Each app's privacy page must match what the app really does (data stays on the phone, no sign-in, which AI providers get what). When an app changes data handling, update its privacy page in the same change.
 - Support email is support@forgeapps.in everywhere. Socials: instagram.com/forgeapps.in, YouTube @ForgeApps-sk, the Forge Apps Facebook page.
-- Credit the developer as "Forge Apps" only, no personal name or location details.
+- Credit the developer as "Forge Apps" only (Google Play developer name: "Forge Apps Labs"), no personal name or location details.
 - Keep `sitemap.xml` in step when pages are added or removed. `admin/` stays out of search (robots.txt).
 - Placeholders are wrapped in `<span class="todo">` (dashed yellow box); search for `class="todo"` before going live.
 - Commit with clear messages; check pages at phone width before pushing.

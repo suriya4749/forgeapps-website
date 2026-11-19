@@ -1,10 +1,12 @@
 /* Forge Apps — Workshop look. Loaded after frost.css on every page.
    Grid paper, condensed headings, outlined cards, the blueprint hero, and the phone tab bar. */
-:root{--bg:#EEE9E0;--paper:#F6F2EB;--ink2:#1E1C19;--stamp:#B83E0E;--radius:14px;
+/* themes: soft (default) and classic (the brighter original), picked in the admin */
+html[data-theme=classic]{--bg:#EEE9E0;--paper:#F6F2EB;--bg-rgb:238,233,224;--grid:rgba(30,28,25,.05)}
+:root{--bg:#E4DED3;--paper:#EEE8DE;--bg-rgb:228,222,211;--grid:rgba(30,28,25,.045);--ink2:#1E1C19;--stamp:#B83E0E;--radius:14px;
   --cond:"Archivo",'Arial Narrow',sans-serif;--mono:"JetBrains Mono",ui-monospace,monospace}
-body{background-color:var(--bg);background-image:linear-gradient(rgba(30,28,25,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(30,28,25,.05) 1px,transparent 1px);background-size:40px 40px}
+body{background-color:var(--bg);background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:40px 40px}
 .orbs{display:none}
-.topbar{background:linear-gradient(180deg,rgba(238,233,224,.97) 0%,rgba(238,233,224,.9) 72%,rgba(238,233,224,0) 100%)}
+.topbar{background:linear-gradient(180deg,rgba(var(--bg-rgb),.97) 0%,rgba(var(--bg-rgb),.9) 72%,rgba(var(--bg-rgb),0) 100%)}
 
 /* type */
 h1,h2{font-family:var(--cond)!important;font-stretch:75%;font-weight:900;text-transform:uppercase;letter-spacing:-.005em}
@@ -25,19 +27,25 @@ h1,h2{font-family:var(--cond)!important;font-stretch:75%;font-weight:900;text-tr
 /* ---------- blueprint hero ---------- */
 .hero-art{display:block}
 .hero-art::before,.hero-art::after{display:none!important}
-.bp{position:relative;width:520px;height:480px;margin-left:auto;font-family:var(--mono);color:var(--ink2)}
+.bp{position:relative;width:520px;height:500px;margin-left:auto;font-family:var(--mono);color:var(--ink2)}
 .bp .lbl{position:absolute;font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--stamp);opacity:0;animation:bpIn .5s 2s forwards;white-space:nowrap}
 .bp svg{position:absolute;inset:0}
 .bp .dr{stroke-dasharray:1400;stroke-dashoffset:1400;animation:bpDraw 1.8s .3s cubic-bezier(.6,0,.3,1) forwards}
 .bp .d2{animation-delay:.9s}.bp .d3{animation-delay:1.4s}
 .bp .dm{opacity:0;animation:bpIn .5s 1.9s forwards}
-.bp .fill{position:absolute;left:171px;top:63px;width:178px;height:318px;border-radius:5px;overflow:hidden;background:var(--ink2);clip-path:inset(100% 0 0 0);animation:bpWipe 1.2s 2.2s cubic-bezier(.6,0,.3,1) forwards}
-.bp .fill img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
-.bp .l1{left:72px;top:215px;transform:rotate(-90deg)}
-.bp .l2{left:232px;top:444px;background:var(--bg);padding:0 6px}
-.bp .cp{left:150px;top:-4px;width:220px;height:16px;text-align:center}
+.bp .fill{position:absolute;left:174px;top:41px;width:172px;height:382px;border-radius:22px;overflow:hidden;background:var(--ink2);clip-path:inset(100% 0 0 0);animation:bpWipe 1.2s 2.2s cubic-bezier(.6,0,.3,1) forwards}
+.bp .trk{position:absolute;inset:0;display:flex;transition:transform .6s cubic-bezier(.6,0,.3,1);touch-action:pan-y}
+.bp .trk img{flex:0 0 100%;width:100%;height:100%;object-fit:cover;object-position:top;-webkit-user-drag:none;user-select:none}
+.bp .gbar{position:absolute;left:50%;bottom:6px;width:56px;height:4px;margin-left:-28px;border-radius:3px;background:rgba(255,255,255,.55);pointer-events:none}
+.bp .fill{cursor:grab;pointer-events:auto}
+.bp-dots{position:absolute;left:0;right:0;top:478px;display:flex;gap:6px;justify-content:center;opacity:0;animation:bpIn .5s 2.6s forwards}
+.bp-dots button{width:8px;height:8px;padding:0;border-radius:5px;border:1.5px solid var(--ink2);background:transparent;cursor:pointer;transition:width .3s,background .3s}
+.bp-dots button.on{width:20px;background:var(--stamp);border-color:var(--stamp)}
+.bp .l1{left:66px;top:225px;transform:rotate(-90deg)}
+.bp .l2{left:228px;top:449px;background:var(--bg);padding:0 6px}
+.bp .cp{left:110px;top:8px;width:300px;height:16px;text-align:center}
 .bp .cp i{position:absolute;inset:0;font-style:normal}
-.bp .stamp{position:absolute;right:10px;bottom:70px;border:3px solid var(--stamp);color:var(--stamp);padding:6px 12px;font-weight:700;font-size:15px;letter-spacing:.08em;text-transform:uppercase;background:rgba(246,242,235,.85);white-space:nowrap;transform:rotate(-8deg);opacity:0;animation:bpStamp .45s 3.4s cubic-bezier(.34,1.56,.64,1) forwards}
+.bp .stamp{position:absolute;right:10px;bottom:70px;border:3px solid var(--stamp);color:var(--stamp);padding:6px 12px;font-weight:700;font-size:15px;letter-spacing:.08em;text-transform:uppercase;background:var(--paper);white-space:nowrap;transform:rotate(-8deg);opacity:0;animation:bpStamp .45s 3.4s cubic-bezier(.34,1.56,.64,1) forwards}
 .bp.n2 .fill img:nth-child(2),.bp.n2 .cp i:nth-child(2){opacity:0;animation:bpB 8s 4s infinite}
 .bp.n2 .fill img:nth-child(1),.bp.n2 .cp i:nth-child(1){animation:bpA 8s 4s infinite}
 @keyframes bpDraw{to{stroke-dashoffset:0}}
@@ -205,7 +213,7 @@ h1,h2{font-family:var(--cond)!important;font-stretch:75%;font-weight:900;text-tr
 /* phones: tab bar sits lower with a fade under it; no social links in the news heading; "See all apps" is a button */
 @media (max-width:860px){
   .tabbar{bottom:calc(6px + env(safe-area-inset-bottom))}
-  body::after{content:"";position:fixed;left:0;right:0;bottom:0;height:calc(100px + env(safe-area-inset-bottom));z-index:55;pointer-events:none;background:linear-gradient(180deg,rgba(238,233,224,0),rgba(238,233,224,.92) 55%,#EEE9E0)}
+  body::after{content:"";position:fixed;left:0;right:0;bottom:0;height:calc(100px + env(safe-area-inset-bottom));z-index:55;pointer-events:none;background:linear-gradient(180deg,rgba(var(--bg-rgb),0),rgba(var(--bg-rgb),.92) 55%,var(--bg))}
   #news .soc-pills,.sec-head .soc-pills{display:none!important}
   .asheet .all{align-self:stretch;display:flex;justify-content:center;align-items:center;gap:8px;padding:14px;border:2px solid var(--ink2);border-radius:10px;background:var(--ink2);color:var(--paper);box-shadow:0 3px 0 rgba(0,0,0,.25);text-decoration:none;margin-top:6px;font-size:12.5px}
   .asheet .sh{padding-bottom:calc(104px + env(safe-area-inset-bottom))}
