@@ -433,7 +433,25 @@ window.FORGE = {
           "specs": "Status: Being built\nPrice: Free · Plus is one payment\nSign-up: None\nYour data: Stays on your phone"
         }
       ],
-      "stamp": "Built in the forge"
+      "stamp": "Built in the forge",
+      "log": [
+        {
+          "app": "wealthon",
+          "steps": "safe to spend\ndue-date radar\nEMI payoff plan\nno sign-up\ndata stays on phone",
+          "result": "live on Google Play",
+          "next": "",
+          "progress": 100,
+          "specs": "Status: Live on Google Play\nPrice: Free · Pro is one payment\nSign-up: None\nYour data: Stays on your phone"
+        },
+        {
+          "app": "renewly",
+          "steps": "family vault\nexpiry reminders",
+          "result": "",
+          "next": "renewal steps",
+          "progress": 64,
+          "specs": "Status: Being built\nPrice: Free · Plus is one payment\nSign-up: None\nYour data: Stays on your phone"
+        }
+      ]
     },
     "sections": [
       {

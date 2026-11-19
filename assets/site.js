@@ -197,7 +197,7 @@
     });
     // blueprint phone: real app screens that swipe (by themselves, or by hand)
     var bp = $('#bp'), scr = (H.screens || []).filter(Boolean).map(function (x) { return typeof x === 'string' ? { src: x } : x; }).filter(function (x) { return x.src; }).slice(0, 8);
-    if (bp && scr.length) {
+    if (bp && scr.length && !(H.log && H.log.length)) {   // the build log (v3.js) replaces the screens when set
       var who = function (x) { if (x.label) return x.label; var a = bySlug(String(x.src).split('/')[0]) || bySlug((String(x.src).match(/hero\/([a-z0-9-]+?)-/) || [])[1]); return a ? a.name + (a.kind ? ' · ' + a.kind : '') : ''; };
       var trk = $('.trk', bp), cp = $('.cp', bp), dots = $('.bp-dots', bp), cur = 0, n = scr.length, tmr = null;
       trk.innerHTML = scr.map(function (x) { return '<img src="' + esc(url(x.src)) + '" alt="' + esc(who(x) || 'App screen') + '" width="172" height="382" draggable="false">'; }).join('');

@@ -386,7 +386,7 @@
       fld('Stamp on the blueprint · empty hides it', P + 'stamp', h.stamp) + '</div>' +
       '<div class="box pad"><h3>Blueprint phone · screens it swipes through</h3><p class="hint">Up to 8. Use plain phone screenshots (no store headline), so it looks like the real app. Drag to reorder. The label shows above the phone; on desktop, the spec sheet lines (Label: value) and an app switch show beside it.</p><div class="inner rows">' + (chosen || '<p class="empty" style="padding:10px">No screens yet.</p>') + '</div>' +
       '<div class="row" style="margin-top:12px"><span class="b sm file">Upload phone screenshots<input type="file" accept="image/*" multiple data-upload="hero"></span><span class="note">Saved in assets/hero/ when you publish.</span></div>' +
-      '<details class="help" style="margin-top:14px"><summary>Or pick from the apps’ store screenshots</summary><div class="shots" style="margin-top:10px">' + (picks || '<p class="empty">No screenshots yet.</p>') + '</div></details></div>', true);
+      '<details class="help" style="margin-top:14px"><summary>Or pick from the apps’ store screenshots</summary><div class="shots" style="margin-top:10px">' + (picks || '<p class="empty">No screenshots yet.</p>') + '</div></details></div>' + logBox(), true);
   }
 
   function vPhone() {
@@ -511,6 +511,19 @@
         return '<div class="box pad" draggable="true" data-dlist="faq" data-di="' + i + '"><div class="row" style="margin-bottom:8px">' + GRIP + '<span class="num">' + ('0' + (i + 1)).slice(-2) + '</span><span style="flex:1"></span>' + moveBtns('faq', i) + delBtn('faq', i) + '</div>' +
           fld('Question', 'faq.' + i + '.q', f.q) + fld('Answer', 'faq.' + i + '.a', f.a, { ta: true }) + '</div>';
       }).join('') || '<div class="box pad"><p class="empty">No questions yet. The page keeps its built-in list.</p></div>'));
+  }
+  function logBox() {
+    var L = state.home.hero.log = state.home.hero.log || [], apps = state.apps.filter(function (a) { return !a.hidden; });
+    var rows = L.map(function (b, k) { var P = 'home.hero.log.' + k + '.';
+      return '<div class="rw" style="align-items:flex-start"><span class="grow" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">' +
+        '<label class="f" style="margin:0"><span>App</span><select data-bind="' + P + 'app">' + apps.map(function (a) { return '<option value="' + esc(a.slug) + '"' + (b.app === a.slug ? ' selected' : '') + '>' + esc(a.name) + '</option>'; }).join('') + '</select></label>' +
+        '<label class="f" style="margin:0"><span>Progress % (if not finished)</span><input type="number" min="0" max="100" data-bind="' + P + 'progress" value="' + esc(b.progress == null ? '' : b.progress) + '"></label>' +
+        '<label class="f" style="margin:0"><span>Ticked steps · one per line</span><textarea rows="5" data-bind="' + P + 'steps">' + esc(b.steps || '') + '</textarea></label>' +
+        '<label class="f" style="margin:0"><span>Spec sheet (desktop) · Label: value</span><textarea rows="5" data-bind="' + P + 'specs">' + esc(b.specs || '') + '</textarea></label>' +
+        '<label class="f" style="margin:0"><span>Finished line (e.g. live on Google Play) · empty = still building</span><input data-bind="' + P + 'result" value="' + esc(b.result || '') + '"></label>' +
+        '<label class="f" style="margin:0"><span>Next step (shown while building)</span><input data-bind="' + P + 'next" value="' + esc(b.next || '') + '"></label>' +
+        '</span>' + moveBtns('home.hero.log', k) + delBtn('home.hero.log', k) + '</div>'; }).join('');
+    return '<div class="box pad"><h3>Phone · “forge build” log</h3><p class="hint">What the phone in the top section shows: each app is “built” line by line. When this list has apps, it replaces the screenshots above. The clock in the phone is each visitor’s own time.</p><div class="inner rows">' + (rows || '<p class="empty" style="padding:10px">Empty: the phone shows the screenshots instead.</p>') + '</div><button type="button" class="b sm" data-act="add-log">+ App</button></div>';
   }
   function vExtras() {
     var pi = state.home.pitch, opts = '<option value="">Nothing (hide the strip)</option>' + state.apps.filter(function (a) { return !a.hidden; }).map(function (a) { return '<option value="' + esc(a.slug) + '"' + (pi.app === a.slug ? ' selected' : '') + '>' + esc(a.name) + (a.stage === 'live' ? '' : ' · not live yet') + '</option>'; }).join('');
@@ -704,6 +717,7 @@
     var rid = b.getAttribute('data-id');
     if (act === 'rv-hide' || act === 'rv-pin') { var L = state.reviews[act === 'rv-hide' ? 'hide' : 'pin'], q = L.indexOf(rid); if (q > -1) L.splice(q, 1); else L.push(rid); touched(); rerender(); return; }
     if (act === 'tile') { var T = state.stats.tiles, tk = b.getAttribute('data-k'), tq = T.indexOf(tk); if (tq > -1) T.splice(tq, 1); else T.push(tk); touched(); rerender(); return; }
+    if (act === 'add-log') { var LL = state.home.hero.log = state.home.hero.log || [], fa = state.apps.filter(function (a) { return !a.hidden; })[0]; LL.push({ app: fa ? fa.slug : '', steps: '', result: '', next: '', progress: 50, specs: '' }); touched(); rerender(); return; }
     if (act === 'add-stat') { state.stats.custom.push({ value: '', label: '', sub: '' }); touched(); rerender(); return; }
     if (act === 'rv-reload') { RVDATA = null; rerender(); return; }
     if (act === 'del' && lst) lst.splice(n, 1);

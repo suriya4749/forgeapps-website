@@ -194,3 +194,77 @@
   document.addEventListener('pointerover', function (e) { if (e.pointerType !== 'mouse') return; var b = e.target.closest && e.target.closest('.btn-accent'); if (b && !b.contains(e.relatedTarget)) sparks(e.clientX, e.clientY); });
   document.addEventListener('pointerdown', function (e) { var b = e.target.closest && e.target.closest('.btn-accent'); if (b) sparks(e.clientX, e.clientY); });
 })();
+
+/* ---------- hero: the "forge build" log inside the blueprint phone (home.hero.log) ----------
+   Desktop: a phone with blueprint dimensions + the spec sheet. Phones: the same log as a plain card.
+   The status-bar clock is the visitor's own local time. */
+(function () {
+  var F = window.FORGE || {}, H = (F.home || {}).hero || {}, LOG = (H.log || []).filter(function (b) { return b && b.app; });
+  var art = document.querySelector('.hero .hero-art'); if (!art || !LOG.length) return;
+  var root = document.documentElement.getAttribute('data-root') || '';
+  var V = (F.apps || []).filter(function (a) { return !a.hidden; });
+  var bySlug = function (s) { return V.filter(function (a) { return a.slug === s; })[0]; };
+  LOG = LOG.filter(function (b) { return bySlug(b.app); }); if (!LOG.length) return;
+  var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
+  var url = function (p) { return !p ? '' : /^(data:|https?:|\/)/.test(p) ? p : root + p; };
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var lines = function (t) { return String(t || '').split('\n').map(function (x) { return x.trim(); }).filter(Boolean); };
+  var specRows = function (b) { return lines(b.specs).map(function (l) { var k = l.indexOf(':'); return k > 0 ? [l.slice(0, k).trim(), l.slice(k + 1).trim()] : null; }).filter(Boolean); };
+  var clock = function () { try { return new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }).replace(/\s?[ap]\.?m\.?$/i, ''); } catch (e) { var d = new Date(); return (d.getHours() % 12 || 12) + ':' + ('0' + d.getMinutes()).slice(-2); } };
+  var stampTxt = (H.stamp || '').trim();
+
+  art.classList.add('fx');
+  art.innerHTML = '<div class="fx-bp"><span class="fx-lb" aria-hidden="true">forge build</span><span class="fx-dv" aria-hidden="true"><b>H 2400</b></span>' +
+    '<div class="fx-ph"><i class="fx-k1"></i><i class="fx-k2"></i><div class="fx-scr" role="img" aria-label="' + esc('Build log: ' + LOG.map(function (b) { return bySlug(b.app).name + (b.result ? ', ' + b.result : ', in progress'); }).join('; ')) + '">' +
+    '<span class="fx-hole"></span><div class="fx-sb"><span class="fx-tm"></span><span class="fx-ri"><i class="fx-sig"></i><i class="fx-bat"></i></span></div>' +
+    '<div class="fx-head">forge · build<span class="fx-dots"><i></i><i></i><i></i></span><span class="fx-tm fx-tm2"></span></div>' +
+    '<div class="fx-log" aria-hidden="true"></div><div class="fx-foot" aria-hidden="true"></div><div class="fx-gb"><i></i></div></div></div>' +
+    '<span class="fx-dh" aria-hidden="true"><b>W 1080</b></span>' + (stampTxt ? '<span class="stamp fx-st">' + esc(stampTxt) + '</span>' : '') + '</div>' +
+    '<div class="x-spec fx-spec" hidden><span class="x-spec-k">Spec sheet</span><div class="x-spec-r" aria-live="polite"></div><div class="x-spec-sw" role="group" aria-label="Show app"></div></div>';
+
+  var tms = art.querySelectorAll('.fx-tm'), tick = function () { var t = clock(); for (var i = 0; i < tms.length; i++) tms[i].textContent = t; };
+  tick(); setInterval(tick, 20000);
+
+  var log = art.querySelector('.fx-log'), foot = art.querySelector('.fx-foot'), spec = art.querySelector('.fx-spec'), sr = spec.querySelector('.x-spec-r'), sw = spec.querySelector('.x-spec-sw');
+  var hasSpec = LOG.some(function (b) { return specRows(b).length; });
+  if (hasSpec) {
+    spec.hidden = false;
+    sw.innerHTML = LOG.length > 1 ? LOG.map(function (b, i) { var a = bySlug(b.app); return '<button type="button" data-i="' + i + '"><img src="' + esc(url(a.icon)) + '" alt="">' + esc(a.name) + '</button>'; }).join('') : '';
+  }
+  var showSpec = function (i) {
+    if (!hasSpec) return; var b = LOG[i], a = bySlug(b.app);
+    sr.innerHTML = '<div><span>App</span><b>' + esc(a.name) + '</b></div>' + specRows(b).map(function (r) { return '<div><span>' + esc(r[0]) + '</span><b>' + esc(r[1]) + '</b></div>'; }).join('');
+    Array.prototype.forEach.call(sw.children, function (d, j) { d.classList.toggle('on', j === i); d.setAttribute('aria-pressed', j === i); });
+  };
+  var add = function (html, cls) { var p = document.createElement('p'); if (cls) p.className = cls; p.innerHTML = html; log.appendChild(p); return p; };
+  var showFoot = function (b) { var a = bySlug(b.app); foot.innerHTML = '<img src="' + esc(url(a.icon)) + '" alt=""><span><b>' + esc(a.name) + '</b><small>' + esc(a.stage === 'live' ? 'On Google Play' : 'In the forge') + '</small></span><span class="fx-live">' + (a.stage === 'live' ? 'Live' : 'Soon') + '</span>'; foot.classList.add('show'); };
+  var timer = null, run = 0;
+  var later = function (fn, ms) { var r = run; timer = setTimeout(function () { if (r === run) fn(); }, ms); };
+  function play(start) {
+    run++; clearTimeout(timer); log.innerHTML = ''; foot.classList.remove('show');
+    var bi = start || 0;
+    var block = function () {
+      if (bi >= LOG.length) { later(function () { play(0); }, 4500); return; }
+      var b = LOG[bi], a = bySlug(b.app), st = lines(b.steps), si = 0; showSpec(bi);
+      if (log.children.length) add('&nbsp;');
+      var cmd = 'forge build ' + a.slug, p = add('<span class="pr">$</span> <span class="cur"></span>'), j = 0;
+      var type = function () { j++; p.innerHTML = '<span class="pr">$</span> ' + esc(cmd.slice(0, j)) + '<span class="cur"></span>'; if (j < cmd.length) later(type, 38); else { p.innerHTML = '<span class="pr">$</span> ' + esc(cmd); later(step, 260); } };
+      var step = function () {
+        if (si < st.length) { add('✓ ' + esc(st[si]), 'ok'); si++; later(step, 260); return; }
+        if (b.result) { add('→ ' + esc(b.result), 'ar'); showFoot(b); bi++; later(block, 900); return; }
+        if (b.next) add('… ' + esc(b.next), 'dim');
+        var pct = Math.max(0, Math.min(100, +b.progress || 0));
+        if (pct) { var q = add('<span class="pbar"><i></i></span> <span class="pr pn">0%</span>'), bar = q.querySelector('i'), pn = q.querySelector('.pn'), v = 0; var grow = function () { v = Math.min(pct, v + 2); bar.style.width = v + '%'; pn.textContent = v + '%'; if (v < pct) later(grow, 32); else { bi++; later(block, 600); } }; grow(); return; }
+        bi++; later(block, 600);
+      };
+      type();
+    };
+    block();
+  }
+  if (hasSpec) sw.addEventListener('click', function (e) { var b = e.target.closest('button'); if (b) play(+b.getAttribute('data-i')); });
+  if (reduce) {   // everything at once, no typing
+    LOG.forEach(function (b, i) { var a = bySlug(b.app); if (i) add('&nbsp;'); add('<span class="pr">$</span> forge build ' + esc(a.slug)); lines(b.steps).forEach(function (s) { add('✓ ' + esc(s), 'ok'); }); if (b.result) add('→ ' + esc(b.result), 'ar'); else if (b.next) add('… ' + esc(b.next), 'dim'); });
+    var done = LOG.filter(function (b) { return b.result; })[0]; if (done) showFoot(done); showSpec(0);
+    if (hasSpec) sw.addEventListener('click', function (e) { var b = e.target.closest('button'); if (b) showSpec(+b.getAttribute('data-i')); });
+  } else setTimeout(function () { play(0); }, 900);
+})();
