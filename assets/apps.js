@@ -422,23 +422,11 @@ window.FORGE = {
       "screens": [
         {
           "src": "assets/hero/wealthon-safe-to-spend.jpg",
-          "label": "WealthOn · Safe to spend"
-        },
-        {
-          "src": "assets/hero/wealthon-whats-due.jpg",
-          "label": "WealthOn · What's due"
-        },
-        {
-          "src": "assets/hero/wealthon-debt-free.jpg",
-          "label": "WealthOn · Debt-free countdown"
-        },
-        {
-          "src": "assets/hero/wealthon-can-i-afford-it.jpg",
-          "label": "WealthOn · Can I afford it?"
+          "label": "WealthOn · Home"
         },
         {
           "src": "renewly/screens/1.jpg",
-          "label": "Renewly · Family vault"
+          "label": "Renewly · Home"
         }
       ],
       "stamp": "Built in the forge"
