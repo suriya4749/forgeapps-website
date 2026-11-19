@@ -421,12 +421,12 @@ window.FORGE = {
       },
       "screens": [
         {
-          "src": "assets/hero/wealthon-safe-to-spend.jpg",
-          "label": "WealthOn · Home"
+          "src": "assets/hero/wealthon-start.jpg",
+          "label": "WealthOn"
         },
         {
-          "src": "renewly/screens/1.jpg",
-          "label": "Renewly · Home"
+          "src": "assets/hero/renewly-start.jpg",
+          "label": "Renewly"
         }
       ],
       "stamp": "Built in the forge"
