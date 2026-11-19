@@ -38,7 +38,8 @@
 <h1 id="up-title" class="in d2">From the <span class="accent">workshop.</span></h1>
 <p class="lead in d3">Every release, new feature and fix, newest first.</p>
 </section>
-<div class="ch-tools"><div class="ch-row" id="ch-app"><span>Product</span></div><div class="ch-row" id="ch-cat"><span>Type</span></div></div>
+<div class="up-tabs" id="ch-app" role="group" aria-label="Filter by app"></div>
+<div class="up-row"><span class="up-n" id="ch-n" aria-live="polite"></span><label class="up-sel"><span class="sr-only">Type of update</span><select id="ch-cat"></select></label></div>
 <div class="led" id="ch-list" role="list"></div>
 <div class="v2-empty" id="ch-empty" hidden>No updates match these filters yet.</div>
 <div style="height:60px"></div>
@@ -65,13 +66,15 @@ var CN={release:'Release',beta:'Beta',feature:'New feature',fix:'Fix',studio:'St
 var U=(F.updates||[]).filter(function(u){return!u.app||V.some(function(a){return a.slug===u.app})}).map(function(u){return{date:u.date,app:u.app,text:u.text,more:u.more||'',ver:u.ver||'',cat:u.cat||cat(u.text),title:u.title||String(u.text).split(/[:;]|\.\s/)[0]}});
 var fa='all',fc='all',L=document.getElementById('ch-list'),E=document.getElementById('ch-empty');
 var A=document.getElementById('ch-app'),C=document.getElementById('ch-cat');
-A.insertAdjacentHTML('beforeend','<button class="on" data-a="all">All</button>'+V.map(function(a){return'<button data-a="'+e(a.slug)+'"><img src="'+e(icon(a))+'" alt="">'+e(a.name)+'</button>'}).join('')+'<button data-a="">Studio</button>');
-C.insertAdjacentHTML('beforeend','<button class="on" data-c="all">All</button>'+Object.keys(CN).map(function(k){return'<button data-c="'+k+'">'+CN[k]+'</button>'}).join(''));
-function draw(){var r=U.filter(function(u){return(fa==='all'||(u.app||'')===fa)&&(fc==='all'||u.cat===fc)});E.hidden=!!r.length;L.hidden=!r.length;
+var cn=function(k){return U.filter(function(u){return(u.app||'')===k}).length};
+var tabs=[['all','All apps','',U.length]].concat(V.filter(function(a){return cn(a.slug)}).map(function(a){return[a.slug,a.name,icon(a),cn(a.slug)]})).concat(cn('')?[['','Studio','',cn('')]]:[]);
+A.innerHTML=tabs.map(function(t,i){return'<button type="button" class="'+(i?'':'on')+'" data-a="'+e(t[0])+'" aria-pressed="'+(i?'false':'true')+'">'+(t[2]?'<img src="'+e(t[2])+'" alt="">':'')+e(t[1])+'<em>'+t[3]+'</em></button>'}).join('');
+C.innerHTML='<option value="all">All types</option>'+Object.keys(CN).filter(function(k){return U.some(function(u){return u.cat===k})}).map(function(k){return'<option value="'+k+'">'+CN[k]+'</option>'}).join('');
+function draw(){var r=U.filter(function(u){return(fa==='all'||(u.app||'')===fa)&&(fc==='all'||u.cat===fc)});E.hidden=!!r.length;L.hidden=!r.length;document.getElementById('ch-n').textContent=r.length+' update'+(r.length===1?'':'s')+' · newest first';
 L.innerHTML='<div class="led-hd" aria-hidden="true"><span>Date</span><span>App</span><span>Type</span><span>What changed</span><span></span></div>'+r.map(function(u,i){var a=V.filter(function(x){return x.slug===u.app})[0],x=u.title!==u.text||u.more;return'<div class="led-i'+(i===0&&x?' open':'')+'" role="listitem"><button type="button" class="led-r" aria-expanded="'+(i===0&&x?'true':'false')+'"'+(x?'':' disabled')+'><span class="led-d">'+e(u.date)+'</span><span class="led-a">'+(a?'<img src="'+e(icon(a))+'" alt="">'+e(a.name):'Studio')+'</span><span><span class="ch-cat '+u.cat+'">'+CN[u.cat]+'</span></span><span class="led-t">'+e(u.title)+(u.ver?'<span class="ver">'+e(u.ver)+'</span>':'')+'</span><span class="led-pl" aria-hidden="true">'+(x?'+':'')+'</span></button>'+(x?'<div class="led-x">'+(u.title!==u.text?'<p>'+e(u.text)+'</p>':'')+(u.more?'<p>'+e(u.more)+'</p>':'')+'</div>':'')+'</div>'}).join('')}
 L.addEventListener('click',function(ev){var b=ev.target.closest('.led-r');if(!b||b.disabled)return;var it=b.parentNode,o=!it.classList.contains('open');it.classList.toggle('open',o);b.setAttribute('aria-expanded',o)});
-A.addEventListener('click',function(ev){var b=ev.target.closest('button');if(!b)return;fa=b.getAttribute('data-a');[].forEach.call(A.querySelectorAll('button'),function(x){x.classList.toggle('on',x===b)});draw()});
-C.addEventListener('click',function(ev){var b=ev.target.closest('button');if(!b)return;fc=b.getAttribute('data-c');[].forEach.call(C.querySelectorAll('button'),function(x){x.classList.toggle('on',x===b)});draw()});
+A.addEventListener('click',function(ev){var b=ev.target.closest('button');if(!b)return;fa=b.getAttribute('data-a');[].forEach.call(A.querySelectorAll('button'),function(x){x.classList.toggle('on',x===b);x.setAttribute('aria-pressed',x===b)});draw()});
+C.addEventListener('change',function(){fc=C.value;draw()});
 draw();})();
 </script>
 </body>
