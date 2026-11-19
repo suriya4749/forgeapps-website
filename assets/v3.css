@@ -229,16 +229,14 @@
 @media (min-width:1100px) and (max-width:1279px){.hero{grid-template-columns:minmax(0,1.2fr) auto!important}}
 @media (min-width:1900px){.fx-ph{width:320px}}
 
-/* phones: no phone frame, the log is a regular card */
+/* phones: a big phone (no blueprint lines); its bottom fades into the page so the headline comes up sooner */
 @media (max-width:860px){
-  .hero-art.fx{display:block!important;margin:0;align-self:stretch;width:100%}
+  .hero-art.fx{display:block!important;position:relative;max-height:470px;overflow:hidden;margin:0 -20px!important;width:auto!important;padding-top:6px;align-self:stretch}
+  .hero-art.fx::after{content:"";display:block!important;position:absolute;left:0;right:0;bottom:0;height:90px;background:linear-gradient(rgba(var(--bg-rgb),0),var(--bg));pointer-events:none;z-index:3}
   .fx-bp{padding:0}
-  .fx-lb,.fx-dv,.fx-dh,.fx-k1,.fx-k2,.fx-hole,.fx-sb,.fx-gb,.fx-dots{display:none}
-  .fx-st{display:none}
-  .fx-ph{width:auto;max-width:440px;margin:0 auto;border:0;padding:0;background:none;box-shadow:none;border-radius:0}
-  .fx-scr{--u:.68cqi;aspect-ratio:auto;border:2px solid var(--ink2);border-radius:16px;box-shadow:0 5px 0 var(--ink2);padding:calc(4*var(--u)) 0 calc(5*var(--u))}
-  .fx-tm2{display:inline;font:800 calc(4*var(--u)) var(--mono)}
-  .fx-log{height:calc(128*var(--u));flex:none;padding-top:calc(5*var(--u))}
+  .fx-lb,.fx-dv,.fx-dh,.fx-st,.fx-tm2{display:none}
+  .fx-ph{width:300px;max-width:82vw;margin:0 auto;border-radius:38px;padding:7px}
+  .fx-scr{border-radius:30px}
 }
 
 /* desktop: "On the bench" app cards wired to the phone (F3) */
@@ -261,3 +259,20 @@
   .fx-bench+.fx-bp .fx-lb,.fx-bench+.fx-bp .fx-dh{left:0}
 }
 @media (min-width:1280px) and (max-width:1439px){.fx-bench a{font-size:13px;padding:6px 10px 6px 6px}.fx-bench img,.fx-bench i{width:34px;height:34px}.fx-ph{width:240px}.x-spec:not([hidden]){width:200px}}
+
+/* ---------- "From the workshop": Follow the forge strip (SB) ---------- */
+#news .head-row .soc-pills{display:none!important}
+.x-follow{margin-top:26px;display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,2fr);gap:28px;align-items:center;padding:22px 26px;border:2px solid var(--ink2);border-radius:14px;background:var(--paper);box-shadow:0 5px 0 var(--ink2)}
+.x-follow[hidden]{display:none}
+.x-fo-k{font:700 11px var(--mono);letter-spacing:.06em;color:var(--stamp);text-transform:uppercase}
+.x-follow h3{font-family:var(--cond);font-stretch:75%;font-weight:900;text-transform:uppercase;font-size:clamp(28px,2.6vw,40px);line-height:.92;margin:6px 0 8px}
+.x-follow p{margin:0;color:var(--muted2);font-size:14.5px;max-width:34ch}
+.x-fo-l{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.x-fo-l a{display:flex;align-items:center;gap:12px;padding:12px;border:2px solid var(--ink2);border-radius:12px;background:#F6F2EB;color:var(--ink2);text-decoration:none;box-shadow:0 3px 0 var(--ink2);transition:transform .15s}
+.x-fo-l a:hover{transform:translateY(-2px)}
+.x-fo-l i{flex:none;width:46px;height:46px;border-radius:12px;display:grid;place-items:center;color:#fff;border:2px solid var(--ink2)}
+.x-fo-l b{display:block;font-size:15.5px}
+.x-fo-l small{display:block;font:700 10px var(--mono);text-transform:uppercase;color:var(--muted2)}
+.x-fo-l em{display:block;font-style:normal;font-size:13px;color:var(--muted2);margin-top:1px}
+@media (max-width:1000px){.x-follow{grid-template-columns:1fr;gap:16px}}
+@media (max-width:640px){.x-follow{padding:18px}.x-fo-l{grid-template-columns:1fr;gap:10px}}

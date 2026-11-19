@@ -272,3 +272,21 @@
     if (hasSpec) sw.addEventListener('click', function (e) { var b = e.target.closest('button'); if (b) showSpec(+b.getAttribute('data-i')); });
   } else setTimeout(function () { play(0); }, 900);
 })();
+
+/* ---------- home: "Follow the forge" strip under the updates ---------- */
+(function () {
+  var F = window.FORGE || {}, box = document.getElementById('x-follow'); if (!box) return;
+  var W = (F.home || {}).follow || {};
+  var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
+  var handle = function (u, k) { var m = String(u).match(k === 'youtube' ? /youtube\.com\/(@[\w.-]+)/i : /instagram\.com\/([\w.]+)/i); return m ? (k === 'youtube' ? m[1] : '@' + m[1]) : 'Forge Apps'; };
+  var IC = {
+    instagram: ['Instagram', '#C13584', '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/></svg>'],
+    youtube: ['YouTube', '#E62117', '<svg viewBox="0 0 24 24" width="24" height="24"><rect x="2" y="5" width="20" height="14" rx="4" fill="currentColor"/><path d="M10 9l5 3-5 3z" fill="#E62117"/></svg>'],
+    facebook: ['Facebook', '#1877F2', '<svg viewBox="0 0 24 24" width="24" height="24"><path d="M14 8h2.5V4.5H14c-2.5 0-4 1.6-4 4.1V11H7.5v3.4H10V21h3.5v-6.6h2.6l.5-3.4h-3.1V9c0-.6.3-1 .5-1z" fill="currentColor"/></svg>']
+  };
+  var list = ['instagram', 'youtube', 'facebook'].filter(function (k) { return F[k]; });
+  if (!list.length || W.show === false) return;
+  box.innerHTML = '<div class="x-fo-t"><span class="x-fo-k">' + esc(W.kicker || 'Follow the forge') + '</span><h3>' + esc(W.title || 'Watch the next app take shape.') + '</h3>' + (W.text ? '<p>' + esc(W.text) + '</p>' : '') + '</div>' +
+    '<div class="x-fo-l">' + list.map(function (k) { var c = IC[k]; return '<a href="' + esc(F[k]) + '" target="_blank" rel="noopener" data-track="follow-' + k + '"><i style="background:' + c[1] + '" aria-hidden="true">' + c[2] + '</i><span><b>' + c[0] + '</b><small>' + esc(handle(F[k], k)) + '</small>' + (W[k] ? '<em>' + esc(W[k]) + '</em>' : '') + '</span></a>'; }).join('') + '</div>';
+  box.hidden = false;
+})();

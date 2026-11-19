@@ -59,6 +59,7 @@
     Object.keys(SEC).forEach(function (k) { if (have.indexOf(k) === -1) F.home.sections.push({ id: k, desktop: true, phone: true }); });
     F.theme = F.theme || 'soft'; if (F.playName == null) F.playName = 'Forge Apps Labs'; if (F.playDevUrl == null) F.playDevUrl = '';
     F.home.pitch = F.home.pitch || { app: '', title: '', text: '' };
+    F.home.follow = F.home.follow || {};
     F.stats = F.stats && F.stats.tiles ? F.stats : { tiles: ['rating', 'reviews', 'updates', 'apps'], custom: [] }; F.stats.custom = F.stats.custom || [];
     F.reviews = F.reviews || {}; F.reviews.apps = F.reviews.apps || {}; F.reviews.hide = F.reviews.hide || []; F.reviews.pin = F.reviews.pin || []; F.reviews.rating = F.reviews.rating || {};
     F.home.hero.screens = (F.home.hero.screens || []).map(function (x) { return typeof x === 'string' ? { src: x, label: '' } : x; });
@@ -530,9 +531,12 @@
     var T = state.stats.tiles, keys = T.concat(Object.keys(STAT_TILES).filter(function (k) { return T.indexOf(k) === -1; }));
     var tiles = keys.map(function (k) { var on = T.indexOf(k) > -1, i = T.indexOf(k); return '<div class="rw' + (on ? '' : ' off') + '"><span class="grow"><b>' + STAT_TILES[k][0] + '</b><small>' + STAT_TILES[k][1] + '</small></span><button type="button" class="tg' + (on ? ' on' : '') + '" data-act="tile" data-k="' + k + '" aria-pressed="' + on + '"></button>' + (on ? moveBtns('stats.tiles', i) : '<span style="width:64px"></span>') + '</div>'; }).join('');
     var cus = state.stats.custom.map(function (c, k) { return '<div class="rw"><input style="flex:0 0 90px" data-bind="stats.custom.' + k + '.value" value="' + esc(c.value) + '" placeholder="0"><input class="grow" data-bind="stats.custom.' + k + '.label" value="' + esc(c.label) + '" placeholder="Label, e.g. Ads in any app"><input class="grow" data-bind="stats.custom.' + k + '.sub" value="' + esc(c.sub || '') + '" placeholder="Small line (optional)">' + delBtn('stats.custom', k) + '</div>'; }).join('');
-    shell(H('Home page', 'Featured app &amp; numbers', 'The strip under the top section, and the numbers further down. Switch either section off in Sections &amp; order.') +
+    shell(H('Home page', 'Featured app, numbers &amp; follow', 'The strip under the top section, the numbers, and the Follow the forge strip. Switch either section off in Sections &amp; order.') +
       '<div class="box pad"><h3>Featured app</h3><p class="hint">A live app gets “Get it on Google Play” and its star rating; an app that isn’t live yet links to its page.</p><label class="f"><span>App</span><select data-bind="home.pitch.app">' + opts + '</select></label>' +
       fld('Headline', 'home.pitch.title', pi.title, { ph: 'New: WealthOn. Know what’s safe to spend today.', max: 70 }) + fld('Line under it', 'home.pitch.text', pi.text, { ph: 'One number, after your loans, bills and savings are set aside.', max: 120 }) + '</div>' +
+      '<div class="box pad"><h3>Follow the forge</h3><p class="hint">The strip under “From the workshop”. The links come from Look, socials, analytics; a channel with no link is left out.</p>' +
+      fld('Small label', 'home.follow.kicker', (state.home.follow || {}).kicker) + fld('Heading', 'home.follow.title', (state.home.follow || {}).title) + fld('Line under it', 'home.follow.text', (state.home.follow || {}).text) +
+      '<div class="cols">' + fld('Instagram · what you post', 'home.follow.instagram', (state.home.follow || {}).instagram) + fld('YouTube · what you post', 'home.follow.youtube', (state.home.follow || {}).youtube) + '</div>' + fld('Facebook · what you post', 'home.follow.facebook', (state.home.follow || {}).facebook) + '</div>' +
       '<div class="box pad"><h3>Numbers</h3><p class="hint">Only real numbers. A tile with no value yet (e.g. a rating before the first review) is left out by itself.</p><div class="inner rows">' + tiles + '</div>' +
       '<h3 style="margin-top:16px">Your own tiles</h3><p class="hint">Only facts, e.g. “0 · Ads in any app”.</p><div class="inner rows">' + (cus || '<p class="empty" style="padding:10px">None.</p>') + '</div><button type="button" class="b sm" data-act="add-stat">+ Tile</button></div>', true);
   }

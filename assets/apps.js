@@ -514,6 +514,14 @@ window.FORGE = {
       "app": "wealthon",
       "title": "New: WealthOn. Know what’s safe to spend today.",
       "text": "One number, after your loans, bills and savings are set aside. Free on Google Play."
+    },
+    "follow": {
+      "kicker": "Follow the forge",
+      "title": "Watch the next app take shape.",
+      "text": "Sketches, build videos and launches, as they happen.",
+      "instagram": "Screens & sketches",
+      "youtube": "Demos & builds",
+      "facebook": "News & launches"
     }
   },
   "phone": {
