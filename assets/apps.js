@@ -525,9 +525,9 @@ window.FORGE = {
     }
   },
   "phone": {
-    "topRight": "getapp",
+    "topRight": "none",
     "getApp": "auto",
-    "under": "socials",
+    "under": "apps",
     "tabs": [
       {
         "id": "home",
@@ -538,16 +538,20 @@ window.FORGE = {
         "on": true
       },
       {
-        "id": "about",
+        "id": "updates",
         "on": true
       },
       {
-        "id": "updates",
+        "id": "about",
         "on": true
       },
       {
         "id": "contact",
         "on": true
+      },
+      {
+        "id": "approach",
+        "on": false
       }
     ]
   },
