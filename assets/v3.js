@@ -213,8 +213,11 @@
   var clock = function () { try { return new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }).replace(/\s?[ap]\.?m\.?$/i, ''); } catch (e) { var d = new Date(); return (d.getHours() % 12 || 12) + ':' + ('0' + d.getMinutes()).slice(-2); } };
   var stampTxt = (H.stamp || '').trim();
 
+  var STW = { live: 'Live', test: 'In testing', build: 'Being built', idea: 'Sketching' };
+  var bench = '<div class="fx-bench" aria-label="Apps on the bench"><span class="fx-bk">On the bench</span>' + V.slice(0, 4).map(function (a) { return '<a href="' + root + esc(a.slug) + '/" data-app="' + esc(a.slug) + '"><img src="' + esc(url(a.icon)) + '" alt=""><span>' + esc(a.name) + '<small>' + esc(STW[a.stage] || a.stage) + '</small></span></a>'; }).join('') +
+    '<a href="' + root + 'contact/?topic=idea" class="fx-next"><i aria-hidden="true">+</i><span>Next app<small>Suggest one</small></span></a></div>';
   art.classList.add('fx');
-  art.innerHTML = '<div class="fx-bp"><span class="fx-lb" aria-hidden="true">forge build</span><span class="fx-dv" aria-hidden="true"><b>H 2400</b></span>' +
+  art.innerHTML = bench + '<div class="fx-bp"><span class="fx-lb" aria-hidden="true">forge build</span><span class="fx-dv" aria-hidden="true"><b>H 2400</b></span>' +
     '<div class="fx-ph"><i class="fx-k1"></i><i class="fx-k2"></i><div class="fx-scr" role="img" aria-label="' + esc('Build log: ' + LOG.map(function (b) { return bySlug(b.app).name + (b.result ? ', ' + b.result : ', in progress'); }).join('; ')) + '">' +
     '<span class="fx-hole"></span><div class="fx-sb"><span class="fx-tm"></span><span class="fx-ri"><i class="fx-sig"></i><i class="fx-bat"></i></span></div>' +
     '<div class="fx-head">forge · build<span class="fx-dots"><i></i><i></i><i></i></span><span class="fx-tm fx-tm2"></span></div>' +
@@ -236,6 +239,7 @@
     sr.innerHTML = '<div><span>App</span><b>' + esc(a.name) + '</b></div>' + specRows(b).map(function (r) { return '<div><span>' + esc(r[0]) + '</span><b>' + esc(r[1]) + '</b></div>'; }).join('');
     Array.prototype.forEach.call(sw.children, function (d, j) { d.classList.toggle('on', j === i); d.setAttribute('aria-pressed', j === i); });
   };
+  var benchOn = function (i) { Array.prototype.forEach.call(art.querySelectorAll('.fx-bench a[data-app]'), function (x) { x.classList.toggle('on', x.getAttribute('data-app') === LOG[i].app); }); };
   var add = function (html, cls) { var p = document.createElement('p'); if (cls) p.className = cls; p.innerHTML = html; log.appendChild(p); return p; };
   var showFoot = function (b) { var a = bySlug(b.app); foot.innerHTML = '<img src="' + esc(url(a.icon)) + '" alt=""><span><b>' + esc(a.name) + '</b><small>' + esc(a.stage === 'live' ? 'On Google Play' : 'In the forge') + '</small></span><span class="fx-live">' + (a.stage === 'live' ? 'Live' : 'Soon') + '</span>'; foot.classList.add('show'); };
   var timer = null, run = 0;
@@ -245,7 +249,7 @@
     var bi = start || 0;
     var block = function () {
       if (bi >= LOG.length) { later(function () { play(0); }, 4500); return; }
-      var b = LOG[bi], a = bySlug(b.app), st = lines(b.steps), si = 0; showSpec(bi);
+      var b = LOG[bi], a = bySlug(b.app), st = lines(b.steps), si = 0; showSpec(bi); benchOn(bi);
       if (log.children.length) add('&nbsp;');
       var cmd = 'forge build ' + a.slug, p = add('<span class="pr">$</span> <span class="cur"></span>'), j = 0;
       var type = function () { j++; p.innerHTML = '<span class="pr">$</span> ' + esc(cmd.slice(0, j)) + '<span class="cur"></span>'; if (j < cmd.length) later(type, 38); else { p.innerHTML = '<span class="pr">$</span> ' + esc(cmd); later(step, 260); } };

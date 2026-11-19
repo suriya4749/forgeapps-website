@@ -198,7 +198,7 @@
 .fx-dh{position:absolute;left:40px;right:0;bottom:8px;border-top:1.5px solid var(--stamp)}
 .fx-dh::before,.fx-dh::after{content:"";position:absolute;top:-7px;height:13px;border-left:1.5px solid var(--stamp)}.fx-dh::after{right:0}
 .fx-dh b{position:absolute;left:50%;top:-8px;transform:translateX(-50%);background:var(--bg);padding:0 6px}
-.fx-st{position:absolute;right:-34px;bottom:-4px;z-index:3;border:3px solid var(--stamp);color:var(--stamp);padding:5px 11px;border-radius:6px;font:700 13px var(--mono);letter-spacing:.06em;text-transform:uppercase;background:var(--paper);white-space:nowrap;transform:rotate(-8deg)}
+.fx-st{position:absolute;right:-70px;top:4px;z-index:3;border:3px solid var(--stamp);color:var(--stamp);padding:5px 11px;border-radius:6px;font:700 13px var(--mono);letter-spacing:.06em;text-transform:uppercase;background:var(--paper);white-space:nowrap;transform:rotate(-8deg)}
 .mo .fx-st{opacity:0;animation:fxStamp .55s cubic-bezier(.2,1.6,.4,1) 1.4s forwards}
 @keyframes fxStamp{0%{opacity:0;transform:scale(2.4) rotate(-20deg)}60%{opacity:1;transform:scale(.94) rotate(-6deg)}100%{opacity:1;transform:rotate(-8deg)}}
 .fx-ph{position:relative;width:clamp(250px,19vw,300px);border:3px solid var(--ink2);border-radius:34px;background:#F6F2EB;padding:6px;box-shadow:0 6px 0 rgba(30,28,25,.9)}
@@ -240,3 +240,24 @@
   .fx-tm2{display:inline;font:800 calc(4*var(--u)) var(--mono)}
   .fx-log{height:calc(128*var(--u));flex:none;padding-top:calc(5*var(--u))}
 }
+
+/* desktop: "On the bench" app cards wired to the phone (F3) */
+.fx-bench{display:none}
+@media (min-width:1280px){
+  .fx-bench{display:flex;flex-direction:column;gap:16px;flex:none;align-self:center;margin-right:-4px;position:relative;z-index:2}
+  .fx-bk{font:700 11px var(--mono);letter-spacing:.06em;color:var(--stamp);text-transform:uppercase}
+  .fx-bench a{position:relative;display:flex;align-items:center;gap:10px;padding:8px 14px 8px 8px;border:2px solid var(--ink2);border-radius:12px;background:var(--paper);box-shadow:0 4px 0 var(--ink2);color:var(--ink2);text-decoration:none;font:700 14.5px var(--body,Inter),sans-serif;transition:transform .15s,background .2s}
+  .fx-bench a:hover{transform:translateY(-2px)}
+  .fx-bench a.on{background:var(--ink2);color:var(--paper)}
+  .fx-bench a.on small{color:rgba(238,232,222,.75)}
+  .fx-bench a small{display:block;font:700 10px var(--mono);text-transform:uppercase;letter-spacing:.04em;color:var(--muted2)}
+  .fx-bench img,.fx-bench i{flex:none;width:40px;height:40px;border-radius:10px;border:2px solid var(--ink2)}
+  .fx-bench i{border:2px dashed var(--stamp);display:grid;place-items:center;color:var(--stamp);font:700 20px var(--mono);font-style:normal}
+  .fx-bench a::after{content:"";position:absolute;left:100%;top:50%;width:clamp(18px,2.2vw,44px);border-top:2px dashed var(--stamp)}
+  .fx-bench a.on::after{border-top-style:solid}
+  .hero-art.fx{gap:clamp(14px,2vw,36px)}
+  .fx-bench+.fx-bp{padding-left:0}
+  .fx-bench+.fx-bp .fx-dv{display:none}
+  .fx-bench+.fx-bp .fx-lb,.fx-bench+.fx-bp .fx-dh{left:0}
+}
+@media (min-width:1280px) and (max-width:1439px){.fx-bench a{font-size:13px;padding:6px 10px 6px 6px}.fx-bench img,.fx-bench i{width:34px;height:34px}.fx-ph{width:240px}.x-spec:not([hidden]){width:200px}}

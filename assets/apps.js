@@ -430,7 +430,7 @@ window.FORGE = {
           "src": "assets/hero/renewly-start.jpg",
           "label": "Renewly",
           "app": "renewly",
-          "specs": "Status: Being built\nPrice: Free · Plus is one payment\nSign-up: None\nYour data: Stays on your phone"
+          "specs": "Status: Being built\nPrice: Free, no in-app purchases\nSign-up: None\nYour data: Stays on your phone"
         }
       ],
       "stamp": "Built in the forge",
@@ -449,7 +449,7 @@ window.FORGE = {
           "result": "",
           "next": "renewal steps",
           "progress": 64,
-          "specs": "Status: Being built\nPrice: Free · Plus is one payment\nSign-up: None\nYour data: Stays on your phone"
+          "specs": "Status: Being built\nPrice: Free, no in-app purchases\nSign-up: None\nYour data: Stays on your phone"
         }
       ]
     },
