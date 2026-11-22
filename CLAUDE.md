@@ -31,3 +31,6 @@ Showcase site for the apps made by **Forge Apps** (Suriya's app studio brand; ta
 - Keep `sitemap.xml` in step when pages are added or removed. `admin/` stays out of search (robots.txt).
 - Placeholders are wrapped in `<span class="todo">` (dashed yellow box); search for `class="todo"` before going live.
 - Commit with clear messages; check pages at phone width before pushing.
+
+## Location
+The site lives at ~/Desktop/forge_apps_website (device_bash: $HOME/mnt/Desktop/forge_apps_website). Always work and commit here. Never create or write to a "Forge Apps" folder on the Desktop.
