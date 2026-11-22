@@ -37,7 +37,7 @@ Then delete the `<span class="todo">…</span>` wrapper around each answer.
 1. Create a new **public** repository on GitHub, e.g. `suriya4749/forgeapps-website`.
 2. Upload everything inside this `website` folder to the root of the repo, either with the GitHub web upload or:
    ```bash
-   cd ~/Desktop/"Forge Apps"/website
+   cd ~/Desktop/forge_apps_website
    git init && git add . && git commit -m "Forge Apps website"
    git branch -M main
    git remote add origin https://github.com/suriya4749/forgeapps-website.git
@@ -94,7 +94,7 @@ The home page shows the first 4 apps; clicking one shows it in the spotlight bel
 
 **Add a new app** (gets its own page plus privacy, terms and delete-account pages, and a card on the All apps page). The script puts the new app first in `assets/apps.js`, so it shows in "Latest apps" on the home page (which shows the first 3):
 ```bash
-cd ~/Desktop/"Forge Apps"/website
+cd ~/Desktop/forge_apps_website
 python3 _tools/new_app.py my-app "My App" "One line about what it does."
 ```
 Then replace `my-app/icon.svg`, fill in the [bracketed] text, and push:
