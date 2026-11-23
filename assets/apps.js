@@ -17,8 +17,8 @@ window.FORGE = {
     {
       "date": "Nov 2026",
       "app": "renewly",
-      "title": "Renewly is almost ready",
-      "text": "Scan a document and the expiry date is read for you, reminders before anything runs out, loans and EMIs, and safe watermarked copies. Free to use, with everything encrypted on your phone.",
+      "title": "Renewly closed testing starts soon",
+      "text": "Scan a document and the expiry date is read for you, reminders before anything runs out, loans and EMIs, and safe watermarked copies. Want to try it first? Ask to join the tester list.",
       "cat": "beta"
     },
     {
@@ -74,7 +74,7 @@ window.FORGE = {
       ],
       "platform": "Android",
       "stage": "build",
-      "stageNote": "Almost ready for Google Play",
+      "stageNote": "Closed testing starts soon",
       "icon": "renewly/icon.png",
       "playUrl": "",
       "screens": [
