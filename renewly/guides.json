@@ -1,0 +1,2245 @@
+{
+ "version": 1,
+ "generated": "2026-11-23T10:25:04+00:00",
+ "guides": [
+  {
+   "country": "AE",
+   "type": "licence",
+   "checked": "2026-11-23",
+   "currency": "AED",
+   "feeVaries": "Dubai charges AED 300 plus AED 20 for age 21 and over; other emirates differ and the eye test is extra. Check your emirate's amount.",
+   "needs": [
+    {
+     "text": "Your current licence",
+     "type": "licence"
+    },
+    {
+     "text": "Your Emirates ID",
+     "type": "national_id"
+    },
+    {
+     "text": "Eye test report",
+     "type": "medical"
+    },
+    {
+     "text": "Paid traffic fines"
+    }
+   ],
+   "steps": [
+    "Clear any traffic fines",
+    "Get an eye test at an approved centre",
+    "Renew on the RTA site or app (Dubai), TAMM (Abu Dhabi) or the MOI UAE app (other emirates)",
+    "Pay and receive the licence by courier or at a kiosk"
+   ],
+   "site": {
+    "url": "https://www.rta.ae",
+    "name": "rta.ae",
+    "online": true
+   },
+   "office": "RTA or traffic office",
+   "source": "https://www.rta.ae"
+  },
+  {
+   "country": "AE",
+   "type": "national_id",
+   "checked": "2026-11-23",
+   "currency": "AED",
+   "verb": "renew",
+   "feeVaries": "The fee depends on how many years you choose and on typing-centre and delivery charges. We could not confirm one fixed official fee. Check the amount on the official site before you pay.",
+   "needs": [
+    {
+     "text": "Your current Emirates ID",
+     "type": "national_id"
+    },
+    {
+     "text": "Your passport",
+     "type": "passport"
+    },
+    {
+     "text": "Valid residence visa",
+     "type": "visa"
+    }
+   ],
+   "steps": [
+    "Make sure the residence visa is valid",
+    "Apply on the ICP site or app, or at a typing centre",
+    "Pay, then give biometrics if asked",
+    "The card is delivered by courier"
+   ],
+   "site": {
+    "url": "https://icp.gov.ae",
+    "name": "icp.gov.ae",
+    "online": true
+   },
+   "office": "ICP service centre",
+   "source": "https://icp.gov.ae"
+  },
+  {
+   "country": "AE",
+   "type": "passport",
+   "checked": "2026-11-23",
+   "currency": "AED",
+   "feeVaries": "We could not confirm one fixed official fee. Check the amount on the official site before you pay.",
+   "needs": [
+    {
+     "text": "Your current passport",
+     "type": "passport"
+    },
+    {
+     "text": "Your Emirates ID",
+     "type": "national_id"
+    }
+   ],
+   "steps": [
+    "For UAE citizens, apply on the ICP site or app",
+    "Pay the fee",
+    "Collect it or get it delivered"
+   ],
+   "site": {
+    "url": "https://icp.gov.ae",
+    "name": "icp.gov.ae",
+    "online": true
+   },
+   "office": "ICP service centre",
+   "source": "https://icp.gov.ae"
+  },
+  {
+   "country": "AE",
+   "type": "vehicle_registration",
+   "checked": "2026-11-23",
+   "currency": "AED",
+   "feeVaries": "Dubai: about AED 350 plus AED 20 for a light private car. Other emirates differ. Check your emirate's amount.",
+   "needs": [
+    {
+     "text": "Your Mulkiya (registration card)",
+     "type": "vehicle_registration"
+    },
+    {
+     "text": "Valid vehicle insurance",
+     "type": "vehicle_insurance"
+    },
+    {
+     "text": "Vehicle inspection pass"
+    }
+   ],
+   "steps": [
+    "Get the technical inspection if the car is 3 years or older",
+    "Clear any traffic fines",
+    "Renew online or at a testing centre",
+    "Pay and receive the new card"
+   ],
+   "site": {
+    "url": "https://www.rta.ae",
+    "name": "rta.ae",
+    "online": true
+   },
+   "office": "Testing centre",
+   "source": "https://www.rta.ae"
+  },
+  {
+   "country": "AU",
+   "type": "licence",
+   "checked": "2026-11-23",
+   "currency": "AUD",
+   "feeVaries": "Driver licence fees are set by each state. We could not confirm one fixed official fee. Check the amount on the official site before you pay.",
+   "needs": [
+    {
+     "text": "Your current licence",
+     "type": "licence"
+    },
+    {
+     "text": "Proof of identity",
+     "type": "national_id"
+    }
+   ],
+   "steps": [
+    "Open the official licence site",
+    "Check your details and pay",
+    "Take a photo or eye test if asked",
+    "Your new licence arrives by post or at the office"
+   ],
+   "site": {
+    "url": "https://www.australia.gov.au",
+    "name": "australia.gov.au",
+    "online": true
+   },
+   "office": "Your state road authority",
+   "source": "https://www.australia.gov.au"
+  },
+  {
+   "country": "AU",
+   "type": "passport",
+   "checked": "2026-11-23",
+   "currency": "AUD",
+   "groups": [
+    {
+     "id": "who",
+     "label": "Applicant",
+     "options": [
+      {
+       "id": "adult",
+       "label": "Adult 16+ (10 years)"
+      },
+      {
+       "id": "child",
+       "label": "Child under 16 (5 years)"
+      }
+     ]
+    }
+   ],
+   "fees": {
+    "adult": 422,
+    "child": 213
+   },
+   "feeNote": "From 1 January 2026. Fees go up each year. Applying from overseas adds a surcharge.",
+   "needs": [
+    {
+     "text": "Your current passport",
+     "type": "passport"
+    },
+    {
+     "text": "A recent passport photo"
+    }
+   ],
+   "steps": [
+    "Open the official passport site",
+    "Fill in the renewal form and add your photo",
+    "Pay the fee",
+    "Your new passport is sent or ready to collect"
+   ],
+   "site": {
+    "url": "https://www.passports.gov.au",
+    "name": "passports.gov.au",
+    "online": true
+   },
+   "office": "Australian Passport Office",
+   "source": "https://www.passports.gov.au"
+  },
+  {
+   "country": "AU",
+   "type": "vehicle_registration",
+   "checked": "2026-11-23",
+   "currency": "AUD",
+   "feeVaries": "Registration fees are set by each state. We could not confirm one fixed official fee. Check the amount on the official site before you pay.",
+   "needs": [
+    {
+     "text": "Your vehicle registration",
+     "type": "vehicle_registration"
+    },
+    {
+     "text": "Valid vehicle insurance",
+     "type": "vehicle_insurance"
+    }
+   ],
+   "steps": [
+    "Open the official vehicle registration site",
+    "Check insurance and any inspection needed",
+    "Pay the renewal",
+    "Keep the new registration in the car"
+   ],
+   "site": {
+    "url": "https://www.australia.gov.au",
+    "name": "australia.gov.au",
+    "online": true
+   },
+   "office": "Your state road authority",
+   "source": "https://www.australia.gov.au"
+  },
+  {
+   "country": "CA",
+   "type": "licence",
+   "checked": "2026-11-23",
+   "currency": "CAD",
+   "feeVaries": "Driver licence fees are set by each province. We could not confirm one fixed official fee. Check the amount on the official site before you pay.",
+   "needs": [
+    {
+     "text": "Your current licence",
+     "type": "licence"
+    },
+    {
+     "text": "Proof of identity",
+     "type": "national_id"
+    }
+   ],
+   "steps": [
+    "Open the official licence site",
+    "Check your details and pay",
+    "Take a photo or eye test if asked",
+    "Your new licence arrives by post or at the office"
+   ],
+   "site": {
+    "url": "https://www.canada.ca",
+    "name": "canada.ca",
+    "online": true
+   },
+   "office": "Your provincial licensing office",
+   "source": "https://www.canada.ca"
+  },
+  {
+   "country": "CA",
+   "type": "passport",
+   "checked": "2026-11-23",
+   "currency": "CAD",
+   "groups": [
+    {
+     "id": "years",
+     "label": "Validity",
+     "options": [
+      {
+       "id": "5",
+       "label": "5 years"
+      },
+      {
+       "id": "10",
+       "label": "10 years"
+      }
+     ]
+    }
+   ],
+   "fees": {
+    "5": 122.5,
+    "10": 163.5
+   },
+   "feeNote": "Adult passport for people living in Canada, from 31 March 2026. Living abroad costs more.",
+   "needs": [
+    {
+     "text": "Your current passport",
+     "type": "passport"
+    },
+    {
+     "text": "A recent passport photo"
+    }
+   ],
+   "steps": [
+    "Open the official passport site",
+    "Fill in the renewal form and add your photo",
+    "Pay the fee",
+    "Your new passport is sent or ready to collect"
+   ],
+   "site": {
+    "url": "https://www.canada.ca/en/immigration-refugees-citizenship/services/canadian-passports.html",
+    "name": "canada.ca",
+    "online": true
+   },
+   "office": "Passport Canada",
+   "source": "https://www.canada.ca/en/immigration-refugees-citizenship/services/canadian-passports.html"
+  },
+  {
+   "country": "CA",
+   "type": "vehicle_registration",
+   "checked": "2026-11-23",
+   "currency": "CAD",
+   "feeVaries": "Registration fees are set by each province. We could not confirm one fixed official fee. Check the amount on the official site before you pay.",
+   "needs": [
+    {
+     "text": "Your vehicle registration",
+     "type": "vehicle_registration"
+    },
+    {
+     "text": "Valid vehicle insurance",
+     "type": "vehicle_insurance"
+    }
+   ],
+   "steps": [
+    "Open the official vehicle registration site",
+    "Check insurance and any inspection needed",
+    "Pay the renewal",
+    "Keep the new registration in the car"
+   ],
+   "site": {
+    "url": "https://www.canada.ca",
+    "name": "canada.ca",
+    "online": true
+   },
+   "office": "Your provincial licensing office",
+   "source": "https://www.canada.ca"
+  },
+  {
+   "country": "DE",
+   "type": "licence",
+   "checked": "2026-11-23",
+   "currency": "EUR",
+   "feeVaries": "Fees are set by each city. We could not confirm one fixed official fee. Check the amount on the official site before you pay.",
+   "needs": [
+    {
+     "text": "Your current licence",
+     "type": "licence"
+    },
+    {
+     "text": "Proof of identity",
+     "type": "national_id"
+    }
+   ],
+   "steps": [
+    "Open the official licence site",
+    "Check your details and pay",
+    "Take a photo or eye test if asked",
+    "Your new licence arrives by post or at the office"
+   ],
+   "site": {
+    "url": "https://www.service.bund.de",
+    "name": "service.bund.de",
+    "online": true
+   },
+   "office": "Your local Führerscheinstelle",
+   "source": "https://www.service.bund.de"
+  },
+  {
+   "country": "DE",
+   "type": "national_id",
+   "checked": "2026-11-23",
+   "currency": "EUR",
+   "verb": "renew",
+   "groups": [
+    {
+     "id": "age",
+     "label": "Your age",
+     "options": [
+      {
+       "id": "24plus",
+       "label": "24 and over (10 years)"
+      },
+      {
+       "id": "under24",
+       "label": "Under 24 (6 years)"
+      }
+     ]
+    }
+   ],
+   "fees": {
+    "24plus": 46,
+    "under24": 27.6
+   },
+   "feeNote": "Since 7 February 2026. A temporary ID costs €10.",
+   "needs": [
+    {
+     "text": "Your current ID card",
+     "type": "national_id"
+    },
+    {
+     "text": "A recent photo"
+    }
+   ],
+   "steps": [
+    "Book or apply on the official site",
+    "Take your old card and a photo",
+    "Pay the fee",
+    "Collect the new card"
+   ],
+   "site": {
+    "url": "https://www.service.bund.de",
+    "name": "service.bund.de",
+    "online": true
+   },
+   "office": "Your local Bürgeramt",
+   "source": "https://www.service.bund.de"
+  },
+  {
+   "country": "DE",
+   "type": "passport",
+   "checked": "2026-11-23",
+   "currency": "EUR",
+   "groups": [
+    {
+     "id": "age",
+     "label": "Your age",
+     "options": [
+      {
+       "id": "24plus",
+       "label": "24 and over (10 years)"
+      },
+      {
+       "id": "under24",
+       "label": "Under 24 (6 years)"
+      }
+     ]
+    }
+   ],
+   "fees": {
+    "24plus": 70,
+    "under24": 37.5
+   },
+   "feeNote": "Since 7 February 2026. A 48-page passport and express service cost extra. Abroad it costs more.",
+   "needs": [
+    {
+     "text": "Your current passport",
+     "type": "passport"
+    },
+    {
+     "text": "A recent passport photo"
+    }
+   ],
+   "steps": [
+    "Open the official passport site",
+    "Fill in the renewal form and add your photo",
+    "Pay the fee",
+    "Your new passport is sent or ready to collect"
+   ],
+   "site": {
+    "url": "https://www.service.bund.de",
+    "name": "service.bund.de",
+    "online": true
+   },
+   "office": "Your local Bürgeramt",
+   "source": "https://www.service.bund.de"
+  },
+  {
+   "country": "DE",
+   "type": "vehicle_registration",
+   "checked": "2026-11-23",
+   "currency": "EUR",
+   "feeVaries": "Fees are set by each city. We could not confirm one fixed official fee. Check the amount on the official site before you pay.",
+   "needs": [
+    {
+     "text": "Your vehicle registration",
+     "type": "vehicle_registration"
+    },
+    {
+     "text": "Valid vehicle insurance",
+     "type": "vehicle_insurance"
+    }
+   ],
+   "steps": [
+    "Open the official vehicle registration site",
+    "Check insurance and any inspection needed",
+    "Pay the renewal",
+    "Keep the new registration in the car"
+   ],
+   "site": {
+    "url": "https://www.service.bund.de",
+    "name": "service.bund.de",
+    "online": true
+   },
+   "office": "Your local Zulassungsstelle",
+   "source": "https://www.service.bund.de"
+  },
+  {
+   "country": "FR",
+   "type": "licence",
+   "checked": "2026-11-23",
+   "currency": "EUR",
+   "feeVaries": "We could not confirm one fixed official fee. Check the amount on the official site before you pay.",
+   "needs": [
+    {
+     "text": "Your current licence",
+     "type": "licence"
+    },
+    {
+     "text": "Proof of identity",
+     "type": "national_id"
+    }
+   ],
+   "steps": [
+    "Open the official licence site",
+    "Check your details and pay",
+    "Take a photo or eye test if asked",
+    "Your new licence arrives by post or at the office"
+   ],
+   "site": {
+    "url": "https://ants.gouv.fr",
+    "name": "ants.gouv.fr",
+    "online": true
+   },
+   "office": "ANTS",
+   "source": "https://ants.gouv.fr"
+  },
+  {
+   "country": "FR",
+   "type": "national_id",
+   "checked": "2026-11-23",
+   "currency": "EUR",
+   "verb": "renew",
+   "feeVaries": "A normal renewal needs no payment in most cases; a €25 tax stamp is due if the card was lost or stolen. Check on service-public.gouv.fr.",
+   "needs": [
+    {
+     "text": "Your current ID card",
+     "type": "national_id"
+    },
+    {
+     "text": "A recent photo"
+    }
+   ],
+   "steps": [
+    "Book or apply on the official site",
+    "Take your old card and a photo",
+    "Pay the fee",
+    "Collect the new card"
+   ],
+   "site": {
+    "url": "https://ants.gouv.fr",
+    "name": "ants.gouv.fr",
+    "online": true
+   },
+   "office": "Mairie (town hall)",
+   "source": "https://ants.gouv.fr"
+  },
+  {
+   "country": "FR",
+   "type": "passport",
+   "checked": "2026-11-23",
+   "currency": "EUR",
+   "groups": [
+    {
+     "id": "who",
+     "label": "Applicant",
+     "options": [
+      {
+       "id": "adult",
+       "label": "Adult, 18 and over (10 years)"
+      }
+     ]
+    }
+   ],
+   "fees": {
+    "adult": 86
+   },
+   "feeNote": "Paid with an electronic tax stamp. If the photo is taken at the counter it costs more. Children pay less.",
+   "needs": [
+    {
+     "text": "Your current passport",
+     "type": "passport"
+    },
+    {
+     "text": "A recent passport photo"
+    }
+   ],
+   "steps": [
+    "Open the official passport site",
+    "Fill in the renewal form and add your photo",
+    "Pay the fee",
+    "Your new passport is sent or ready to collect"
+   ],
+   "site": {
+    "url": "https://www.service-public.gouv.fr/particuliers/vosdroits/F14929",
+    "name": "service-public.gouv.fr",
+    "online": true
+   },
+   "office": "Mairie (town hall)",
+   "source": "https://www.service-public.gouv.fr/particuliers/vosdroits/F14929"
+  },
+  {
+   "country": "FR",
+   "type": "vehicle_registration",
+   "checked": "2026-11-23",
+   "currency": "EUR",
+   "feeVaries": "The carte grise price depends on the region and the car. We could not confirm one fixed official fee. Check the amount on the official site before you pay.",
+   "needs": [
+    {
+     "text": "Your vehicle registration",
+     "type": "vehicle_registration"
+    },
+    {
+     "text": "Valid vehicle insurance",
+     "type": "vehicle_insurance"
+    }
+   ],
+   "steps": [
+    "Open the official vehicle registration site",
+    "Check insurance and any inspection needed",
+    "Pay the renewal",
+    "Keep the new registration in the car"
+   ],
+   "site": {
+    "url": "https://ants.gouv.fr",
+    "name": "ants.gouv.fr",
+    "online": true
+   },
+   "office": "ANTS",
+   "source": "https://ants.gouv.fr"
+  },
+  {
+   "country": "GB",
+   "type": "licence",
+   "checked": "2026-11-23",
+   "currency": "GBP",
+   "groups": [
+    {
+     "id": "how",
+     "label": "How you apply",
+     "options": [
+      {
+       "id": "online",
+       "label": "Online"
+      },
+      {
+       "id": "post",
+       "label": "By post"
+      }
+     ]
+    }
+   ],
+   "fees": {
+    "online": 14,
+    "post": 17
+   },
+   "feeNote": "Photocard licence, renewed every 10 years. Free at age 70 and over. Renewing at a Post Office costs £21.50.",
+   "needs": [
+    {
+     "text": "Your current licence",
+     "type": "licence"
+    },
+    {
+     "text": "Proof of identity",
+     "type": "national_id"
+    }
+   ],
+   "steps": [
+    "Open the official licence site",
+    "Check your details and pay",
+    "Take a photo or eye test if asked",
+    "Your new licence arrives by post or at the office"
+   ],
+   "site": {
+    "url": "https://www.gov.uk/renew-driving-licence",
+    "name": "gov.uk",
+    "online": true
+   },
+   "office": "DVLA",
+   "source": "https://www.gov.uk/renew-driving-licence"
+  },
+  {
+   "country": "GB",
+   "type": "passport",
+   "checked": "2026-11-23",
+   "currency": "GBP",
+   "feeVaries": "gov.uk shows about £102 online or £115.50 on paper, but an older gov.uk page showed £94.50, so confirm before you pay.",
+   "needs": [
+    {
+     "text": "Your current passport",
+     "type": "passport"
+    },
+    {
+     "text": "A recent passport photo"
+    }
+   ],
+   "steps": [
+    "Open the official passport site",
+    "Fill in the renewal form and add your photo",
+    "Pay the fee",
+    "Your new passport is sent or ready to collect"
+   ],
+   "site": {
+    "url": "https://www.gov.uk/renew-adult-passport",
+    "name": "gov.uk",
+    "online": true
+   },
+   "office": "HM Passport Office",
+   "source": "https://www.gov.uk/renew-adult-passport"
+  },
+  {
+   "country": "GB",
+   "type": "vehicle_registration",
+   "checked": "2026-11-23",
+   "currency": "GBP",
+   "feeVaries": "Most cars registered since 1 April 2017 pay £200 a year (12-month payment). Older cars and first-year rates depend on CO2. Check your car on gov.uk.",
+   "needs": [
+    {
+     "text": "Your vehicle registration",
+     "type": "vehicle_registration"
+    },
+    {
+     "text": "Valid vehicle insurance",
+     "type": "vehicle_insurance"
+    }
+   ],
+   "steps": [
+    "Open the official vehicle registration site",
+    "Check insurance and any inspection needed",
+    "Pay the renewal",
+    "Keep the new registration in the car"
+   ],
+   "site": {
+    "url": "https://www.gov.uk/vehicle-tax",
+    "name": "gov.uk",
+    "online": true
+   },
+   "office": "DVLA",
+   "source": "https://www.gov.uk/vehicle-tax"
+  },
+  {
+   "country": "IN",
+   "type": "health_insurance",
+   "checked": "2026-11-22",
+   "currency": "INR",
+   "feeVaries": "Your premium depends on age, cover and who is included. Check your renewal notice.",
+   "needs": [
+    {
+     "text": "Your current policy",
+     "type": "health_insurance"
+    },
+    {
+     "text": "ID for KYC",
+     "type": "national_id"
+    }
+   ],
+   "steps": [
+    "Renew before it ends, or within the grace period in your policy",
+    "Renewing on time keeps your waiting periods and no-claim bonus",
+    "Check whether new family members need adding",
+    "Scan the new policy into Renewly"
+   ]
+  },
+  {
+   "country": "IN",
+   "type": "licence",
+   "checked": "2026-11-22",
+   "currency": "INR",
+   "groups": [
+    {
+     "id": "when",
+     "label": "When",
+     "options": [
+      {
+       "id": "ontime",
+       "label": "On time"
+      },
+      {
+       "id": "late",
+       "label": "Up to 1 year late"
+      }
+     ]
+    }
+   ],
+   "fees": {
+    "ontime": 400,
+    "late": 1500
+   },
+   "feeNote": "On time means before it ends or within 30 days after. Late adds ₹1,000 for each year. Includes the ₹200 smart card. Some states add a small service charge.",
+   "needs": [
+    {
+     "text": "Your current driving licence",
+     "type": "licence"
+    },
+    {
+     "text": "Address proof, if you have moved",
+     "type": "national_id"
+    },
+    {
+     "text": "Medical certificate (Form 1A), if you are 40 or older"
+    },
+    {
+     "text": "A recent photo and your signature"
+    }
+   ],
+   "steps": [
+    "Open Sarathi on Parivahan and choose your state",
+    "Pick \"Renewal of DL\", fill in the form and upload your papers",
+    "Pay online. Visit the RTO only if they ask you to",
+    "The renewed smart card comes by post"
+   ],
+   "site": {
+    "url": "https://sarathi.parivahan.gov.in",
+    "name": "sarathi.parivahan.gov.in",
+    "online": true
+   },
+   "office": "RTO office",
+   "source": "https://sarathi.parivahan.gov.in"
+  },
+  {
+   "country": "IN",
+   "type": "national_id",
+   "verb": "update",
+   "checked": "2026-11-22",
+   "currency": "INR",
+   "groups": [
+    {
+     "id": "what",
+     "label": "What",
+     "options": [
+      {
+       "id": "demo",
+       "label": "Name, address, birth date"
+      },
+      {
+       "id": "bio",
+       "label": "Photo, fingerprints"
+      }
+     ]
+    }
+   ],
+   "fees": {
+    "demo": 75,
+    "bio": 125
+   },
+   "feeNote": "Name or address changes are free when done with a biometric update. Children's required updates are free.",
+   "needs": [
+    {
+     "text": "Your Aadhaar",
+     "type": "national_id"
+    },
+    {
+     "text": "Original proof of identity and address"
+    }
+   ],
+   "steps": [
+    "Address and document updates can be done on myAadhaar",
+    "For photo or fingerprints, book a slot at an Aadhaar Seva Kendra",
+    "Take your originals and pay at the centre",
+    "Download the updated e-Aadhaar when it is done"
+   ],
+   "site": {
+    "url": "https://myaadhaar.uidai.gov.in",
+    "name": "myaadhaar.uidai.gov.in",
+    "online": true
+   },
+   "office": "Aadhaar Seva Kendra",
+   "source": "https://uidai.gov.in"
+  },
+  {
+   "country": "IN",
+   "type": "passport",
+   "checked": "2026-11-22",
+   "currency": "INR",
+   "groups": [
+    {
+     "id": "scheme",
+     "label": "Scheme",
+     "options": [
+      {
+       "id": "normal",
+       "label": "Normal"
+      },
+      {
+       "id": "tatkal",
+       "label": "Tatkal"
+      }
+     ]
+    },
+    {
+     "id": "pages",
+     "label": "Pages",
+     "options": [
+      {
+       "id": "36",
+       "label": "36 pages"
+      },
+      {
+       "id": "60",
+       "label": "60 pages"
+      }
+     ]
+    }
+   ],
+   "fees": {
+    "normal+36": 2500,
+    "normal+60": 3500,
+    "tatkal+36": 5000,
+    "tatkal+60": 6000
+   },
+   "feeNote": "For adults and 15–18 year olds. Paid online when you book. New fees from 1 July 2026.",
+   "needs": [
+    {
+     "text": "Your current passport",
+     "type": "passport"
+    },
+    {
+     "text": "Self-signed copy of the first and last two pages"
+    },
+    {
+     "text": "Address proof, if you have moved",
+     "type": "national_id"
+    }
+   ],
+   "steps": [
+    "Sign in on Passport Seva and fill in the re-issue form",
+    "Pay the fee and book a slot at a Passport Seva Kendra",
+    "Go with your originals. A police check happens only if needed",
+    "The new passport comes by post. Tatkal is faster"
+   ],
+   "site": {
+    "url": "https://www.passportindia.gov.in",
+    "name": "passportindia.gov.in",
+    "online": true
+   },
+   "office": "Passport Seva Kendra",
+   "source": "https://www.passportindia.gov.in"
+  },
+  {
+   "country": "IN",
+   "type": "puc",
+   "checked": "2026-11-22",
+   "currency": "INR",
+   "feeVaries": "Set by your state and shown at the test centre.",
+   "needs": [
+    {
+     "text": "Your RC",
+     "type": "vehicle_registration"
+    },
+    {
+     "text": "The vehicle itself"
+    }
+   ],
+   "steps": [
+    "Drive to an authorised PUC centre",
+    "The test takes a few minutes",
+    "You get the certificate on the spot. It is also on the Parivahan PUC site",
+    "Scan it into Renewly"
+   ],
+   "site": {
+    "url": "https://puc.parivahan.gov.in/puc/",
+    "name": "puc.parivahan.gov.in",
+    "online": false
+   },
+   "office": "PUC centre"
+  },
+  {
+   "country": "IN",
+   "type": "vehicle_insurance",
+   "checked": "2026-11-22",
+   "currency": "INR",
+   "feeVaries": "Your premium depends on the vehicle and the cover. Check your insurer's renewal notice.",
+   "needs": [
+    {
+     "text": "Your current policy",
+     "type": "vehicle_insurance"
+    },
+    {
+     "text": "Your RC",
+     "type": "vehicle_registration"
+    },
+    {
+     "text": "Valid PUC certificate",
+     "type": "puc"
+    }
+   ],
+   "steps": [
+    "Renew before it ends to keep your no-claim bonus",
+    "Renew online with your insurer, or compare quotes first",
+    "Third-party cover is required by law to drive",
+    "Scan the new policy into Renewly"
+   ]
+  },
+  {
+   "country": "IN",
+   "type": "vehicle_registration",
+   "checked": "2026-11-22",
+   "currency": "INR",
+   "groups": [
+    {
+     "id": "vehicle",
+     "label": "Vehicle",
+     "options": [
+      {
+       "id": "car",
+       "label": "Car"
+      },
+      {
+       "id": "bike",
+       "label": "Two-wheeler"
+      }
+     ]
+    },
+    {
+     "id": "age",
+     "label": "Age",
+     "options": [
+      {
+       "id": "15to20",
+       "label": "15–20 years"
+      },
+      {
+       "id": "20plus",
+       "label": "Over 20 years"
+      }
+     ]
+    }
+   ],
+   "fees": {
+    "car+15to20": 5000,
+    "car+20plus": 10000,
+    "bike+15to20": 1000,
+    "bike+20plus": 2000
+   },
+   "feeNote": "Private vehicles, renewed every 5 years after the first 15. The fitness test fee is extra, and ₹300 is added for each month late. Delhi-NCR has its own rules.",
+   "needs": [
+    {
+     "text": "Your RC",
+     "type": "vehicle_registration"
+    },
+    {
+     "text": "Valid vehicle insurance",
+     "type": "vehicle_insurance"
+    },
+    {
+     "text": "Valid PUC certificate",
+     "type": "puc"
+    },
+    {
+     "text": "Form 25 (filled in online)"
+    },
+    {
+     "text": "The vehicle itself, for the fitness test"
+    }
+   ],
+   "steps": [
+    "Open Vahan services on Parivahan and choose \"Renewal of registration\"",
+    "Fill in Form 25, upload your papers and pay",
+    "Take the vehicle to the RTO for the fitness test",
+    "The renewed RC is valid for 5 more years"
+   ],
+   "site": {
+    "url": "https://vahan.parivahan.gov.in/vahanservice/",
+    "name": "vahan.parivahan.gov.in",
+    "online": true
+   },
+   "office": "RTO office",
+   "source": "https://parivahan.gov.in"
+  },
+  {
+   "country": "KW",
+   "type": "licence",
+   "checked": "2026-11-23",
+   "currency": "KWD",
+   "feeVaries": "The e.gov.kw page lists KD 1 a year for a private licence, but the payment details are not clear. We could not confirm one fixed official fee. Check the amount on the official site before you pay.",
+   "needs": [
+    {
+     "text": "Your expired licence",
+     "type": "licence"
+    },
+    {
+     "text": "Your Civil ID",
+     "type": "national_id"
+    },
+    {
+     "text": "One photo"
+    }
+   ],
+   "steps": [
+    "Go to the General Traffic Department",
+    "Fill in the form",
+    "Pay the fee",
+    "Take the new licence"
+   ],
+   "site": {
+    "url": "https://www.e.gov.kw",
+    "name": "e.gov.kw",
+    "online": true
+   },
+   "office": "General Traffic Department",
+   "source": "https://www.e.gov.kw"
+  },
+  {
+   "country": "KW",
+   "type": "national_id",
+   "checked": "2026-11-23",
+   "currency": "KWD",
+   "verb": "renew",
+   "feeVaries": "We could not confirm one fixed official fee. Check the amount on the official site before you pay.",
+   "needs": [
+    {
+     "text": "Your Civil ID",
+     "type": "national_id"
+    },
+    {
+     "text": "Your passport",
+     "type": "passport"
+    }
+   ],
+   "steps": [
+    "Use the Sahel app or the PACI website",
+    "Check your details and pay",
+    "Collect the card or wait for delivery"
+   ],
+   "site": {
+    "url": "https://www.paci.gov.kw",
+    "name": "paci.gov.kw",
+    "online": true
+   },
+   "office": "PACI office",
+   "source": "https://www.paci.gov.kw"
+  },
+  {
+   "country": "KW",
+   "type": "passport",
+   "checked": "2026-11-23",
+   "currency": "KWD",
+   "feeVaries": "The government site and a recent news report disagree on the current fee. We could not confirm one fixed official fee. Check the amount on the official site before you pay.",
+   "needs": [
+    {
+     "text": "Your current passport",
+     "type": "passport"
+    },
+    {
+     "text": "Your Civil ID",
+     "type": "national_id"
+    },
+    {
+     "text": "One photo 4x5 cm"
+    }
+   ],
+   "steps": [
+    "Go to the Nationality and Travel Documents department or a citizen service centre",
+    "Submit the form, photo, Civil ID and old passport",
+    "Pay the fee",
+    "Collect the new passport"
+   ],
+   "site": {
+    "url": "https://www.e.gov.kw",
+    "name": "e.gov.kw",
+    "online": true
+   },
+   "office": "Nationality and Travel Documents Department",
+   "source": "https://www.e.gov.kw"
+  },
+  {
+   "country": "KW",
+   "type": "vehicle_registration",
+   "checked": "2026-11-23",
+   "currency": "KWD",
+   "feeVaries": "We could not confirm one fixed official fee. Check the amount on the official site before you pay.",
+   "needs": [
+    {
+     "text": "Your vehicle registration",
+     "type": "vehicle_registration"
+    },
+    {
+     "text": "Valid vehicle insurance",
+     "type": "vehicle_insurance"
+    },
+    {
+     "text": "Your Civil ID or passport",
+     "type": "national_id"
+    }
+   ],
+   "steps": [
+    "Take the car for the technical check",
+    "Go to the General Traffic Department",
+    "Fill in the form and pay",
+    "Collect the new registration"
+   ],
+   "site": {
+    "url": "https://www.e.gov.kw",
+    "name": "e.gov.kw",
+    "online": true
+   },
+   "office": "General Traffic Department",
+   "source": "https://www.e.gov.kw"
+  },
+  {
+   "country": "MY",
+   "type": "licence",
+   "checked": "2026-11-23",
+   "currency": "MYR",
+   "groups": [
+    {
+     "id": "years",
+     "label": "Renew for",
+     "options": [
+      {
+       "id": "1",
+       "label": "1 year"
+      },
+      {
+       "id": "3",
+       "label": "3 years"
+      },
+      {
+       "id": "5",
+       "label": "5 years"
+      },
+      {
+       "id": "10",
+       "label": "10 years"
+      }
+     ]
+    }
+   ],
+   "fees": {
+    "1": 30,
+    "3": 90,
+    "5": 150,
+    "10": 270
+   },
+   "feeNote": "Class D (car). RM30 a year, 10 years gets one year free. Motorcycle classes cost less.",
+   "needs": [
+    {
+     "text": "Your current licence",
+     "type": "licence"
+    },
+    {
+     "text": "Proof of identity",
+     "type": "national_id"
+    }
+   ],
+   "steps": [
+    "Open the official licence site",
+    "Check your details and pay",
+    "Take a photo or eye test if asked",
+    "Your new licence arrives by post or at the office"
+   ],
+   "site": {
+    "url": "https://www.jpj.gov.my",
+    "name": "jpj.gov.my",
+    "online": true
+   },
+   "office": "JPJ",
+   "source": "https://www.jpj.gov.my"
+  },
+  {
+   "country": "MY",
+   "type": "national_id",
+   "checked": "2026-11-23",
+   "currency": "MYR",
+   "verb": "replace",
+   "feeVaries": "We could not confirm one fixed official fee. Check the amount on the official site before you pay.",
+   "needs": [
+    {
+     "text": "Your current ID card",
+     "type": "national_id"
+    },
+    {
+     "text": "A recent photo"
+    }
+   ],
+   "steps": [
+    "Book or apply on the official site",
+    "Take your old card and a photo",
+    "Pay the fee",
+    "Collect the new card"
+   ],
+   "site": {
+    "url": "https://www.jpn.gov.my",
+    "name": "jpn.gov.my",
+    "online": true
+   },
+   "office": "JPN office",
+   "source": "https://www.jpn.gov.my"
+  },
+  {
+   "country": "MY",
+   "type": "passport",
+   "checked": "2026-11-23",
+   "currency": "MYR",
+   "groups": [
+    {
+     "id": "years",
+     "label": "Validity (age 18 to 59)",
+     "options": [
+      {
+       "id": "5",
+       "label": "5 years"
+      },
+      {
+       "id": "10",
+       "label": "10 years"
+      }
+     ]
+    }
+   ],
+   "fees": {
+    "5": 200,
+    "10": 350
+   },
+   "feeNote": "Age 60 and over, and children under 12, pay half. The 10-year passport is rolling out office by office.",
+   "needs": [
+    {
+     "text": "Your current passport",
+     "type": "passport"
+    },
+    {
+     "text": "A recent passport photo"
+    }
+   ],
+   "steps": [
+    "Open the official passport site",
+    "Fill in the renewal form and add your photo",
+    "Pay the fee",
+    "Your new passport is sent or ready to collect"
+   ],
+   "site": {
+    "url": "https://www.imi.gov.my",
+    "name": "imi.gov.my",
+    "online": true
+   },
+   "office": "Immigration Department",
+   "source": "https://www.imi.gov.my"
+  },
+  {
+   "country": "MY",
+   "type": "vehicle_registration",
+   "checked": "2026-11-23",
+   "currency": "MYR",
+   "feeVaries": "Road tax depends on engine size. We could not confirm one fixed official fee. Check the amount on the official site before you pay.",
+   "needs": [
+    {
+     "text": "Your vehicle registration",
+     "type": "vehicle_registration"
+    },
+    {
+     "text": "Valid vehicle insurance",
+     "type": "vehicle_insurance"
+    }
+   ],
+   "steps": [
+    "Open the official vehicle registration site",
+    "Check insurance and any inspection needed",
+    "Pay the renewal",
+    "Keep the new registration in the car"
+   ],
+   "site": {
+    "url": "https://www.jpj.gov.my",
+    "name": "jpj.gov.my",
+    "online": true
+   },
+   "office": "JPJ",
+   "source": "https://www.jpj.gov.my"
+  },
+  {
+   "country": "NZ",
+   "type": "licence",
+   "checked": "2026-11-23",
+   "currency": "NZD",
+   "groups": [
+    {
+     "id": "age",
+     "label": "Age",
+     "options": [
+      {
+       "id": "std",
+       "label": "Age 65 or under (10 years)"
+      }
+     ]
+    }
+   ],
+   "fees": {
+    "std": 32.4
+   },
+   "feeNote": "Drivers 64½ and over get a shorter licence and pay less. Drivers turning 75 pay $21.50.",
+   "needs": [
+    {
+     "text": "Your current licence",
+     "type": "licence"
+    },
+    {
+     "text": "Proof of identity",
+     "type": "national_id"
+    }
+   ],
+   "steps": [
+    "Open the official licence site",
+    "Check your details and pay",
+    "Take a photo or eye test if asked",
+    "Your new licence arrives by post or at the office"
+   ],
+   "site": {
+    "url": "https://www.nzta.govt.nz/driver-licences/renewing-replacing-and-updating/renewing-your-licence/",
+    "name": "nzta.govt.nz",
+    "online": true
+   },
+   "office": "NZ Transport Agency",
+   "source": "https://www.nzta.govt.nz/driver-licences/renewing-replacing-and-updating/renewing-your-licence/"
+  },
+  {
+   "country": "NZ",
+   "type": "passport",
+   "checked": "2026-11-23",
+   "currency": "NZD",
+   "groups": [
+    {
+     "id": "who",
+     "label": "Applicant",
+     "options": [
+      {
+       "id": "adult",
+       "label": "Adult 16+ (10 years)"
+      },
+      {
+       "id": "child",
+       "label": "Child 15 or under (5 years)"
+      }
+     ]
+    }
+   ],
+   "fees": {
+    "adult": 247,
+    "child": 144
+   },
+   "feeNote": "Online application, GST included. Urgent service costs more.",
+   "needs": [
+    {
+     "text": "Your current passport",
+     "type": "passport"
+    },
+    {
+     "text": "A recent passport photo"
+    }
+   ],
+   "steps": [
+    "Open the official passport site",
+    "Fill in the renewal form and add your photo",
+    "Pay the fee",
+    "Your new passport is sent or ready to collect"
+   ],
+   "site": {
+    "url": "https://www.passports.govt.nz",
+    "name": "passports.govt.nz",
+    "online": true
+   },
+   "office": "Department of Internal Affairs",
+   "source": "https://www.passports.govt.nz"
+  },
+  {
+   "country": "NZ",
+   "type": "vehicle_registration",
+   "checked": "2026-11-23",
+   "currency": "NZD",
+   "feeVaries": "The fee depends on the vehicle and how long you renew for. We could not confirm one fixed official fee. Check the amount on the official site before you pay.",
+   "needs": [
+    {
+     "text": "Your vehicle registration",
+     "type": "vehicle_registration"
+    },
+    {
+     "text": "Valid vehicle insurance",
+     "type": "vehicle_insurance"
+    }
+   ],
+   "steps": [
+    "Open the official vehicle registration site",
+    "Check insurance and any inspection needed",
+    "Pay the renewal",
+    "Keep the new registration in the car"
+   ],
+   "site": {
+    "url": "https://www.nzta.govt.nz",
+    "name": "nzta.govt.nz",
+    "online": true
+   },
+   "office": "NZ Transport Agency",
+   "source": "https://www.nzta.govt.nz"
+  },
+  {
+   "country": "OM",
+   "type": "licence",
+   "checked": "2026-11-23",
+   "currency": "OMR",
+   "feeVaries": "We could not confirm one fixed official fee. Check the amount on the official site before you pay.",
+   "needs": [
+    {
+     "text": "Your current licence",
+     "type": "licence"
+    },
+    {
+     "text": "Your resident card",
+     "type": "national_id"
+    }
+   ],
+   "steps": [
+    "Make sure you have no unpaid fines",
+    "Renew on the ROP site or app",
+    "Pay online",
+    "Collect the licence"
+   ],
+   "site": {
+    "url": "https://www.rop.gov.om",
+    "name": "rop.gov.om",
+    "online": true
+   },
+   "office": "ROP licensing office",
+   "source": "https://www.rop.gov.om"
+  },
+  {
+   "country": "OM",
+   "type": "national_id",
+   "checked": "2026-11-23",
+   "currency": "OMR",
+   "verb": "renew",
+   "groups": [
+    {
+     "id": "card",
+     "label": "Card",
+     "options": [
+      {
+       "id": "omani",
+       "label": "Omani ID card (10 years)"
+      },
+      {
+       "id": "res1",
+       "label": "Resident card, 1 year"
+      },
+      {
+       "id": "res2",
+       "label": "Resident card, 2 years"
+      },
+      {
+       "id": "res3",
+       "label": "Resident card, 3 years"
+      }
+     ]
+    }
+   ],
+   "fees": {
+    "omani": 10,
+    "res1": 5,
+    "res2": 10,
+    "res3": 15
+   },
+   "feeNote": "Fees set by the Royal Oman Police in 2025. A lost or damaged resident card costs OMR 20.",
+   "needs": [
+    {
+     "text": "Your current ID or resident card",
+     "type": "national_id"
+    },
+    {
+     "text": "Your passport",
+     "type": "passport"
+    }
+   ],
+   "steps": [
+    "Residents: your employer applies online and pays the ROP fee",
+    "Omani citizens: apply on the ROP site",
+    "Give medical results if asked",
+    "Collect the new card"
+   ],
+   "site": {
+    "url": "https://www.rop.gov.om",
+    "name": "rop.gov.om",
+    "online": true
+   },
+   "office": "ROP office",
+   "source": "https://www.rop.gov.om"
+  },
+  {
+   "country": "OM",
+   "type": "passport",
+   "checked": "2026-11-23",
+   "currency": "OMR",
+   "feeVaries": "We could not confirm one fixed official fee. Check the amount on the official site before you pay.",
+   "needs": [
+    {
+     "text": "Your current passport",
+     "type": "passport"
+    },
+    {
+     "text": "Your ID card",
+     "type": "national_id"
+    }
+   ],
+   "steps": [
+    "Apply on the ROP site or at a passport office",
+    "Pay the fee",
+    "Collect it"
+   ],
+   "site": {
+    "url": "https://www.rop.gov.om",
+    "name": "rop.gov.om",
+    "online": true
+   },
+   "office": "ROP passport office",
+   "source": "https://www.rop.gov.om"
+  },
+  {
+   "country": "OM",
+   "type": "vehicle_registration",
+   "checked": "2026-11-23",
+   "currency": "OMR",
+   "feeVaries": "The fee depends on the vehicle. Late renewal adds a charge. We could not confirm one fixed official fee. Check the amount on the official site before you pay.",
+   "needs": [
+    {
+     "text": "Your vehicle registration",
+     "type": "vehicle_registration"
+    },
+    {
+     "text": "Valid vehicle insurance",
+     "type": "vehicle_insurance"
+    }
+   ],
+   "steps": [
+    "Get the vehicle inspected",
+    "Renew on the ROP site or app",
+    "Pay the fee",
+    "Collect the new card"
+   ],
+   "site": {
+    "url": "https://www.rop.gov.om",
+    "name": "rop.gov.om",
+    "online": true
+   },
+   "office": "ROP vehicle registration office",
+   "source": "https://www.rop.gov.om"
+  },
+  {
+   "country": "QA",
+   "type": "licence",
+   "checked": "2026-11-23",
+   "currency": "QAR",
+   "groups": [
+    {
+     "id": "what",
+     "label": "Applies to",
+     "options": [
+      {
+       "id": "fee",
+       "label": "Resident, 5 years"
+      }
+     ]
+    }
+   ],
+   "fees": {
+    "fee": 250
+   },
+   "feeNote": "QAR 250 for 5 years for residents. Eye test costs extra. Confirm in Metrash.",
+   "needs": [
+    {
+     "text": "Your current licence",
+     "type": "licence"
+    },
+    {
+     "text": "Your Qatar ID",
+     "type": "national_id"
+    },
+    {
+     "text": "Eye test",
+     "type": "medical"
+    }
+   ],
+   "steps": [
+    "Open the Metrash app",
+    "Go to Traffic, then licence services, then renew",
+    "Pay and choose delivery",
+    "The licence comes by Qatar Post"
+   ],
+   "site": {
+    "url": "https://portal.moi.gov.qa",
+    "name": "portal.moi.gov.qa",
+    "online": true
+   },
+   "office": "Traffic department",
+   "source": "https://portal.moi.gov.qa"
+  },
+  {
+   "country": "QA",
+   "type": "national_id",
+   "checked": "2026-11-23",
+   "currency": "QAR",
+   "verb": "renew",
+   "feeVaries": "Fees depend on your sponsorship category. We could not confirm one fixed official fee. Check the amount on the official site before you pay.",
+   "needs": [
+    {
+     "text": "Your Qatar ID",
+     "type": "national_id"
+    },
+    {
+     "text": "Your passport",
+     "type": "passport"
+    }
+   ],
+   "steps": [
+    "Open Metrash",
+    "Choose residency renewal",
+    "Pick the person and pay",
+    "The card is delivered by Qatar Post"
+   ],
+   "site": {
+    "url": "https://portal.moi.gov.qa",
+    "name": "portal.moi.gov.qa",
+    "online": true
+   },
+   "office": "MOI service centre",
+   "source": "https://portal.moi.gov.qa"
+  },
+  {
+   "country": "QA",
+   "type": "passport",
+   "checked": "2026-11-23",
+   "currency": "QAR",
+   "groups": [
+    {
+     "id": "what",
+     "label": "Applies to",
+     "options": [
+      {
+       "id": "fee",
+       "label": "Qatari passport"
+      }
+     ]
+    }
+   ],
+   "fees": {
+    "fee": 100
+   },
+   "feeNote": "For Qatari nationals. Lost or damaged passports cost QAR 400.",
+   "needs": [
+    {
+     "text": "Your current passport",
+     "type": "passport"
+    },
+    {
+     "text": "Your Qatar ID",
+     "type": "national_id"
+    }
+   ],
+   "steps": [
+    "Use the Metrash app or the MOI website",
+    "Choose passport renewal",
+    "Pay the fee",
+    "Collect it or get it delivered"
+   ],
+   "site": {
+    "url": "https://portal.moi.gov.qa",
+    "name": "portal.moi.gov.qa",
+    "online": true
+   },
+   "office": "Nationality and Travel Documents Department",
+   "source": "https://portal.moi.gov.qa"
+  },
+  {
+   "country": "QA",
+   "type": "vehicle_registration",
+   "checked": "2026-11-23",
+   "currency": "QAR",
+   "groups": [
+    {
+     "id": "what",
+     "label": "Applies to",
+     "options": [
+      {
+       "id": "fee",
+       "label": "Private light vehicle, 1 year"
+      }
+     ]
+    }
+   ],
+   "fees": {
+    "fee": 100
+   },
+   "feeNote": "Private light vehicle, per year. Other vehicle types cost QAR 100 to 250.",
+   "needs": [
+    {
+     "text": "Your vehicle registration card",
+     "type": "vehicle_registration"
+    },
+    {
+     "text": "Valid vehicle insurance",
+     "type": "vehicle_insurance"
+    }
+   ],
+   "steps": [
+    "Check insurance and clear fines",
+    "Renew in Metrash or at a traffic department",
+    "Pay the fee",
+    "Get the new card"
+   ],
+   "site": {
+    "url": "https://portal.moi.gov.qa",
+    "name": "portal.moi.gov.qa",
+    "online": true
+   },
+   "office": "Traffic department",
+   "source": "https://portal.moi.gov.qa"
+  },
+  {
+   "country": "SA",
+   "type": "licence",
+   "checked": "2026-11-23",
+   "currency": "SAR",
+   "groups": [
+    {
+     "id": "years",
+     "label": "Validity",
+     "options": [
+      {
+       "id": "2",
+       "label": "2 years"
+      },
+      {
+       "id": "5",
+       "label": "5 years"
+      },
+      {
+       "id": "10",
+       "label": "10 years"
+      }
+     ]
+    }
+   ],
+   "fees": {
+    "2": 80,
+    "5": 200,
+    "10": 400
+   },
+   "feeNote": "Private licence, SAR 40 a year. Residents' licences follow the Iqama. The medical test costs extra.",
+   "needs": [
+    {
+     "text": "Your current licence",
+     "type": "licence"
+    },
+    {
+     "text": "Your Iqama or national ID",
+     "type": "national_id"
+    },
+    {
+     "text": "Medical test report",
+     "type": "medical"
+    },
+    {
+     "text": "Paid traffic fines, if any"
+    }
+   ],
+   "steps": [
+    "Pay off any traffic fines",
+    "Get the medical test report",
+    "Sign in to Absher and open driving licence renewal",
+    "Choose 2, 5 or 10 years, pay, and collect or get it delivered"
+   ],
+   "site": {
+    "url": "https://www.absher.sa",
+    "name": "absher.sa",
+    "online": true
+   },
+   "office": "Traffic (Muroor) office",
+   "source": "https://www.absher.sa"
+  },
+  {
+   "country": "SA",
+   "type": "national_id",
+   "checked": "2026-11-23",
+   "currency": "SAR",
+   "verb": "renew",
+   "feeVaries": "For residents the Iqama fee is paid by the employer or sponsor and extra charges can apply. We could not confirm one fixed official fee. Check the amount on the official site before you pay.",
+   "needs": [
+    {
+     "text": "Your current ID or Iqama",
+     "type": "national_id"
+    },
+    {
+     "text": "Your passport",
+     "type": "passport"
+    }
+   ],
+   "steps": [
+    "Sign in to Absher",
+    "Open ID or Iqama renewal and check the details",
+    "Pay what is due",
+    "Collect the card or receive it by post"
+   ],
+   "site": {
+    "url": "https://www.absher.sa",
+    "name": "absher.sa",
+    "online": true
+   },
+   "office": "Civil Affairs or Jawazat office",
+   "source": "https://www.absher.sa"
+  },
+  {
+   "country": "SA",
+   "type": "passport",
+   "checked": "2026-11-23",
+   "currency": "SAR",
+   "groups": [
+    {
+     "id": "years",
+     "label": "Validity",
+     "options": [
+      {
+       "id": "5",
+       "label": "5 years"
+      },
+      {
+       "id": "10",
+       "label": "10 years"
+      }
+     ]
+    }
+   ],
+   "fees": {
+    "5": 300,
+    "10": 600
+   },
+   "feeNote": "Fixed fee set by the General Directorate of Passports. Under 21 can only choose 5 years.",
+   "needs": [
+    {
+     "text": "Your current passport",
+     "type": "passport"
+    },
+    {
+     "text": "Paid traffic fines, if any"
+    }
+   ],
+   "steps": [
+    "Sign in to Absher and open passport renewal",
+    "Choose 5 or 10 years (10 years only from age 21)",
+    "Pay the fee online",
+    "Collect it or receive it by Saudi Post"
+   ],
+   "site": {
+    "url": "https://www.absher.sa",
+    "name": "absher.sa",
+    "online": true
+   },
+   "office": "Jawazat (Passports) office",
+   "source": "https://www.absher.sa"
+  },
+  {
+   "country": "SA",
+   "type": "vehicle_registration",
+   "checked": "2026-11-23",
+   "currency": "SAR",
+   "feeVaries": "About SAR 100 a year for a private car, plus a fuel-efficiency fee that depends on the car. Check the amount in Absher before you pay.",
+   "needs": [
+    {
+     "text": "Your Istimara (registration card)",
+     "type": "vehicle_registration"
+    },
+    {
+     "text": "Valid vehicle insurance",
+     "type": "vehicle_insurance"
+    },
+    {
+     "text": "Annual vehicle inspection"
+    }
+   ],
+   "steps": [
+    "Check the car has valid insurance and a passed inspection",
+    "Clear any traffic fines",
+    "Renew the vehicle registration in Absher",
+    "Pay online"
+   ],
+   "site": {
+    "url": "https://www.absher.sa",
+    "name": "absher.sa",
+    "online": true
+   },
+   "office": "Traffic (Muroor) office",
+   "source": "https://www.absher.sa"
+  },
+  {
+   "country": "SG",
+   "type": "licence",
+   "checked": "2026-11-23",
+   "currency": "SGD",
+   "groups": [
+    {
+     "id": "what",
+     "label": "Applies to",
+     "options": [
+      {
+       "id": "fee",
+       "label": "Renewal (foreigners with a work pass)"
+      }
+     ]
+    }
+   ],
+   "fees": {
+    "fee": 50
+   },
+   "feeNote": "Citizens and PRs hold a licence with no expiry date. Foreigners renew before expiry. Replacement costs S$25.",
+   "needs": [
+    {
+     "text": "Your current licence",
+     "type": "licence"
+    },
+    {
+     "text": "Proof of identity",
+     "type": "national_id"
+    }
+   ],
+   "steps": [
+    "Open the official licence site",
+    "Check your details and pay",
+    "Take a photo or eye test if asked",
+    "Your new licence arrives by post or at the office"
+   ],
+   "site": {
+    "url": "https://www.police.gov.sg/e-services/apply-for-qualified-driving-licence",
+    "name": "police.gov.sg",
+    "online": true
+   },
+   "office": "Traffic Police",
+   "source": "https://www.police.gov.sg/e-services/apply-for-qualified-driving-licence"
+  },
+  {
+   "country": "SG",
+   "type": "passport",
+   "checked": "2026-11-23",
+   "currency": "SGD",
+   "groups": [
+    {
+     "id": "how",
+     "label": "How you apply",
+     "options": [
+      {
+       "id": "online",
+       "label": "Online"
+      },
+      {
+       "id": "counter",
+       "label": "At an ICA centre or overseas mission"
+      }
+     ]
+    }
+   ],
+   "fees": {
+    "online": 70,
+    "counter": 80
+   },
+   "feeNote": "10 years for age 16 and over, 5 years for children. First replacement adds S$50.",
+   "needs": [
+    {
+     "text": "Your current passport",
+     "type": "passport"
+    },
+    {
+     "text": "A recent passport photo"
+    }
+   ],
+   "steps": [
+    "Open the official passport site",
+    "Fill in the renewal form and add your photo",
+    "Pay the fee",
+    "Your new passport is sent or ready to collect"
+   ],
+   "site": {
+    "url": "https://www.ica.gov.sg/documents/passport/apply",
+    "name": "ica.gov.sg",
+    "online": true
+   },
+   "office": "ICA",
+   "source": "https://www.ica.gov.sg/documents/passport/apply"
+  },
+  {
+   "country": "SG",
+   "type": "vehicle_registration",
+   "checked": "2026-11-23",
+   "currency": "SGD",
+   "feeVaries": "Road tax depends on the engine. We could not confirm one fixed official fee. Check the amount on the official site before you pay.",
+   "needs": [
+    {
+     "text": "Your vehicle registration",
+     "type": "vehicle_registration"
+    },
+    {
+     "text": "Valid vehicle insurance",
+     "type": "vehicle_insurance"
+    }
+   ],
+   "steps": [
+    "Open the official vehicle registration site",
+    "Check insurance and any inspection needed",
+    "Pay the renewal",
+    "Keep the new registration in the car"
+   ],
+   "site": {
+    "url": "https://www.lta.gov.sg",
+    "name": "lta.gov.sg",
+    "online": true
+   },
+   "office": "Land Transport Authority",
+   "source": "https://www.lta.gov.sg"
+  },
+  {
+   "country": "US",
+   "type": "licence",
+   "checked": "2026-11-23",
+   "currency": "USD",
+   "feeVaries": "Driver licence fees are set by each state. We could not confirm one fixed official fee. Check the amount on the official site before you pay.",
+   "needs": [
+    {
+     "text": "Your current licence",
+     "type": "licence"
+    },
+    {
+     "text": "Proof of identity",
+     "type": "national_id"
+    }
+   ],
+   "steps": [
+    "Open the official licence site",
+    "Check your details and pay",
+    "Take a photo or eye test if asked",
+    "Your new licence arrives by post or at the office"
+   ],
+   "site": {
+    "url": "https://www.usa.gov/state-motor-vehicle-services",
+    "name": "usa.gov",
+    "online": true
+   },
+   "office": "Your state motor vehicle office",
+   "source": "https://www.usa.gov/state-motor-vehicle-services"
+  },
+  {
+   "country": "US",
+   "type": "passport",
+   "checked": "2026-11-23",
+   "currency": "USD",
+   "groups": [
+    {
+     "id": "kind",
+     "label": "Renew",
+     "options": [
+      {
+       "id": "book",
+       "label": "Passport book"
+      },
+      {
+       "id": "card",
+       "label": "Passport card"
+      },
+      {
+       "id": "both",
+       "label": "Book and card"
+      }
+     ]
+    }
+   ],
+   "fees": {
+    "book": 130,
+    "card": 30,
+    "both": 160
+   },
+   "feeNote": "Renewal by mail or online. First-time applications and children also pay a $35 acceptance fee. Optional $60 expedite fee.",
+   "needs": [
+    {
+     "text": "Your current passport",
+     "type": "passport"
+    },
+    {
+     "text": "A recent passport photo"
+    }
+   ],
+   "steps": [
+    "Check you can renew (passport issued when you were 16 or older, within 15 years, undamaged)",
+    "Fill in the renewal form on travel.state.gov",
+    "Pay the fee to the Department of State",
+    "Mail it with your old passport, or submit online"
+   ],
+   "site": {
+    "url": "https://travel.state.gov",
+    "name": "travel.state.gov",
+    "online": true
+   },
+   "office": "US Department of State",
+   "source": "https://travel.state.gov"
+  },
+  {
+   "country": "US",
+   "type": "vehicle_registration",
+   "checked": "2026-11-23",
+   "currency": "USD",
+   "feeVaries": "Registration fees are set by each state. We could not confirm one fixed official fee. Check the amount on the official site before you pay.",
+   "needs": [
+    {
+     "text": "Your vehicle registration",
+     "type": "vehicle_registration"
+    },
+    {
+     "text": "Valid vehicle insurance",
+     "type": "vehicle_insurance"
+    }
+   ],
+   "steps": [
+    "Open the official vehicle registration site",
+    "Check insurance and any inspection needed",
+    "Pay the renewal",
+    "Keep the new registration in the car"
+   ],
+   "site": {
+    "url": "https://www.usa.gov/state-motor-vehicle-services",
+    "name": "usa.gov",
+    "online": true
+   },
+   "office": "Your state motor vehicle office",
+   "source": "https://www.usa.gov/state-motor-vehicle-services"
+  }
+ ]
+}
