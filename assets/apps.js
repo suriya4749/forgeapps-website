@@ -16,26 +16,13 @@ window.FORGE = {
   "updates": [
     {
       "date": "Nov 2026",
-      "app": "renewly",
-      "title": "Renewly closed testing starts soon",
-      "text": "Scan a document and the expiry date is read for you, reminders before anything runs out, loans and EMIs, and safe watermarked copies. Want to try it first? Ask to join the tester list.",
-      "cat": "beta"
-    },
-    {
-      "date": "Nov 2026",
-      "app": "renewly",
-      "title": "Renewal guides for 15 countries",
-      "text": "Renewly now shows the fee, the papers you need and the steps to renew passports, licences and more, taken from official government sites and checked every week."
-    },
-    {
-      "date": "Nov 2026",
       "app": "wealthon",
       "text": "Safe-to-spend, a due-date radar and an EMI payoff plan, all on your phone. Free to use; Pro is one payment.",
       "title": "WealthOn is live on Google Play",
       "cat": "release"
     },
     {
-      "date": "Nov 2026",
+      "date": "Aug 2026",
       "app": "renewly",
       "text": "Family documents with renewal reminders: scan a document and the expiry date is read for you.",
       "title": "Work started on Renewly"
@@ -74,7 +61,7 @@ window.FORGE = {
       ],
       "platform": "Android",
       "stage": "build",
-      "stageNote": "Closed testing starts soon",
+      "stageNote": "Being built right now",
       "icon": "renewly/icon.png",
       "playUrl": "",
       "screens": [
