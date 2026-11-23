@@ -67,35 +67,35 @@ window.FORGE = {
       "screens": [
         {
           "src": "renewly/screens/1.jpg",
-          "caption": "Your family's documents at a glance"
+          "caption": "All your family's documents, in one safe place"
         },
         {
           "src": "renewly/screens/2.jpg",
-          "caption": "Scan it, and the expiry date is read for you"
+          "caption": "Scan once and Renewly reads the type, owner and expiry"
         },
         {
           "src": "renewly/screens/3.jpg",
-          "caption": "See what ends soon, sorted for you"
+          "caption": "Reminders before anything runs out, at your time"
         },
         {
           "src": "renewly/screens/4.jpg",
-          "caption": "A clear reminder before anything runs out"
+          "caption": "Everyone in one family vault: people, vehicles and homes"
         },
         {
           "src": "renewly/screens/5.jpg",
-          "caption": "Every renewal as a card, one tap away"
+          "caption": "Know the fee, papers and steps to renew"
         },
         {
           "src": "renewly/screens/6.jpg",
-          "caption": "Each person's documents and due dates"
+          "caption": "Loans and EMIs: scan the loan letter, get reminded"
         },
         {
           "src": "renewly/screens/7.jpg",
-          "caption": "An emergency card for each person"
+          "caption": "Share a watermarked copy, not your original"
         },
         {
           "src": "renewly/screens/8.jpg",
-          "caption": "Private, encrypted and on your phone"
+          "caption": "Private by design: encrypted on your phone, no account"
         }
       ],
       "about": [
@@ -106,7 +106,7 @@ window.FORGE = {
       "facts": [
         [
           "Price",
-          "Free"
+          "Free now · Plus later, one payment"
         ],
         [
           "Platform",
@@ -142,7 +142,87 @@ window.FORGE = {
           "vertical": true
         }
       ],
-      "featured": true
+      "featured": true,
+      "pricing": {
+        "show": true,
+        "title": "Free now. Plus, once.",
+        "lead": "Every feature is free while Renewly grows. When Plus arrives it will be one payment, no subscription, and everyone who installed before keeps everything free.",
+        "free": {
+          "name": "Always free",
+          "amount": "Free",
+          "items": [
+            "Scan a document and the expiry date is read on your phone",
+            "You and up to 3 family members",
+            "15 documents",
+            "Reminders from 90 days to 1 day before, at your time",
+            "How to renew: fee, papers and steps",
+            "App lock, encryption on your phone and a backup file",
+            "1 loan with EMI reminders",
+            "5 safe shares a month",
+            "Emergency card for yourself"
+          ]
+        },
+        "pro": {
+          "name": "Renewly Plus",
+          "badge": "Coming later",
+          "soon": true,
+          "soonText": "One payment",
+          "note": "pay once, keep it",
+          "groups": [
+            {
+              "title": "Your whole family",
+              "items": [
+                {
+                  "text": "Everyone in your family",
+                  "note": "free: you + 3"
+                },
+                {
+                  "text": "Unlimited documents",
+                  "note": "free: 15"
+                },
+                {
+                  "text": "Emergency cards for everyone",
+                  "note": "free: yours"
+                }
+              ]
+            },
+            {
+              "title": "Stay on top",
+              "items": [
+                {
+                  "text": "Unlimited loans and EMIs",
+                  "note": "free: 1"
+                },
+                {
+                  "text": "Home-screen widget",
+                  "note": ""
+                },
+                {
+                  "text": "Every version of a document",
+                  "note": "free: the latest"
+                }
+              ]
+            },
+            {
+              "title": "Share and import",
+              "items": [
+                {
+                  "text": "Unlimited safe shares",
+                  "note": "free: 5 a month"
+                },
+                {
+                  "text": "Import any number of files at once",
+                  "note": "free: 3"
+                },
+                {
+                  "text": "Sync between family phones",
+                  "note": "coming soon"
+                }
+              ]
+            }
+          ]
+        }
+      }
     },
     {
       "slug": "wealthon",

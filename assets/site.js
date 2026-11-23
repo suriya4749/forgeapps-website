@@ -16,7 +16,7 @@
   // Prices: each visitor sees Google Play's price for their own country (assets/prices.js, found from the time zone).
   // When the country can't be told, no amount is shown: Google Play shows it in their currency.
   var PRO_PRICE = (function () {
-    try { var P = window.FORGE_PRICES; if (!P) return null; var z = Intl.DateTimeFormat().resolvedOptions().timeZone; var c = P.zones[z]; return (c && P.wealthon[c]) || null; } catch (e) { return null; }
+    try { var P = window.FORGE_PRICES; if (!P) return null; var z = Intl.DateTimeFormat().resolvedOptions().timeZone; var c = P.zones[z], k = document.documentElement.getAttribute('data-app') || 'wealthon', m = P[k]; return (c && m && m[c]) || null; } catch (e) { return null; }
   })();
   var localPrice = function (t) { return String(t).replace(/\s*₹[\d,]+\s*/g, PRO_PRICE ? ' ' + PRO_PRICE + ' ' : ' ').replace(/\s{2,}/g, ' ').trim(); };
   var url = function (p) { return !p ? '' : /^(data:|https?:|\/)/.test(p) ? p : root + p; };
@@ -460,7 +460,7 @@
         var ps = $('.prices', pz);
         if (ps) ps.innerHTML = '<div class="price card"><div class="top"><p class="name">' + esc(fr.name || 'Free') + '</p></div><p class="amt">' + esc(fr.amount || '0') + '</p><ul>' + (fr.items || []).map(function (t) { return tick(t); }).join('') + '</ul></div>' +
           (pro ? '<div class="price pro"><div class="top"><p class="name">' + esc(pro.name || 'Pro') + '</p>' + (pro.badge ? '<span class="badge">' + esc(pro.badge) + '</span>' : '') + '</div>' +
-            '<p class="amt" data-price="{price} &lt;small&gt;' + esc(esc(pro.note || '')) + '&lt;/small&gt;">' + esc(pro.fallback || 'Pay once') + ' <small>in your currency</small></p>' +
+            (pro.soon ? '<p class="amt">' + esc(pro.soonText || 'Coming later') + (pro.note ? ' <small>' + esc(pro.note) + '</small>' : '') + '</p>' : '<p class="amt" data-price="{price} &lt;small&gt;' + esc(esc(pro.note || '')) + '&lt;/small&gt;">' + esc(pro.fallback || 'Pay once') + ' <small>in your currency</small></p>') +
             (pro.groups || []).map(function (g) { return '<div class="pgroup">' + (g.title ? '<h3>' + esc(g.title) + '</h3>' : '') + '<ul>' + (g.items || []).map(function (it) { return typeof it === 'string' ? tick(it) : tick(it.text, it.note); }).join('') + '</ul></div>'; }).join('') + '</div>' : '');
       }
     }
