@@ -16,6 +16,19 @@ window.FORGE = {
   "updates": [
     {
       "date": "Nov 2026",
+      "app": "renewly",
+      "title": "Renewly is almost ready",
+      "text": "Scan a document and the expiry date is read for you, reminders before anything runs out, loans and EMIs, and safe watermarked copies. Free to use, with everything encrypted on your phone.",
+      "cat": "beta"
+    },
+    {
+      "date": "Nov 2026",
+      "app": "renewly",
+      "title": "Renewal guides for 15 countries",
+      "text": "Renewly now shows the fee, the papers you need and the steps to renew passports, licences and more, taken from official government sites and checked every week."
+    },
+    {
+      "date": "Nov 2026",
       "app": "wealthon",
       "text": "Safe-to-spend, a due-date radar and an EMI payoff plan, all on your phone. Free to use; Pro is one payment.",
       "title": "WealthOn is live on Google Play",
@@ -61,7 +74,7 @@ window.FORGE = {
       ],
       "platform": "Android",
       "stage": "build",
-      "stageNote": "Being built right now",
+      "stageNote": "Almost ready for Google Play",
       "icon": "renewly/icon.png",
       "playUrl": "",
       "screens": [
