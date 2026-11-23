@@ -137,9 +137,8 @@ window.FORGE = {
       },
       "videos": [
         {
-          "youtube": "https://www.youtube.com/shorts/rWp3NOIWTKY",
-          "title": "Renewly – Your Family's Important Documents, All in One Place",
-          "vertical": true
+          "youtube": "https://www.youtube.com/watch?v=QrIIkSRAAU0",
+          "title": "Renewly: Never Miss a Passport, ID or Insurance Renewal | Family Document Vault for Android"
         }
       ],
       "featured": true,
